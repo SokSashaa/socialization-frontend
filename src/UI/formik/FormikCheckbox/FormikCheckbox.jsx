@@ -1,13 +1,13 @@
-import { useField } from 'formik';
-import Checkbox from '../../Checkbox/Checkbox';
+import { useField } from "formik";
+import Checkbox from "../../Checkbox/Checkbox";
 
 const FormikCheckbox = ({
-  className,
-  label,
-  labelClassName,
-  alignLabel = 'left',
-  checkboxProps,
-}) => {
+                          className,
+                          label,
+                          labelClassName,
+                          alignLabel = "left",
+                          checkboxProps
+                        }) => {
   const { className: checkboxClassName, ...otherProps } = checkboxProps;
 
   const [field] = useField(otherProps);
@@ -21,7 +21,7 @@ const FormikCheckbox = ({
       checkboxProps={{
         ...field,
         ...checkboxProps,
-        className: checkboxClassName,
+        className: checkboxClassName
       }}
     />
   );
