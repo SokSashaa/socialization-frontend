@@ -7,7 +7,7 @@ type SelectProps = {
   className?: string,
   error?: string,
   label?: string,
-  options?: any,
+  options?: [{ value: string, label: string }],
   selectProps: any // TODO разобраться с типом
 }
 const Select:FC<SelectProps> = ({ className, error, label, options, selectProps }) => {

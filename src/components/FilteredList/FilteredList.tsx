@@ -40,7 +40,7 @@ const FilteredList = ({
       </m.li>
     ));
 
-    return <ul className={styles.list}>{renderedItems}</ul>;
+    return <ul>{renderedItems}</ul>; // className={styles.list}
   };
 
   const loading = isLoading ? <SpinnerBig className="mt-7" /> : null;
