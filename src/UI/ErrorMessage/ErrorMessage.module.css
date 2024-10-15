@@ -1,0 +1,11 @@
+.wrapper {
+  @apply flex flex-col items-center gap-y-2;
+}
+
+.icon {
+  @apply h-10 w-10 fill-red-500;
+}
+
+.text {
+  @apply text-lg text-red-500;
+}

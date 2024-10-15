@@ -1,0 +1,25 @@
+.defaultAvatar {
+  @apply mb-3;
+}
+
+.upload {
+  @apply text-center;
+}
+
+.avatarWrapper {
+  @apply relative mb-3 flex h-[200px] w-[200px];
+}
+
+.avatarContainer {
+  @apply w-full overflow-hidden rounded-full;
+}
+
+.avatar {
+  @apply h-full w-full object-cover;
+}
+
+@media screen(md) {
+  .avatarWrapper {
+    @apply h-[250px] w-[250px];
+  }
+}

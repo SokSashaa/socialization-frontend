@@ -1,0 +1,14 @@
+{
+    "parser": "typescript",
+    "semi": true,
+    "singleQuote": true,
+    "jsxSingleQuote": false,
+    "bracketSpacing": true,
+    "trailingComma": "all",
+    "printWidth": 100,
+    "tabWidth": 2,
+    "singleAttributePerLine": true,
+    "arrowParens": "always",
+    "endOfLine": "lf",
+    "plugins": ["prettier-plugin-tailwindcss"]
+}

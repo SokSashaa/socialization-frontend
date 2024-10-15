@@ -1,31 +1,31 @@
-import { useSelector } from 'react-redux';
-import clsx from 'clsx';
-import { NavLink } from 'react-router-dom';
-import { useRef, useState } from 'react';
-import { selectCurrentUser } from '../../modules/Auth';
-import { links } from './NavData';
-import UserIcon from '../../assets/icons/user-icon.svg';
-import styles from './Header.module.scss';
-import { burgerMenu, closeMenu } from '../../assets';
+import { useSelector } from "react-redux";
+import clsx from "clsx";
+import { NavLink } from "react-router-dom";
+import { useCallback, useRef, useState } from "react";
+import { selectCurrentUser } from "../../modules/Auth";
+import { links } from "./NavData";
+import UserIcon from "../../assets/icons/user-icon.svg";
+import styles from "./Header.module.scss";
+import { burgerMenu, closeMenu } from "../../assets";
 
 function Header() {
   const currentUser = useSelector(selectCurrentUser);
   const [isMobileVisible, setIsMobileVisible] = useState(false);
-  const header = useRef();
+  const header = useRef(null);
 
-  const menuItemClasses =
-    () =>
-    ({ isActive }) =>
-      clsx(styles.navItem, { [styles.navItemCurrent]: isActive });
+  // const menuItemClasses = ({ isActive }) => clsx(styles.navItem, { [styles.navItemCurrent]: isActive }); //useMemo
 
-  const handleMenuClick = () => {
+  const handleMenuClick = useCallback(() => {
     setIsMobileVisible((value) => !value);
-    if (isMobileVisible) header.current.style.display = 'none';
-    else header.current.style.display = 'flex';
-  };
+    if(header.current && "style" in header.current){
+      if (isMobileVisible) {header.current.style.display = "none";}
+      else header.current.style.display = "flex";
+    }
+
+  }, []);
 
   return (
-    <div className={styles.headerContainer}>
+    <div>
       <div className={styles.burgerMenu}>
         <img
           alt="иконка меню"
@@ -45,7 +45,7 @@ function Header() {
               <NavLink
                 key={link.title}
                 to={link.path}
-                className={menuItemClasses()}
+                className={styles.navItem} //menuItemClasses
               >
                 {link.title}
               </NavLink>

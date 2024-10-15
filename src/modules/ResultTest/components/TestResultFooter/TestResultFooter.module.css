@@ -1,0 +1,11 @@
+.card {
+  @apply cursor-auto;
+}
+
+.content {
+  @apply mb-2 flex justify-between;
+}
+
+.text {
+  @apply text-xl font-bold;
+}

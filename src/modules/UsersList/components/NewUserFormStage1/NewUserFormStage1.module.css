@@ -1,0 +1,33 @@
+.row {
+  @apply mb-1 flex flex-col items-start gap-4;
+}
+
+.inputText {
+  @apply h-[115px] w-full;
+}
+
+.btnRow {
+  @apply mt-5 flex justify-center;
+}
+
+.select {
+  @apply w-full;
+}
+
+.selectContainer {
+  @apply flex w-full flex-col;
+}
+
+.selectError {
+  @apply m-0 inline-block text-end text-base text-red-500;
+}
+
+.selectInput {
+  @apply border-black focus:border-focus-blue;
+}
+
+@media screen(md) {
+  .row {
+    @apply flex-row;
+  }
+}

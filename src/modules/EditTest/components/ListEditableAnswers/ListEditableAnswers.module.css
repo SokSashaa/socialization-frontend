@@ -1,0 +1,49 @@
+.answers {
+  @apply flex flex-col gap-2;
+}
+
+.answerItem {
+  @apply flex items-start justify-between;
+}
+
+.answerInput {
+  @apply mb-4 mr-2 self-center;
+}
+
+.inputs {
+  @apply mb-2 mr-2 flex basis-full flex-col gap-y-3;
+}
+
+.answerInputText {
+  @apply basis-full;
+}
+
+.inputPoints {
+  @apply basis-2/12;
+}
+
+.deleteButton {
+  @apply mb-4 self-center;
+}
+
+.icon {
+  @apply fill-gray-500;
+}
+
+.button {
+  @apply self-center font-medium text-gray-500;
+}
+
+@media screen(sm) {
+  .inputs {
+    @apply m-0 flex-row;
+  }
+
+  .answerInputText {
+    @apply mr-2;
+  }
+
+  .button {
+    @apply self-end;
+  }
+}

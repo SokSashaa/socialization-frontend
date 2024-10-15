@@ -1,0 +1,85 @@
+.form {
+  @apply mb-4 flex flex-col items-center;
+}
+
+.left {
+  @apply mb-3;
+}
+
+.input {
+  @apply h-[115px];
+}
+
+.saveButtonWrapper {
+  @apply flex items-center justify-center text-center;
+}
+
+.avatarWrapper {
+  @apply relative mb-3 flex h-[200px] w-[200px];
+}
+
+.avatarContainer {
+  @apply w-full overflow-hidden rounded-full;
+}
+
+.avatar {
+  @apply h-full w-full object-cover;
+}
+
+.defaultAvatar {
+  @apply mb-3;
+}
+
+.upload {
+  @apply mb-2 text-center;
+}
+
+.uploadError {
+  @apply mt-2 text-red-500;
+}
+
+.close {
+  @apply absolute right-0 top-0;
+}
+
+.icon {
+  @apply h-6 w-6;
+}
+
+@media screen(sm) {
+  .avatarWrapper {
+    @apply h-[250px] w-[250px];
+  }
+}
+
+@media screen(md) {
+  .left {
+    @apply mb-0 basis-1/3 pr-7;
+  }
+
+  .right {
+    @apply basis-2/3 py-4 pl-7;
+  }
+
+  .form {
+    @apply flex-row items-start;
+  }
+
+  .saveButtonWrapper {
+    @apply text-right;
+  }
+}
+
+.changePaswordButton {
+  @apply w-[160px] border-none bg-transparent p-1 shadow-none !important;
+}
+
+.leftButtonsContainer {
+  @apply mt-[40px] flex h-[130px] w-[250px] flex-col items-center justify-between;
+}
+
+@media (max-width: 640px) {
+  .left {
+    @apply flex flex-col items-center justify-center;
+  }
+}

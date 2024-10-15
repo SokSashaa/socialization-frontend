@@ -1,24 +1,24 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "strict" : true,
-    "strictFunctionTypes" : false,
-    "allowSyntheticDefaultImports": true,
-    "useUnknownInCatchVariables": false,
-    "module": "ESNext",
-    "moduleResolution" : "node",
-    "lib": ["DOM","ES6","DOM.Iterable","ScriptHost", "ES2017"],
-    "target": "ES2017",
-    "paths": {
-      "*": ["./typings/*"]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "strict" : true,
+        "strictFunctionTypes" : false,
+        "allowSyntheticDefaultImports": true,
+        "useUnknownInCatchVariables": false,
+        "module": "ESNext",
+        "moduleResolution" : "node",
+        "lib": ["DOM","ES6","DOM.Iterable","ScriptHost", "ES2017"],
+        "target": "ES2017",
+        "paths": {
+            "*": ["./typings/*"]
+        },
+        "typeRoots" : ["./node_modules/@types", "./typings"],
+        "jsx": "react",
+        "skipLibCheck": true
     },
-    "typeRoots" : ["./node_modules/@types", "./typings"],
-    "jsx": "react",
-    "skipLibCheck": true
-  },
-  "include": [
-    "src"
-  ]
+    "include": [
+        "src"
+    ]
 }

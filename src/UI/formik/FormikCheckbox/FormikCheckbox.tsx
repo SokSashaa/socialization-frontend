@@ -1,27 +1,29 @@
-import { useField } from 'formik';
-import Checkbox from '../../Checkbox/Checkbox';
+import { useField } from "formik";
+import Checkbox, { CheckboxProps } from "../../Checkbox/Checkbox";
+import { FC } from "react";
 
-const FormikCheckbox = ({
-  className,
-  label,
-  labelClassName,
-  alignLabel = 'left',
-  checkboxProps,
-}) => {
-  const { className: checkboxClassName, ...otherProps } = checkboxProps;
+const FormikCheckbox: FC<CheckboxProps> = ({
+                                             className,
+                                             label,
+                                             labelClassName,
+                                             labelAlign = "left",
+                                             checkboxProps
+                                           }) => {
+  // const { className: checkboxClassName, ...otherProps } = checkboxProps;
 
-  const [field] = useField(otherProps);
+
+  const [field] = useField<HTMLInputElement>(checkboxProps.name);
 
   return (
     <Checkbox
       label={label}
-      labelAlign={alignLabel}
+      labelAlign={labelAlign}
       labelClassName={labelClassName}
       className={className}
       checkboxProps={{
         ...field,
         ...checkboxProps,
-        className: checkboxClassName,
+        className
       }}
     />
   );

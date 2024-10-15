@@ -1,0 +1,44 @@
+.wrapper {
+  @apply flex max-h-full min-h-screen w-full flex-col items-center justify-center bg-[#fff];
+}
+
+.form {
+  @apply absolute flex h-[85vh] max-h-[85vh] min-h-[85vh] w-[90%] min-w-[288px] max-w-[416px] flex-col items-center justify-start;
+  z-index: 5;
+}
+
+span {
+  @apply mb-10 mt-20 font-neucha text-[28px];
+}
+
+.loginButton {
+  @apply absolute bottom-0 !important;
+}
+
+.loginInput {
+  @apply mb-5 w-[288px];
+}
+
+.background {
+  @apply absolute bottom-0 left-0 h-[100%] w-[100%];
+  z-index: 1;
+}
+
+.backgroundImage1 {
+  @apply absolute bottom-0;
+  z-index: 2;
+}
+
+.backgroundImage2 {
+  @apply absolute bottom-0 right-0;
+  z-index: 3;
+}
+
+.backgroundImage3 {
+  @apply absolute bottom-0;
+  z-index: 4;
+}
+
+.icon {
+  @apply h-6 w-6 fill-dark-gray;
+}

@@ -1,0 +1,7 @@
+.wrapper {
+  @apply py-6;
+}
+
+.list {
+  @apply m-auto max-w-[800px];
+}

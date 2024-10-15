@@ -1,17 +1,25 @@
-import clsx from 'clsx';
-import styles from './Checkbox.module.css';
+import clsx from "clsx";
+import styles from "./Checkbox.module.css";
+import { FC } from "react";
+import { FieldInputProps } from "formik";
 
-const Checkbox = ({ className, labelClassName, label, checkboxProps, labelAlign = 'right' }) => (
-  <div className={clsx(styles.wrapper, className)}>
-    <label className={clsx(styles.label, labelClassName)}>
-      {labelAlign === 'left' && label}
+export type CheckboxProps = {
+  className: string,
+  labelClassName?: string,
+  label: string,
+  checkboxProps: any //TODO разобраться с типом
+  labelAlign?: string
+}
+const Checkbox: FC<CheckboxProps> = ({ className, labelClassName, label, checkboxProps, labelAlign = "right" }) => (
+  <div className={className}>
+    <label className={labelClassName}>
+      {labelAlign === "left" && label}
       <input
-        // eslint-disable-next-line
         {...checkboxProps}
         type="checkbox"
         className={clsx(styles.checkbox, checkboxProps?.className)}
       />
-      {labelAlign === 'right' && label}
+      {labelAlign === "right" && label}
     </label>
   </div>
 );

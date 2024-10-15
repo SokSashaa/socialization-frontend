@@ -1,0 +1,29 @@
+.top {
+  @apply mb-4 flex flex-col gap-x-5;
+}
+
+.questionTitle {
+  @apply text-lg placeholder:text-lg;
+}
+
+.questionTitleWrapper {
+  @apply w-full;
+}
+
+.questionType {
+  @apply w-full;
+}
+
+@media screen(sm) {
+  .top {
+    @apply flex-row items-start justify-between;
+  }
+
+  .questionTitleWrapper {
+    @apply w-1/2;
+  }
+
+  .questionType {
+    @apply w-2/3;
+  }
+}

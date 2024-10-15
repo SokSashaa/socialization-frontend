@@ -1,10 +1,11 @@
-import styles from './ButtonAddItemList.module.scss';
-import { addFileIcon } from '../../assets';
+import styles from "./ButtonAddItemList.module.scss";
+import { addFileIcon } from "../../assets";
+import React, { FC } from "react";
 
-const ButtonAddItemList = ({ onClick, children }) => (
+const ButtonAddItemList: FC<HTMLButtonElement> = (props) => (
   <button
     className={`group ${styles.button}`}
-    onClick={onClick}
+    onClick={props.click}
     type="button"
   >
     <img
@@ -12,8 +13,9 @@ const ButtonAddItemList = ({ onClick, children }) => (
       src={addFileIcon}
       alt="user"
     />
-    {children}
+    {props.children}
   </button>
 );
+
 
 export default ButtonAddItemList;

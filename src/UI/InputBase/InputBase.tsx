@@ -1,11 +1,15 @@
 import clsx from 'clsx';
 import styles from './InputBase.module.css';
+import { FC } from "react";
 
 // обычный input, который не предназначен для formik
-const InputBase = ({ className, inputProps }) => (
-  <div className={clsx(styles.wrapper, className)}>
+type InputBaseProps = {
+  className?: string,
+  inputProps?: HTMLInputElement
+}
+const InputBase:FC<InputBaseProps> = ({ className, inputProps }) => (
+  <div className={className}>
     <input
-      // eslint-disable-next-line
       {...inputProps}
       className={clsx(styles.input, inputProps?.className)}
     />

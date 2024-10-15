@@ -1,12 +1,19 @@
 import clsx from 'clsx';
 import styles from './Radio.module.css';
+import { FC } from "react";
+import { FieldInputProps } from "formik";
 
-const Radio = ({ className, label, labelClassName, alignLabel = 'left', radioProps }) => (
-  <div className={clsx(styles.wrapper, className)}>
-    <label className={clsx(styles.label, labelClassName)}>
+export type RadioProps = {
+  className?: string,
+  labelClassName?: string,
+  alignLabel: string,
+  radioProps: any // TODO разобраться с типом
+}
+const Radio: FC<RadioProps> = ({ className, label, labelClassName, alignLabel = 'left', radioProps }) => (
+  <div className={className}>
+    <label className={labelClassName}>
       {alignLabel === 'left' && label}
       <input
-        // eslint-disable-next-line
         {...radioProps}
         type="radio"
         className={clsx(styles.radio, radioProps?.className)}

@@ -1,10 +1,18 @@
-import { useField } from 'formik';
-import Radio from '../../Radio/Radio';
+import { FieldInputProps, useField } from "formik";
+import Radio, { RadioProps } from "../../Radio/Radio";
+import { FC } from "react";
 
-const FormikRadio = ({ className, label, labelClassName, alignLabel = 'left', radioProps }) => {
-  const { className: radioClassName, ...otherProps } = radioProps;
 
-  const [field] = useField(otherProps);
+type FormikRadioProps =  {
+  className?: string,
+  labelClassName?: string,
+  alignLabel?: string,
+  radioProps: HTMLInputElement
+}
+const FormikRadio: FC<FormikRadioProps> = ({ className, label, labelClassName, alignLabel = 'left', radioProps }) => {
+  // const { className: radioClassName, ...otherProps } = radioProps;
+
+  const [field] = useField<HTMLInputElement>(radioProps.name);
 
   return (
     <Radio
@@ -15,7 +23,7 @@ const FormikRadio = ({ className, label, labelClassName, alignLabel = 'left', ra
       radioProps={{
         ...field,
         ...radioProps,
-        className: radioClassName,
+        className,
       }}
     />
   );

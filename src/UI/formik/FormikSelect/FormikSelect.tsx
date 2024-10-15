@@ -1,28 +1,32 @@
-import { useField } from 'formik';
+import { FieldInputProps, useField } from "formik";
 import Select from '../../Select/Select';
+import { FC, useCallback } from "react";
 
-const FormikSelect = ({ name, options, className, label, onChange, selectProps }) => {
-  const [field] = useField(name);
-  const { onChange: onChangeField, ...fieldProps } = field;
+type FormikSelectProps = {
+  name: string,
+  options?: any,
+  className?: string,
+  label?: string,
+  onChange?: Function
+  selectProps: HTMLInputElement
+}
+const FormikSelect:FC<FormikSelectProps> = ({ name, options, className, label, onChange, selectProps }) => {
+  const [field] = useField<HTMLInputElement>(name);
 
-  const fieldOnChange = (e) => {
-    onChangeField(e);
+  const fieldOnChange = useCallback((e) => {
+    field.onChange(e);
 
     if (onChange) {
       onChange(e);
     }
-  };
+  },[])
 
   return (
     <Select
       className={className}
       options={options}
       label={label}
-      selectProps={{
-        ...fieldProps,
-        ...selectProps,
-        onChange: fieldOnChange,
-      }}
+      selectProps={{...selectProps, ...field}}
     />
   );
 };

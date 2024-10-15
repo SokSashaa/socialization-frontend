@@ -1,10 +1,15 @@
 import styles from './ModalLayout.module.scss';
+import { FC, ReactNode } from "react";
 
-const ModalLayout = ({ title, content }) => (
+type ModalLayoutProps = {
+  title: string,
+  content: ReactNode
+}
+const ModalLayout: FC<ModalLayoutProps> = ({ title, content }) => (
   <div className={styles.wrapper}>
-    <div className={styles.content}>
+    <div>
       <h3 className={styles.title}>{title}</h3>
-      <div className={styles.body}>{content}</div>
+      <div>{content}</div>
     </div>
   </div>
 );

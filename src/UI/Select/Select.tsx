@@ -1,8 +1,16 @@
-import { useId } from 'react';
+import { FC, useId } from "react";
 import clsx from 'clsx';
 import styles from './Select.module.css';
+import { FieldInputProps } from "formik";
 
-const Select = ({ className, error, label, options, selectProps }) => {
+type SelectProps = {
+  className?: string,
+  error?: string,
+  label?: string,
+  options?: any,
+  selectProps: any // TODO разобраться с типом
+}
+const Select:FC<SelectProps> = ({ className, error, label, options, selectProps }) => {
   const id = useId();
 
   return (
@@ -17,14 +25,12 @@ const Select = ({ className, error, label, options, selectProps }) => {
       )}
 
       <select
-        //   eslint-disable-next-line
         {...selectProps}
         id={id}
         className={clsx(styles.select, selectProps?.className)}
       >
         {options?.map((option, i) => (
           <option
-            // eslint-disable-next-line
             key={i}
             value={option.value}
           >
@@ -33,7 +39,7 @@ const Select = ({ className, error, label, options, selectProps }) => {
         ))}
       </select>
 
-      {error && <span className={styles.error}>{error}</span>}
+      {error && <span>{error}</span>}
     </div>
   );
 };

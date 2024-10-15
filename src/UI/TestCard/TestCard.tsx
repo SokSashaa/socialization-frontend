@@ -1,16 +1,19 @@
-import clsx from 'clsx';
-import styles from './TestCard.module.css';
+import clsx from "clsx";
+import styles from "./TestCard.module.css";
+import { FC, ReactNode } from "react";
 
-const TestCard = ({ active, className, children }) => {
-  const cardClasses = clsx(styles.card, className);
-  const activeClasses = clsx({ [styles.active]: active });
-
+type TestCardProps = {
+  active?: boolean,
+  className?: string,
+  children: ReactNode
+}
+const TestCard:FC<TestCardProps> = ({ active, className, children }) => {
   return (
     <div
       role="presentation"
-      className={cardClasses}
+      className={clsx(styles.card, className)}
     >
-      <div className={activeClasses} />
+      <div className={clsx({ [styles.active]: active })} />
       {children}
     </div>
   );

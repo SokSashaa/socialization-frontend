@@ -1,0 +1,41 @@
+.bottom {
+  @apply mt-5 flex flex-col items-center gap-3 border-t-2 pt-4;
+}
+
+.right {
+  @apply flex flex-wrap items-center justify-center gap-2;
+}
+
+.pointButton {
+  @apply flex items-center gap-x-2;
+}
+
+.required {
+  @apply flex basis-full items-center justify-center;
+}
+
+.switch {
+  @apply ml-2;
+}
+
+.switchLabel {
+  @apply flex items-center;
+}
+
+.icon {
+  @apply fill-gray-500;
+}
+
+@media screen(sm) {
+  .bottom {
+    @apply flex-row justify-between;
+  }
+
+  .right {
+    @apply flex-nowrap justify-end;
+  }
+
+  .required {
+    @apply basis-auto justify-normal border-l-2 p-2;
+  }
+}

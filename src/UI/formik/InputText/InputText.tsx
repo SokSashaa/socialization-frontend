@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { FC, useId } from "react";
 import { useField } from 'formik';
 import clsx from 'clsx';
 import styles from './InputText.module.scss';
@@ -6,7 +6,15 @@ import styles from './InputText.module.scss';
 // TODO: сделать универсальный input и обернуть в отдельном компоненте в formik
 
 // input, предназначенный для formik
-const InputText = ({ name, ...props }) => {
+
+type InputTextProps = Partial<HTMLInputElement> & {
+  rightIcon?: string | any, //any не нужен
+  wrapperClassNames : string
+  label?: string,
+  as?: string,
+  maxlength?: number
+}
+const InputText: FC<InputTextProps> = ({ name, ...props }) => {
   const {
     rightIcon,
     wrapperClassNames,
@@ -21,7 +29,6 @@ const InputText = ({ name, ...props }) => {
 
   const hasErrors = meta.touched && meta.error;
 
-  const wrapperClasses = clsx(styles.wrapper, wrapperClassNames);
   const inputClasses = clsx(
     styles.input,
     { 'pr-10': rightIcon },
@@ -35,7 +42,7 @@ const InputText = ({ name, ...props }) => {
 
   return (
     <div
-      className={wrapperClasses}
+      className={clsx(styles.wrapper, wrapperClassNames)}
       role="presentation"
     >
       {label && (
@@ -49,10 +56,8 @@ const InputText = ({ name, ...props }) => {
 
       <div className="relative">
         <Component
-          /* eslint-disable */
           {...field}
           {...inputProps}
-          /* eslint-enable */
           id={id}
           className={inputClasses}
           aria-label={name}

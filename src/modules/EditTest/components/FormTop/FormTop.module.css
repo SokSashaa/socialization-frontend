@@ -1,0 +1,3 @@
+.formTop {
+  @apply mb-6 cursor-auto border-t-8 border-blue-900;
+}

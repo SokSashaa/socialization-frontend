@@ -1,28 +1,33 @@
 import { useField } from 'formik';
 import clsx from 'clsx';
 import styles from './UploadFile.module.css';
+import React, { FC } from "react";
 
-const UploadFile = ({ className, label, fileRef, onChange, inputProps }) => {
-  const { className: inputClassName, ...otherProps } = inputProps;
+type UploadFileProps = {
+  className: string,
+  label: string,
+  fileRef: React.MutableRefObject<null>,
+  onChange: ()=>void,
+  inputProps: HTMLInputElement
+}
+const UploadFile: FC<UploadFileProps> = ({ className, label, fileRef, onChange, inputProps }) => {
+  // const { className: inputClassName, ...otherProps } = inputProps;
 
-  const [field, meta] = useField(otherProps);
+  const [field, meta] = useField<HTMLInputElement>(inputProps.name);
 
   const { value, ...fieldProps } = field;
 
   return (
-    <div className={clsx(styles.wrapper, className)}>
+    <div className={className}>
       <button
         type="button"
         onClick={() => fileRef.current.click()}
-        className={clsx(styles.button, inputClassName)}
+        className={clsx(styles.button, className)}
       >
         {label || 'Выбрать файл'}
       </button>
       <input
-        /* eslint-disable */
         {...fieldProps}
-        {...otherProps}
-        /* eslint-enable */
         ref={fileRef}
         type="file"
         onChange={onChange}

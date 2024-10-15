@@ -1,0 +1,4 @@
+.spinner {
+  @apply m-auto h-6 w-6 animate-spin;
+  filter: invert(16%) sepia(4%) saturate(6%) hue-rotate(90deg) brightness(100%) contrast(91%);
+}

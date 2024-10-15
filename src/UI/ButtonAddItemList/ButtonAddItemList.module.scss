@@ -1,0 +1,29 @@
+.button {
+  margin-bottom: 12px;
+  display: flex;
+  height: 62px;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid #231c1c;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #231c1c;
+  font-family: 'Neucha', sans-serif;
+  font-style: normal;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 250ms;
+
+  &:hover {
+    box-shadow: 4px 4px 0 rgba(255, 224, 104, 1);
+  }
+}
+
+.icon {
+  height: 18px;
+  width: 20px;
+}

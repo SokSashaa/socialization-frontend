@@ -1,0 +1,23 @@
+.wrapper {
+  @apply relative h-[82px];
+}
+
+.input {
+  @apply h-[62px] w-[100%] resize-none rounded-[17px] border border-[#231C1C] bg-[#fff] px-4 py-2 text-2xl outline-none transition-all duration-300 ease-out placeholder:text-[24px] placeholder:text-dark-gray focus:border-[#505cc9] disabled:border-[#d0d8dd] disabled:text-[#6d7072];
+}
+
+.rightIcon {
+  @apply absolute bottom-0 right-0 top-0 flex cursor-pointer items-center pr-3;
+}
+
+.label {
+  @apply mb-2 block font-medium text-gray-800;
+}
+
+.error {
+  @apply inline-block w-full pt-1 text-end text-base font-medium text-[#ff0000];
+}
+
+span.error {
+  @apply m-0;
+}

@@ -1,0 +1,11 @@
+.input {
+  @apply h-0 w-0 opacity-0;
+}
+
+.button {
+  @apply hover:bg-main-yellow rounded-md border border-gray-300 px-3 py-2 font-medium  leading-4 text-gray-700 transition duration-150 ease-in-out hover:border-black hover:text-black;
+}
+
+.error {
+  @apply mt-2 text-red-500;
+}
