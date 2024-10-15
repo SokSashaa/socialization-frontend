@@ -1,3 +1,0 @@
-.search {
-  @apply rounded-full border-transparent bg-[#EFF6FB] px-3 py-[5px] text-lg text-[#767676] outline-none placeholder:text-lg placeholder:text-[#767676] focus:border-[#d0d8dd];
-}

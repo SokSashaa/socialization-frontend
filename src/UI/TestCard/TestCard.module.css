@@ -1,7 +1,0 @@
-.card {
-  @apply relative w-full cursor-pointer overflow-hidden  rounded-lg bg-white p-6 shadow-md shadow-slate-500/50;
-}
-
-.active {
-  @apply before:absolute before:bottom-0 before:left-0 before:top-0 before:block before:h-full before:w-[6px]  before:bg-[#505cc9] before:content-[''];
-}
