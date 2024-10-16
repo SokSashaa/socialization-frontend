@@ -28,12 +28,12 @@ const Router = () => {
     >
       {/* public routes */}
       <Route
-        path={ROUTES.Auth}
+        path={ROUTES.auth}
         element={<AuthPage />}
       />
 
       <Route
-        path={ROUTES.Unathorized}
+        path={ROUTES.unauthorized}
         element={<p>Для вашей роли нет доступа к этой странице</p>}
       />
 
@@ -43,63 +43,62 @@ const Router = () => {
           element={<RequireAuth allowedRoles={[ROLES.administrator.code, ROLES.tutor.code]} />}
         >
           <Route
-            path={ROUTES.EditTest}
+            path={ROUTES.editTest}
             element={<EditTest />}
           />
           <Route
-            path={ROUTES.EntityProfile}
+            path={ROUTES.entityProfile}
             element={<EntityProfile />}
           />
         </Route>
 
         <Route
           element={
-            // eslint-disable-next-line
             <RequireAuth
-              allowedRoles={[ROLES.administrator.code, ROLES.tutor.code, ROLES.observed.code]}
+              allowedRoles={'all'}
             />
           }
         >
           <Route
             index
-            path={ROUTES.Home}
+            path={ROUTES.home}
             element={<Home />}
           />
           <Route
-            path={ROUTES.Games}
+            path={ROUTES.games}
             element={<Games />}
           />
           <Route
-            path={ROUTES.Profile}
+            path={ROUTES.profile}
             element={<Profile />}
           />
           <Route
-            path={ROUTES.Tests}
+            path={ROUTES.tests}
             element={<Tests />}
           />
           <Route
-            path={ROUTES.PassingTest}
+            path={ROUTES.passingTest}
             element={<PassTest />}
           />
           <Route
-            path={ROUTES.PlayingGame}
+            path={ROUTES.playingGame}
             element={<PlayGame />}
           />
           <Route
-            path={ROUTES.ResultTest}
+            path={ROUTES.resultTest}
             element={<ResultTest />}
           />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={[ROLES.administrator.code]} />}>
           <Route
-            path={ROUTES.Users}
+            path={ROUTES.users}
             element={<Users />}
           />
         </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.tutor.code]} />}>
           <Route
-            path={ROUTES.MyObservers}
+            path={ROUTES.myObservers}
             element={<Observers />}
           />
         </Route>
