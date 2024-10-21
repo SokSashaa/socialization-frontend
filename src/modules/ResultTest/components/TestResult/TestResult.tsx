@@ -1,8 +1,9 @@
 import { useGetResultTestQuery } from '../../api/resultTestApiSlice';
-import { SpinnerBig, ErrorMessage, Container, TestHeader } from '../../../../UI';
+import {  ErrorMessage, Container, TestHeader } from '../../../../UI';
 import TestResultFooter from '../TestResultFooter/TestResultFooter';
 import QuestionItem from '../QuestionItem/QuestionItem';
 import styles from './TestResult.module.css';
+import Spinner from "../../../../UI/spinners/Spinner";
 
 const TestResult = ({ testId, userId }) => {
   const {
@@ -16,7 +17,7 @@ const TestResult = ({ testId, userId }) => {
   });
 
   if (isLoading || isFetching) {
-    return <SpinnerBig className="mt-10" />;
+    return <Spinner typeSpinner={'big'}  className="mt-10" />;
   }
 
   if (isError) {

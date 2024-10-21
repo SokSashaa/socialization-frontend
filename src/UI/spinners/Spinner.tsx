@@ -4,7 +4,7 @@ import { FC } from "react";
 import clsx from "clsx";
 
 type SpinnerProps = {
-  className: string,
+  className?: string,
   typeSpinner: "mini" | "big"
 }
 const Spinner: FC<SpinnerProps> = ({ className, typeSpinner }) => (

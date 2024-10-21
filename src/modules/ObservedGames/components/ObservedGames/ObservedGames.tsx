@@ -2,12 +2,13 @@ import { useGetObserverGamesQuery } from '../../../../app/api/common/gameApiSlic
 import { Container, ErrorMessage, SpinnerBig } from '../../../../UI';
 import ObservedGamesItem from '../ObservedGamesItem/ObservedGamesItem';
 import styles from './ObservedGames.module.css';
+import Spinner from "../../../../UI/spinners/Spinner";
 
 const ObservedGames = ({ userId }) => {
   const { data: games, isFetching, isLoading, isError } = useGetObserverGamesQuery({ id: userId });
 
   if (isLoading || isFetching) {
-    return <SpinnerBig className="mt-7" />;
+    return <Spinner typeSpinner={'big'} className="mt-7" />;
   }
 
   if (isError) {

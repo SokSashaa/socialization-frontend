@@ -62,7 +62,6 @@ const AuthForm = () => {
           isMobile={isMobile}
           onShowPassword={onShowPassword}
           showPassword={showPassword}
-          // eslint-disable-next-line
           formikProps={formikProps}
         />
       )}

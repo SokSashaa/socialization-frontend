@@ -1,7 +1,6 @@
 import Button from './Button/Button';
 import Modal from './Modal/Modal';
-import SpinnerMini from './spinners/SpinnerMini/SpinnerMini';
-import SpinnerBig from './spinners/SpinnerBig/SpinnerBig';
+import Spinner from "./spinners/Spinner";
 import ToastContainer from './ToastContainer/ToastContainer';
 import InputText from './formik/InputText/InputText';
 import ModalLayout from './layouts/FormModalLayout/ModalLayout';
@@ -24,28 +23,27 @@ import ButtonAddItemList from './ButtonAddItemList/ButtonAddItemList';
 import TestHeader from './TestHeader/TestHeader';
 
 export {
-  Button,
-  Modal,
-  SpinnerMini,
-  ToastContainer,
-  InputText,
-  ModalLayout,
-  Container,
-  Select,
-  InputBase,
-  SpinnerBig,
-  ErrorMessage,
-  TestCard,
-  Checkbox,
-  FormikCheckbox,
-  Radio,
-  FormikRadio,
-  FormikSelect,
-  Header,
-  PageLayout,
-  UploadFile,
-  AnimatedPage,
-  ItemListWrapper,
-  ButtonAddItemList,
-  TestHeader,
+    Button,
+    Modal,
+    ToastContainer,
+    InputText,
+    ModalLayout,
+    Container,
+    Select,
+    InputBase,
+    ErrorMessage,
+    TestCard,
+    Checkbox,
+    FormikCheckbox,
+    Radio,
+    FormikRadio,
+    FormikSelect,
+    Header,
+    PageLayout,
+    UploadFile,
+    AnimatedPage,
+    ItemListWrapper,
+    ButtonAddItemList,
+    TestHeader,
+    Spinner
 };

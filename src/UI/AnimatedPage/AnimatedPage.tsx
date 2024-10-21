@@ -1,4 +1,5 @@
 import { m } from 'framer-motion';
+import {FC, HTMLAttributes} from "react";
 
 const pageVariants = {
   visible: {
@@ -23,7 +24,7 @@ const pageVariants = {
   },
 };
 
-const AnimatedPage = ({ children }) => (
+const AnimatedPage:FC<HTMLAttributes<HTMLDivElement>> = ({ children }) => (
   <m.div
     variants={pageVariants}
     initial="hidden"

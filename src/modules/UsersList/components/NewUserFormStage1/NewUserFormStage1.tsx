@@ -1,12 +1,13 @@
 import { ErrorMessage } from 'formik';
-import { Button, InputText, FormikSelect, SpinnerMini } from '../../../../UI';
+import { Button, InputText, FormikSelect } from '../../../../UI';
 import { transformUsersToSelectOptions } from '../../utils/data.helper';
 import { ROLES } from '../../../../utils/constants';
 import styles from './NewUserFormStage1.module.css';
+import Spinner from "../../../../UI/spinners/Spinner";
 
 const NewUserFormStage1 = ({ selectRoles, tutors, onRoleSelect, isLoadingTutors, formikProps }) => {
   const { isSubmitting, values } = formikProps;
-  const submitBtnContent = isSubmitting ? <SpinnerMini /> : 'Далее';
+  const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'}  /> : 'Далее';
 
   return (
     <>
@@ -66,7 +67,7 @@ const NewUserFormStage1 = ({ selectRoles, tutors, onRoleSelect, isLoadingTutors,
 
         {isLoadingTutors && (
           <div className="basis-20 self-center">
-            <SpinnerMini />
+            <Spinner typeSpinner={'mini'}  />
           </div>
         )}
 

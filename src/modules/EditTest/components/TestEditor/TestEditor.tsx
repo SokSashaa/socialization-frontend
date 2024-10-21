@@ -6,7 +6,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import { useEditTestMutation } from '../../api/editTestApiSlice';
 import { useGetTestQuery } from '../../../../app/api/common/testApiSlice';
 
-import { Container, Button, SpinnerMini, SpinnerBig, ErrorMessage } from '../../../../UI';
+import { Container, Button, ErrorMessage } from '../../../../UI';
 import { DraggableList } from '../../../../components';
 import FormTop from '../FormTop/FormTop';
 import AddQuestionButton from '../AddQuestionButton/AddQuestionButton';
@@ -17,13 +17,16 @@ import { onFieldArrayControl } from '../../utils/form.helper';
 import { transformTest, getQuestionPosition, transformResponse } from '../../utils/data.helper';
 import { INITIAL_QUESTION } from '../../utils/constants';
 import styles from './TestEditor.module.css';
+import Spinner from "../../../../UI/spinners/Spinner";
+import {DragEndEvent} from "@dnd-kit/core";
+import {useCallback} from "react";
 
 const TestEditor = ({ id }) => {
   const { data: test, isLoading, isError } = useGetTestQuery(id);
   const [editTest, { isLoading: isLoadingEdit }] = useEditTestMutation();
 
   if (isLoading) {
-    return <SpinnerBig className="mt-10" />;
+    return <Spinner typeSpinner={'big'} className="mt-10" />;
   }
 
   if (isError) {
@@ -37,12 +40,12 @@ const TestEditor = ({ id }) => {
 
   const upgradeTest = test && transformResponse(test);
 
-  const onDragEnd = (questions, setFieldValue) => (event) => {
+  const onDragEnd = (questions, setFieldValue) => (event: DragEndEvent) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (active.id !== over?.id) {
       const originalPos = getQuestionPosition(questions, active.id);
-      const finalPos = getQuestionPosition(questions, over.id);
+      const finalPos = getQuestionPosition(questions, over?.id);
 
       setFieldValue('questions', arrayMove(questions, originalPos, finalPos));
     }
@@ -60,7 +63,7 @@ const TestEditor = ({ id }) => {
     }
   };
 
-  const submitBtnText = isLoadingEdit ? <SpinnerMini /> : 'Сохранить';
+  const submitBtnText = isLoadingEdit ? <Spinner typeSpinner={'mini'} /> : 'Сохранить';
 
   return (
     <div className={styles.wrapper}>
@@ -80,7 +83,7 @@ const TestEditor = ({ id }) => {
                 <FieldArray
                   name="questions"
                   render={(arrayHelpers) => {
-                    const { questions } = testValues;
+                    const { questions } = testValues
 
                     return questions && questions.length > 0 ? (
                       <DraggableList

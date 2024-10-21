@@ -4,6 +4,7 @@ import { usePassGameMutation } from '../../api/passGameApiSlice';
 import { SpinnerBig, ErrorMessage } from '../../../../UI';
 
 import styles from './GameWindow.module.scss';
+import Spinner from "../../../../UI/spinners/Spinner";
 
 const GameWindow = ({ gameId, userId }) => {
   const { data: game, isLoading: isGameLoading, isError: isErrorGetGame } = useGetGameQuery(gameId);
@@ -11,7 +12,7 @@ const GameWindow = ({ gameId, userId }) => {
   // const [passGame, { isLoading: isLoadingPassGame }] = usePassGameMutation();
 
   if (isGameLoading) {
-    return <SpinnerBig className="mt-10" />;
+    return <Spinner typeSpinner={'big'}  className="mt-10" />;
   }
 
   if (isErrorGetGame) {

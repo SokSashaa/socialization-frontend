@@ -1,4 +1,4 @@
-import { FC, useId } from "react";
+import {FC, HTMLAttributes, useId} from "react";
 import clsx from 'clsx';
 import styles from './Select.module.css';
 import { FieldInputProps } from "formik";
@@ -7,7 +7,7 @@ type SelectProps = {
   className?: string,
   error?: string,
   label?: string,
-  options?: [{ value: string, label: string }],
+  options?: HTMLAttributes<HTMLOptionElement>[],
   selectProps: any // TODO разобраться с типом
 }
 const Select:FC<SelectProps> = ({ className, error, label, options, selectProps }) => {

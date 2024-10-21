@@ -1,39 +1,39 @@
-import { useState, useEffect } from 'react';
-import { useDebounce } from '../../hooks';
-import { InputBase } from '../../UI';
+import React, {FC, HTMLAttributes, useEffect, useState} from 'react';
+import {useDebounce} from '../../hooks';
+import {InputBase} from '../../UI';
 import styles from './SearchBar.module.css';
 
-const SearchBar = ({ className, placeholder, onSearch = () => {} }) => {
-  const [searchValue, setSearchValue] = useState('');
+const SearchBar: FC<HTMLAttributes<HTMLInputElement>> = ({
+                                                             className,
+                                                             placeholder,
+                                                             onSearch = (value: any) => {
+    }
+                                                         }) => {
+    const [searchValue, setSearchValue] = useState('');
 
-  const debouncedSearchValue = useDebounce(searchValue);
+    const debouncedSearchValue = useDebounce(searchValue);
 
-  const onSearchChange = (event) => {
-    setSearchValue(event.target.value);
-  };
+    useEffect(() => {
+        onSearch(debouncedSearchValue);
+    }, [debouncedSearchValue]);
 
-  useEffect(() => {
-    onSearch(debouncedSearchValue);
-  }, [debouncedSearchValue]);
-
-  return (
-    <search
-      role="search"
-      className={className}
-    >
-      <InputBase
-        className={styles.wrapper}
-        inputProps={{
-          className: styles.search,
-          placeholder: placeholder || 'Поиск...',
-          type: 'search',
-          name: 'search',
-          value: searchValue,
-          onChange: onSearchChange,
-        }}
-      />
-    </search>
-  );
+    return (
+        <search
+            role="search"
+            className={className}
+        >
+            <InputBase
+                inputProps={{
+                    className: styles.search,
+                    placeholder: placeholder || 'Поиск...',
+                    type: 'search',
+                    name: 'search',
+                    value: searchValue,
+                    onChange: (event: React.ChangeEvent<HTMLInputElement>) => setSearchValue(event.target.value),
+                }}
+            />
+        </search>
+    );
 };
 
 export default SearchBar;

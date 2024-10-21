@@ -1,8 +1,14 @@
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import {Bars3Icon} from '@heroicons/react/16/solid';
+import {FC, ReactNode} from "react";
 
-const DraggableListItem = ({index, withDragHandle, children}) => {
+type DraggableListItemProps = {
+    index: number,
+    withDragHandle: boolean,
+    children: ReactNode
+}
+const DraggableListItem: FC<DraggableListItemProps> = ({index, withDragHandle, children}) => {
     const {attributes,
         listeners,
         setNodeRef,

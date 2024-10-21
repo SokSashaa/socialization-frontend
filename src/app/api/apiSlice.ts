@@ -16,8 +16,6 @@ const baseQuery = fetchBaseQuery({
       const access =
         getState().auth.access || JSON.parse(getLocalStorageItem('auth'))?.access || '';
 
-      console.log('prepareHeaders', access);
-
       if (access) {
         headers.set('Authorization', ` Bearer ${access}`);
       }

@@ -1,11 +1,10 @@
-import React, {FC, useState} from 'react';
+import React, {FC, HTMLAttributes, useState} from 'react';
 import {Select} from '../../UI';
 import styles from './Sort.module.css';
 
-type SortProps = {
-    options: [{ value: string, label: string }],
-    className: string,
-    onSort: (string) => void
+type SortProps = HTMLAttributes<HTMLSelectElement> & {
+    options: HTMLAttributes<HTMLOptionElement>[],
+    onSort: (value:any) => void
 }
 
 const Sort: FC<SortProps> = ({

@@ -4,8 +4,8 @@ import styles from './ErrorMessage.module.css';
 import { FC } from "react";
 
 type ErrorMessageProps = {
-  message: string,
-  className: string
+  message?: string,
+  className?: string
 }
 
 const ErrorMessage: FC<ErrorMessageProps> = ({ message, className }) => (
