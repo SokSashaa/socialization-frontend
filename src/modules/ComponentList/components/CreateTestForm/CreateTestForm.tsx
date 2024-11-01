@@ -1,8 +1,13 @@
 import { Form } from 'formik';
 import { InputText, Button } from '../../../../UI';
 import styles from './CreateTestForm.module.scss';
+import React, {FC} from "react";
 
-const CreateTestForm = ({ isSubmitting, handleSubmit }) => {
+type CreateTestFormProps = {
+  isSubmitting: boolean,
+  handleSubmit:(e?: React.FormEvent<HTMLFormElement>) => void
+}
+const CreateTestForm:FC<CreateTestFormProps> = ({ isSubmitting, handleSubmit }) => {
   const submitBtnContent = isSubmitting ? 'Добавление...' : 'Добавить';
 
   return (

@@ -1,7 +1,13 @@
 import clsx from 'clsx';
 import styles from './AddQuestionButton.module.css';
+import {FC, ReactNode} from "react";
 
-const AddQuestionButton = ({ onClick, className, children }) => {
+type AddQuestionButtonProps = {
+  onClick?: ()=>void,
+  className?: string,
+  children?: ReactNode
+}
+const AddQuestionButton:FC<AddQuestionButtonProps> = ({ onClick, className, children }) => {
   const classes = clsx(styles.button, className);
 
   return (

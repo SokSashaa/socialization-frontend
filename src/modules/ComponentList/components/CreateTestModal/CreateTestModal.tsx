@@ -45,7 +45,6 @@ const CreateTestModal = ({ toggleModal, showModal, setShowModal }) => {
           <ModalLayout
             title="Создание теста"
             content={
-              // eslint-disable-next-line
               <CreateTestForm
                 isSubmitting={isSubmitting}
                 handleSubmit={handleSubmit}

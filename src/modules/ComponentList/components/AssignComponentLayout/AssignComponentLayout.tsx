@@ -2,8 +2,21 @@ import {SearchBar} from '../../../../components';
 import {Button, Checkbox, ErrorMessage} from '../../../../UI';
 import styles from './AssignComponentLayout.module.css';
 import Spinner from "../../../../UI/spinners/Spinner";
+import {FC} from "react";
 
-const AssignComponentLayout = (props) => {
+type AssignComponentLayoutProps = {
+    users: any,
+    isError: boolean,
+    isUsersLoading: boolean,
+    onSearch: (value: any) => void,
+    selectedUsers: any[],
+    onSelectUser: (value) => void,
+    onAssign: () => void,
+    isAssigning: boolean,
+
+}
+
+const AssignComponentLayout: FC<AssignComponentLayoutProps> = (props) => {
     const {
         users,
         isError,

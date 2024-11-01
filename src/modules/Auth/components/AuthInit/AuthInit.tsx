@@ -31,8 +31,6 @@ const AuthInit = ({ children }) => {
     } else {
       dispatch(logout());
     }
-
-    // eslint-disable-next-line
   }, []);
 
   return (isLoading || isUninitialized) && access ? <p>Загрузка...</p> : children;

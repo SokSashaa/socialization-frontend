@@ -23,12 +23,9 @@ const FilteredList = ({
                           isLoading,
                           isError,
                           sortList = [],
-                          renderItemContent = () => {
-                          },
-                          onSearch = (value: any) => {
-                          },
-                          onSort = () => {
-                          },
+                          renderItemContent = () => {},
+                          onSearch = (value: any) => {},
+                          onSort = () => {},
                       }) => {
     const renderItems = (data, renderItem) => {
         const renderedItems = data?.map((item, i) => (

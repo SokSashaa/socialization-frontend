@@ -1,0 +1,8 @@
+.idea/*
+node_modules
+/dist/
+/.awcache/
+/app/generated-api
+/app/generated-suppliers-api
+/typings
+.vscode

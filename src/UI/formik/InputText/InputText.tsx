@@ -1,4 +1,4 @@
-import { FC, useId } from "react";
+import {FC, HTMLAttributes, useId} from "react";
 import { useField } from 'formik';
 import clsx from 'clsx';
 import styles from './InputText.module.scss';
@@ -7,15 +7,16 @@ import styles from './InputText.module.scss';
 
 // input, предназначенный для formik
 
-type InputTextProps = Partial<HTMLInputElement> & {
-  rightIcon?: string | any, //any не нужен
+type InputTextProps =  HTMLAttributes<HTMLInputElement> & {
+  rightIcon?:  any, //any не нужен
   wrapperClassNames : string
   label?: string,
   as?: string,
   maxlength?: number
 }
-const InputText: FC<InputTextProps> = ({ name, ...props }) => {
+const InputText: FC<InputTextProps> = (props) => {
   const {
+    name,
     rightIcon,
     wrapperClassNames,
     className,

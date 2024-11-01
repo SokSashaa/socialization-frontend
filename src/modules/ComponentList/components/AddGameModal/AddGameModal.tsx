@@ -3,11 +3,6 @@ import { Modal, ModalLayout } from '../../../../UI';
 // TODO: доделать этот компонент
 
 const AddGameModal = ({ toggleModal, showModal, setShowModal }) => {
-  const initialState = {
-    title: '',
-    description: '',
-    questions: [],
-  };
 
   return (
     <div>
@@ -20,7 +15,6 @@ const AddGameModal = ({ toggleModal, showModal, setShowModal }) => {
           <ModalLayout
             title="Создание теста"
             content={
-              // eslint-disable-next-line
               <div>Пока недоступно</div>
             }
           />

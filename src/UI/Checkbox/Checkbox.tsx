@@ -1,10 +1,9 @@
 import clsx from "clsx";
 import styles from "./Checkbox.module.css";
 import { FC } from "react";
-import { FieldInputProps } from "formik";
 
 export type CheckboxProps = {
-  className: string,
+  className?: string,
   labelClassName?: string,
   label: string,
   checkboxProps: any //TODO разобраться с типом
