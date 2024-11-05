@@ -19,7 +19,6 @@ import {INITIAL_QUESTION} from '../../utils/constants';
 import styles from './TestEditor.module.css';
 import Spinner from "../../../../UI/spinners/Spinner";
 import {DragEndEvent} from "@dnd-kit/core";
-import {useCallback} from "react";
 
 const TestEditor = ({id}) => {
     const {data: test, isLoading, isError} = useGetTestQuery(id);
@@ -40,7 +39,7 @@ const TestEditor = ({id}) => {
 
     const upgradeTest = test && transformResponse(test);
 
-    const onDragEnd = useCallback((questions, setFieldValue) => (event: DragEndEvent) => {
+    const onDragEnd = (questions, setFieldValue) => (event: DragEndEvent) => { //TODO разобраться почему не работает callback
         const {active, over} = event;
 
         if (active.id !== over?.id) {
@@ -49,7 +48,7 @@ const TestEditor = ({id}) => {
 
             setFieldValue('questions', arrayMove(questions, originalPos, finalPos));
         }
-    }, []);
+    };
 
     const onSubmit = async (values) => {
         try {
