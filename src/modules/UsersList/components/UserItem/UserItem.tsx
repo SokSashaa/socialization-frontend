@@ -11,7 +11,7 @@ import { toInitial } from '../../../../utils/helpers';
 import styles from './UserItem.module.css';
 
 const UserItem = ({ user }) => {
-  const { id, name, role, photo, patronymic, second_name: secondName } = user;
+  const { id, name, role, photo, patronymic, second_name } = user;
 
   const [deleteUser] = useDeleteUserMutation();
 
@@ -58,7 +58,7 @@ const UserItem = ({ user }) => {
         )}
         <div className={styles.text}>
           <p className={styles.name}>
-            {`${secondName} ${toInitial(name)} ${toInitial(patronymic)}`}
+            {`${second_name} ${toInitial(name)} ${toInitial(patronymic)}`}
           </p>
           <p className={styles.role}>{ROLES[role]?.label ?? 'Неизвестная роль'}</p>
         </div>

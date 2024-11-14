@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {toast} from 'react-toastify';
@@ -11,12 +11,41 @@ import {logout, setUserCredentials} from '../../../Auth';
 import {Button, Container, ErrorMessage} from '../../../../UI';
 import {Portal} from '../../../../components';
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
-import ProfileInfoForm from '../ProfileInfoForm/ProfileInfoForm';
+import ProfileInfoForm, {InputFieldType} from '../ProfileInfoForm/ProfileInfoForm';
 
 import {profileSchema} from '../../utils/validation.helper';
 import {uploadedFileSchema} from '../../../../utils/helpers';
 import styles from './Profile.module.css';
 import Spinner from "../../../../UI/spinners/Spinner";
+import {useModalState} from "../../../../hooks/useModalState";
+
+const inputFields: InputFieldType[] = [
+    {
+        name: 'name',
+        label: 'Имя *',
+        type: 'text',
+    },
+    {
+        name: 'second_name',
+        label: 'Фамилия *',
+        type: 'text',
+    },
+    {
+        name: 'patronymic',
+        label: 'Отчество (при наличии)',
+        type: 'text',
+    },
+    {
+        name: 'birthday',
+        label: 'Дата рождения *',
+        type: 'date',
+    },
+    {
+        name: 'email',
+        label: 'Email *',
+        type: 'email',
+    },
+];
 
 const Profile = () => {
     const fileRef = useRef(null);
@@ -28,7 +57,7 @@ const Profile = () => {
 
     const {preview, onUpload} = useUploadPhoto('photo');
 
-    const [showModal, setShowModal] = useState(false);
+    const [isOpen, open, close] = useModalState(false);
 
     const dispatch = useDispatch();
 
@@ -51,10 +80,6 @@ const Profile = () => {
         birthday: user?.birthday || '2022-01-01',
         email: user?.email || '',
         photo: user?.photo || '',
-    };
-
-    const onShowModal = () => {
-        setShowModal(true);
     };
 
     const onLogout = () => {
@@ -99,9 +124,9 @@ const Profile = () => {
                                     formikProps={formikProps}
                                     preview={preview}
                                     onUpload={onUpload}
-                                    onShowModal={onShowModal}
+                                    onShowModal={open}
                                     fileRef={fileRef}
-                                />
+                                    inputFields={inputFields}/>
                             )}
                         </Formik>
                         <div className={styles.bottom}>
@@ -119,8 +144,8 @@ const Profile = () => {
             </div>
             <Portal>
                 <ChangePasswordModal
-                    showModal={showModal}
-                    setShowModal={setShowModal}
+                    showModal={isOpen}
+                    setShowModal={close}
                 />
             </Portal>
         </>

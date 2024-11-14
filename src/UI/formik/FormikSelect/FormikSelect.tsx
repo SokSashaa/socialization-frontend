@@ -8,7 +8,7 @@ type FormikSelectProps = {
   className?: string,
   label?: string,
   onChange?: Function
-  selectProps: HTMLAttributes<HTMLInputElement>
+  selectProps: any // по другому работать не будет //TODO подумать на счёт типа был htmlattributes<HTMLinput>
 }
 const FormikSelect:FC<FormikSelectProps> = ({ name, options, className, label, onChange, selectProps }) => {
   const [field] = useField<HTMLInputElement>(name);

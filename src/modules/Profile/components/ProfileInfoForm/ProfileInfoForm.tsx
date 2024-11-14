@@ -4,37 +4,42 @@ import {userIconV2Big} from '../../../../assets';
 import {ROLES} from '../../../../utils/constants';
 import styles from './ProfileInfoForm.module.css';
 import Spinner from "../../../../UI/spinners/Spinner";
+import {user_dto} from "../../../../dto/user.dto";
+import {FC, MutableRefObject} from "react";
+import Select from "../../../../UI/Select/Select";
+import FormikSelect from "../../../../UI/formik/FormikSelect/FormikSelect";
 
-const inputFields = [
-    {
-        name: 'name',
-        label: 'Имя *',
-        type: 'text',
-    },
-    {
-        name: 'second_name',
-        label: 'Фамилия *',
-        type: 'text',
-    },
-    {
-        name: 'patronymic',
-        label: 'Отчество (при наличии)',
-        type: 'text',
-    },
-    {
-        name: 'birthday',
-        label: 'Дата рождения *',
-        type: 'date',
-    },
-    {
-        name: 'email',
-        label: 'Email *',
-        type: 'email',
-    },
-];
 
-const ProfileInfoForm = ({formikProps, preview, onUpload, onShowModal, fileRef, user}) => {
+export type InputFieldType = {
+    type: 'email' | 'date' | 'text' | 'select',
+    name: string,
+    label: string
+}
+
+type ProfileInfoFormPropsType = {
+    formikProps: any,
+    preview: string | null,
+    onUpload: any,
+    onShowModal: () => void,
+    fileRef: MutableRefObject<null>,
+    user: user_dto,
+    inputFields: InputFieldType[]
+}
+
+const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
+                                                           formikProps,
+                                                           preview,
+                                                           onUpload,
+                                                           onShowModal,
+                                                           fileRef,
+                                                           user,
+                                                           inputFields
+                                                       }) => {
     const submitBtnContent = formikProps.isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Сохранить';
+
+    const optionSelect = [...Object.values(ROLES)].map((item) => {
+        return {value: item.code, label: item.label}
+    })
 
     return (
         <Form
@@ -84,7 +89,9 @@ const ProfileInfoForm = ({formikProps, preview, onUpload, onShowModal, fileRef, 
                     if (type === 'date' && user.role !== ROLES.observed.code) {
                         return null;
                     }
-
+                    if (type === 'select' && user.role !== ROLES.observed.code) {
+                        return <FormikSelect key={name} options={optionSelect} selectProps={{defaultValue: user.role}} name={'role'}/>
+                    }
                     return (
                         <InputText
                             key={name}
@@ -97,7 +104,6 @@ const ProfileInfoForm = ({formikProps, preview, onUpload, onShowModal, fileRef, 
                 })}
                 <div className={styles.saveButtonWrapper}>
                     <Button
-                        className={styles.saveButton}
                         type="submit"
                         disabled={formikProps.isSubmitting}
                     >

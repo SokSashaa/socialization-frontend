@@ -10,7 +10,6 @@ const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState, endpoint }) => {
-    console.log('endpoint', endpoint);
 
     if (endpoint !== 'refresh') {
       const access =
@@ -30,7 +29,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result?.error?.status === 401) {
-    console.log('sending refresh token');
 
     const refresh = JSON.parse(getLocalStorageItem('auth'))?.refresh;
 
@@ -40,7 +38,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       extraOptions,
     );
 
-    console.log('refreshResult', refreshResult);
 
     // если запрос прошел успешно, обновляем токен
     if (refreshResult?.data) {

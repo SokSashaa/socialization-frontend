@@ -1,6 +1,6 @@
 import { apiSlice } from '../../../app/api/apiSlice';
 
-const profileApiSlice = apiSlice.injectEndpoints({
+const profileApiSlice = apiSlice.injectEndpoints?.({
   endpoints: (builder) => ({
     changeUserInfo: builder.mutation({
       query: ({ id, data }) => ({

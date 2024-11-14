@@ -17,7 +17,7 @@ const contentVariants = {
 
 const Modal = ({ children, active, setActive, handleClose }) => {
   const onClose = useCallback(() => {
-    setActive(false);
+    setActive();
 
     if (handleClose) {
       handleClose();

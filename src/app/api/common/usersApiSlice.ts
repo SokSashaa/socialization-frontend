@@ -1,8 +1,9 @@
 import { apiSlice } from '../apiSlice';
+import {user_dto} from "../../../dto/user.dto";
 
-const usersApiSlice = apiSlice.injectEndpoints({
+const usersApiSlice = apiSlice.injectEndpoints?.({
   endpoints: (builder) => ({
-    getUsers: builder.query({
+    getUsers: builder.query<Partial<user_dto[]>>({
       query: (params) => ({
         url: '/users/',
         params,
@@ -46,7 +47,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
       transformResponse: (res) => res.results,
       invalidatesTags: ['ObservedsTutor', 'Observeds'],
     }),
-    getUserInfo: builder.query({
+    getUserInfo: builder.query<Partial<user_dto>>({
       query: () => ({
         url: '/users/me/',
         method: 'GET',
@@ -54,7 +55,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
       transformResponse: (response) => response.result,
       providesTags: ['User'],
     }),
-    getSingleUser: builder.query({
+    getSingleUser: builder.query<Partial<user_dto,string>>({
       query: (id) => ({
         url: `/users/${id}/`,
         method: 'GET',
@@ -63,7 +64,6 @@ const usersApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-// eslint-disable-next-line
 export const {
   useLazyGetUsersQuery,
   useGetUsersQuery,

@@ -1,14 +1,14 @@
 import { useField } from 'formik';
 import clsx from 'clsx';
 import styles from './UploadFile.module.css';
-import React, { FC } from "react";
+import React, {FC, HTMLAttributes} from "react";
 
 type UploadFileProps = {
   className: string,
   label: string,
   fileRef: React.MutableRefObject<null>,
   onChange: ()=>void,
-  inputProps: HTMLInputElement
+  inputProps: any //Input attr
 }
 const UploadFile: FC<UploadFileProps> = ({ className, label, fileRef, onChange, inputProps }) => {
   // const { className: inputClassName, ...otherProps } = inputProps;

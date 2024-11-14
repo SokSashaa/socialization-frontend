@@ -53,7 +53,6 @@ const ChangePasswordModal = ({ showModal, setShowModal }) => {
           <ModalLayout
             title="Изменить пароль"
             content={
-              // eslint-disable-next-line
               <ChangePasswordForm
                 onShowPassword={onShowPassword}
                 showPassword={showPassword}

@@ -42,7 +42,6 @@ const AuthForm = () => {
             resetForm({values: initialState});
             navigate(from, {replace: true});
         } catch (error) {
-            console.log(error)
             toast.error('Неверный логин или пароль');
         }
     };

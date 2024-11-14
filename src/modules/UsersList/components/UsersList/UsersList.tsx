@@ -28,6 +28,7 @@ const UsersList = () => {
     ordering: sortValue,
   });
 
+
   const onSearch = (query) => {
     setSearchValue(query);
   };

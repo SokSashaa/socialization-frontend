@@ -12,9 +12,6 @@ const EntityProfile = () => {
 
     const {data: user, isLoading, isError, isFetching} = useGetSingleUserQuery(id);
 
-    if (isLoading || isFetching) {
-        return <Spinner typeSpinner={'big'} className="mt-7"/>;
-    }
 
     if (isError) {
         return (
@@ -27,6 +24,7 @@ const EntityProfile = () => {
 
     return (
         <>
+            {isLoading || isFetching &&  <Spinner typeSpinner={'big'} className="mt-7"/>}
             {user.role === ROLES.observed.code && <ObservedTests userId={id}/>}
             {user.role === ROLES.observed.code && <ObservedGames userId={id}/>}
             {user.role === ROLES.tutor.code && <ObservedListV2 userId={id}/>}
