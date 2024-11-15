@@ -1,6 +1,6 @@
 import { apiSlice } from '../../../app/api/apiSlice';
 
-const usersApiSlice = apiSlice.injectEndpoints({
+const usersApiSlice = apiSlice.injectEndpoints?.({
   endpoints: (builder) => ({
     addUser: builder.mutation({
       query: (data) => ({
@@ -12,7 +12,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
-        url: `/users/${id}/`,
+        url: `/users/${id}/delete_user/`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Users', 'ObservedsTutor'],
