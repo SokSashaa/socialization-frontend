@@ -12,4 +12,5 @@ export const ROUTES = {
   playingGame: '/games/:id/play',
   myObservers: '/my-observers',
   entityProfile: '/users/:id',
+  organization: '/organizations'
 };

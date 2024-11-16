@@ -2,7 +2,6 @@ import {Route, Routes, useLocation} from 'react-router-dom';
 import {
     AuthPage,
     EditTest,
-    EntityProfile,
     Games,
     Home,
     Observers,
@@ -42,10 +41,8 @@ const Router = () => {
             <Route element={<PageLayout/>}>
                 <Route
                     element={<RequireAuth allowedRoles={[ROLES.administrator.code]}/>}>
-                    <Route
-                        path={ROUTES.entityProfile}
-                        element={<ChangeUserInfo/>}
-                    />
+                    <Route path={ROUTES.organization}
+                           element={<></>}/>
                 </Route>
                 <Route
                     element={<RequireAuth allowedRoles={[ROLES.administrator.code, ROLES.tutor.code]}/>}
@@ -53,6 +50,10 @@ const Router = () => {
                     <Route
                         path={ROUTES.editTest}
                         element={<EditTest/>}
+                    />
+                    <Route
+                        path={ROUTES.entityProfile}
+                        element={<ChangeUserInfo/>}
                     />
 
                 </Route>
