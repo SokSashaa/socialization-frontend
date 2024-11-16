@@ -8,6 +8,7 @@ import {user_dto} from "../../../../dto/user.dto";
 import {FC, MutableRefObject} from "react";
 import Select from "../../../../UI/Select/Select";
 import FormikSelect from "../../../../UI/formik/FormikSelect/FormikSelect";
+import {useAppSelector} from "../../../../hooks/redux";
 
 
 export type InputFieldType = {
@@ -40,6 +41,8 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
     const optionSelect = [...Object.values(ROLES)].map((item) => {
         return {value: item.code, label: item.label}
     })
+
+    const user_auth = useAppSelector((state)=>state.auth)
 
     return (
         <Form
@@ -89,7 +92,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                     if (type === 'date' && user.role !== ROLES.observed.code) {
                         return null;
                     }
-                    if (type === 'select' && user.role !== ROLES.observed.code) {
+                    if (type === 'select' && user_auth.role !== ROLES.observed.code) {
                         return <FormikSelect key={name} options={optionSelect} selectProps={{defaultValue: user.role}} name={'role'}/>
                     }
                     else return (

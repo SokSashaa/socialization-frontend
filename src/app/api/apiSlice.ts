@@ -57,7 +57,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   return result;
 };
 
-// eslint-disable-next-line
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
