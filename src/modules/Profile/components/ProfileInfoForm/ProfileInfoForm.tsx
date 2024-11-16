@@ -92,8 +92,12 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                     if (type === 'date' && user.role !== ROLES.observed.code) {
                         return null;
                     }
-                    if (type === 'select' && user_auth.role !== ROLES.observed.code) {
-                        return <FormikSelect key={name} options={optionSelect} selectProps={{defaultValue: user.role}} name={'role'}/>
+                    if (type === 'select') {
+                        if(user_auth.user.role === ROLES.administrator.code){
+                            return <FormikSelect key={name} options={optionSelect} selectProps={{defaultValue: user.role}} name={'role'}/>
+                        }
+                        else return null
+
                     }
                     else return (
                         <InputText
