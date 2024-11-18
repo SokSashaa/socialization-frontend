@@ -7,7 +7,7 @@ type SelectProps = {
   className?: string,
   error?: string,
   label?: string,
-  options?: Partial<HTMLOptionElement>[], // мне не нравится, но по другому вообще ниче не работает
+  options?: any, //Partial<HTMLOptionElement>[], // мне не нравится, но по другому вообще ниче не работает
   selectProps?: any // TODO разобраться с типом
 }
 const Select:FC<SelectProps> = ({ className, error, label, options, selectProps }) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, FC} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetTestsQuery } from '../../api/testApiSlice';
 import { useGetGamesQuery } from '../../api/gameApiSlice';
@@ -28,6 +28,7 @@ import AssignComponentModal from '../AssignComponentModal/AssignComponentModal';
 
 import { ROLES } from '../../../../utils/constants';
 import styles from './ComponentList.module.css';
+import {user_dto} from "../../../../dto/user.dto";
 
 const gameSortList = [
   {
@@ -39,6 +40,7 @@ const gameSortList = [
     value: 'name',
   },
 ];
+
 
 const testSortList = [
   {
@@ -55,7 +57,19 @@ const testSortList = [
   },
 ];
 
-const ComponentList = ({ currentUser, listType }) => {
+
+export enum listType {
+  tests,
+  games,
+}
+
+type ComponentListProps = {
+  currentUser: user_dto,
+  listType: listType
+}
+
+
+const ComponentList:FC<ComponentListProps> = ({ currentUser, listType }) => {
   const { id, role } = currentUser;
 
   const [showCreateTestModal, setShowCreateTestModal] = useState(false);
@@ -120,7 +134,7 @@ const ComponentList = ({ currentUser, listType }) => {
   };
 
   const onSearch = (query) => {
-    if (listType === 'tests') {
+    if (listType === listType.tests) {
       dispatch(setTestSearch(query));
     } else {
       dispatch(setGameSearch(query));
@@ -128,7 +142,7 @@ const ComponentList = ({ currentUser, listType }) => {
   };
 
   const onSort = (sortProperty) => {
-    if (listType === 'tests') {
+    if (listType === listType.tests) {
       dispatch(setTestsSortValue(sortProperty));
     } else {
       dispatch(setGamesSortValue(sortProperty));
@@ -136,14 +150,14 @@ const ComponentList = ({ currentUser, listType }) => {
   };
 
   const onBtnAddClick = (type) => () => {
-    if (type === 'tests') {
+    if (type === listType.tests) {
       toggleModal('create')();
     } else if (type === 'games') {
       window.location.href = 'http://localhost:5173/upload/';
     }
   };
 
-  const addBtnText = listType === 'tests' ? 'Добавить тест' : 'Добавить игру';
+  const addBtnText = listType === listType.tests ? 'Добавить тест' : 'Добавить игру';
 
   return (
     <div className={styles.wrapper}>
@@ -152,13 +166,13 @@ const ComponentList = ({ currentUser, listType }) => {
           items={components || observedComponents}
           onSearch={onSearch}
           onSort={onSort}
-          sortList={listType === 'tests' ? testSortList : gameSortList}
+          sortList={listType === listType.tests ? testSortList : gameSortList}
           isError={isError || isObservedComponentsError}
           isLoading={
             isLoading || isFetching || isObservedComponentsLoading || isObservedComponentsFetching
           }
           renderItemContent={(item) => {
-            if (listType === 'tests') {
+            if (listType === listType.tests) {
               return (
                 <TestListItem
                   test={item}
@@ -167,7 +181,7 @@ const ComponentList = ({ currentUser, listType }) => {
                 />
               );
             }
-            if (listType === 'games') {
+            if (listType === listType.games) {
               return (
                 <GameListItem
                   game={item}
@@ -185,7 +199,7 @@ const ComponentList = ({ currentUser, listType }) => {
       </Container>
       <Portal>
         {(() => {
-          if (listType === 'tests') {
+          if (listType === listType.tests) {
             return (
               <>
                 <CreateTestModal
@@ -202,7 +216,7 @@ const ComponentList = ({ currentUser, listType }) => {
               </>
             );
           }
-          if (listType === 'games') {
+          if (listType === listType.games) {
             return (
               <>
                 <AddGameModal

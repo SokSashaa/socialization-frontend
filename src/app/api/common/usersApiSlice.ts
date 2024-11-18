@@ -55,7 +55,7 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
       transformResponse: (response) => response.result,
       providesTags: ['User'],
     }),
-    getSingleUser: builder.query<Partial<user_dto,string>>({
+    getSingleUser: builder.query<Partial<user_dto>,string>({
       query: (id) => ({
         url: `/users/${id}/`,
         method: 'GET',

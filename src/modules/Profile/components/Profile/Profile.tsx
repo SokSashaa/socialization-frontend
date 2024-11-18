@@ -99,7 +99,6 @@ const Profile = () => {
             if (!res.success) {
                 throw new Error(res.errors[0]);
             }
-
             dispatch(setUserCredentials(res.result));
 
             toast.success('Данные профиля обновлены');

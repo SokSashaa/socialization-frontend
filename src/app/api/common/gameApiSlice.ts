@@ -19,5 +19,4 @@ const gameApiSlice = apiSlice.injectEndpoints?.({
   }),
 });
 
-// eslint-disable-next-line
 export const { useGetGameQuery, useGetObserverGamesQuery } = gameApiSlice;

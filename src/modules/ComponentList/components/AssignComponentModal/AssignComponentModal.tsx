@@ -41,7 +41,6 @@ const AssignComponentModal: FC<AssignComponentModalProps> = ({showModal, setShow
 
                 setSelectedUsers(selectedObserved);
             } catch (error) {
-                console.error(error);
             }
         };
 

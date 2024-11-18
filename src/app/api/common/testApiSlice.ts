@@ -1,11 +1,17 @@
 import { apiSlice } from '../apiSlice';
+import {test_dto} from "../../../dto/test.dto";
 
-const testApiSlice = apiSlice.injectEndpoints({
+type TestResponseType = {
+  success:boolean,
+  result: test_dto
+}
+
+const testApiSlice = apiSlice.injectEndpoints?.({
   endpoints: (builder) => ({
-    getTest: builder.query({
+    getTest: builder.query<test_dto, string>({
       query: (id) => `/tests/${id}/get_single_test/`,
       keepUnusedDataFor: 0.1,
-      transformResponse: (response) => response.result,
+      transformResponse: (response:TestResponseType) =>  response.result,
     }),
     getObserverTests: builder.query({
       query: (params) => {
@@ -23,5 +29,4 @@ const testApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-// eslint-disable-next-line
 export const { useGetTestQuery, useGetObserverTestsQuery } = testApiSlice;
