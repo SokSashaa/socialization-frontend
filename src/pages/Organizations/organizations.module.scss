@@ -11,3 +11,33 @@
     max-width: 800px;
   }
 }
+
+@media (max-width: 1024px) {
+  .root{
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 750px) {
+  .root{
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 650px) {
+  .root{
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 550px) {
+  .root{
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 450px) {
+  .root{
+    max-width: 300px;
+  }
+}

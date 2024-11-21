@@ -2,3 +2,15 @@
   width: 500px;
   margin: 0 auto;
 }
+
+@media (max-width: 550px) {
+  .root{
+    width: 400px;
+  }
+}
+
+@media (max-width: 450px) {
+  .root{
+    width: 300px;
+  }
+}

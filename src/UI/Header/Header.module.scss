@@ -20,9 +20,9 @@
   .navContainer {
     display: flex;
     align-items: center;
-    width: 778.2px;
+    //width: 778.2px;
     gap: 10px;
-    min-width: 778.2px;
+    //min-width: 778.2px;
     min-height: 106px;
     max-height: 106px;
 
@@ -73,11 +73,12 @@
     min-height: 100vh;
     max-height: 100vh;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     padding-left: 0;
     padding-right: 0;
     display: none;
+
 
     .navContainer {
       width: 100vw;
@@ -88,7 +89,7 @@
       max-height: 70vh;
       flex-direction: column;
       justify-content: center;
-      gap: 60px;
+      gap: 40px;
     }
 
     .userProfile {
@@ -127,6 +128,45 @@
       width: 32px;
       height: 24px;
       min-height: 18px;
+    }
+  }
+}
+
+@media (max-width: 1010px) {
+  .header {
+    .navContainer {
+      .navItem {
+        padding: 10px 30px;
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .header {
+    padding: 0;
+    min-width: 0;
+
+    .navContainer {
+      .navItem {
+        padding: 10px 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  .header {
+    font-size: 20px;
+
+    .userProfile{
+      min-width: 35px;
+      min-height: 35px;
+    }
+
+    .photoWrapper{
+      width: 35px;
+      height: 35px;
     }
   }
 }

@@ -2,4 +2,22 @@
   display: flex;
   flex-direction: column;
   gap:20px;
+  width: 500px;
+}
+
+@media (max-width: 600px) {
+  .root{
+    width: 400px;
+  }
+}
+
+@media (max-width: 500px) {
+  .root{
+    width: 300px;
+  }
+}
+@media (max-width: 400px) {
+  .root{
+    width: 200px;
+  }
 }
