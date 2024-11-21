@@ -18,7 +18,7 @@ const Organizations: FC = () => {
     const deleteOrganizationsMutate = useMutation({
         onSuccess: () => queryClient.invalidateQueries('organizations'),
         mutationFn: async (id: string) => {
-            return (await axios.delete(url + `/organizations/${id}/delete_org/`)).data
+            return (await axios.delete(url + `organizations/${id}/delete_org/`)).data
         }
     })
 
@@ -34,7 +34,7 @@ const Organizations: FC = () => {
         }
     }
     const getOrganizations = async (): Promise<organizations_dto[]> => {
-        return (await axios.get(url + '/organizations/')).data.results
+        return (await axios.get(url + 'organizations/')).data.results
     }
     const {data} = useQuery('organizations', getOrganizations)
     return <div className={css.root}>
