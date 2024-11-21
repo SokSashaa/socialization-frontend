@@ -42,13 +42,14 @@ export const inputFieldsOrganizations: InputFieldType[] = [
 
 const EditOrganizations: FC = () => {
     const {id} = useParams()
+    const url = import.meta.env.VITE_SERVER_URL;
     const getOrgInfo = async () => {
-        return (await axios.get(import.meta.env.VITE_SERVER_URL + `/organizations/${id}/`)).data
+        return (await axios.get(url + `/organizations/${id}/`)).data
     }
     const {data} = useQuery(['organizations', id], getOrgInfo)
 
     const mutate = useMutation((values: organizations_dto)=>{
-        return axios.put(import.meta.env.VITE_SERVER_URL + `/organizations/${values.id}/update_org/`, values)
+        return axios.put(url + `/organizations/${values.id}/update_org/`, values)
     })
     const onSubmit = async (values:organizations_dto) => {
         try {
