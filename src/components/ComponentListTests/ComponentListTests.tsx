@@ -1,5 +1,5 @@
-import {FC, useState} from "react";
-import { Container, ButtonAddItemList } from '../../UI';
+import React, {FC, useState} from "react";
+import {ButtonAddItemList, Container} from '../../UI';
 import {FilteredList, Portal} from "../index";
 import TestListItem from "../../modules/ComponentList/components/TestListItem/TestListItem";
 import {ROLES} from "../../utils/constants";
@@ -107,28 +107,22 @@ const ComponentListTests: FC = ({currentUser, listType}) => {
                     <ButtonAddItemList onClick={() => toggleModal('create')}>Добавить тест</ButtonAddItemList>
                 )}
             </FilteredList>
-            <Portal>
-                {(() => {
-                    return (
-                        <>
-                            <CreateTestModal
-                                toggleModal={toggleModal('create')}
-                                showModal={showCreateTestModal}
-                                setShowModal={setShowCreateTestModal}
-                            />
-                            <AssignComponentModal
-                                componentId={selectedTest}
-                                showModal={showAssignModal}
-                                setShowModal={setShowAssignModal}
-                                listType={listType}
-                            />
-                        </>
-                    );
-
-
-                })()}
-            </Portal>
         </Container>
+        <Portal>
+            <>
+                <CreateTestModal
+                    toggleModal={toggleModal('create')}
+                    showModal={showCreateTestModal}
+                    setShowModal={setShowCreateTestModal}
+                />
+                <AssignComponentModal
+                    componentId={selectedTest}
+                    showModal={showAssignModal}
+                    setShowModal={setShowAssignModal}
+                    listType={listType}
+                />
+            </>
+        </Portal>
     </div>
 }
 

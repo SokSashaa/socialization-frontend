@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+@media (min-width: 1024px) {
+  .root {
+    max-width: 800px;
+  }
+}

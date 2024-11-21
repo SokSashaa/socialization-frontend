@@ -1,6 +1,6 @@
 import { apiSlice } from '../../../app/api/apiSlice';
 
-const resultTestApiSlice = apiSlice.injectEndpoints({
+const resultTestApiSlice = apiSlice.injectEndpoints?.({
   endpoints: (builder) => ({
     getResultTest: builder.query({
       query: (body) => ({
@@ -13,5 +13,4 @@ const resultTestApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const { useGetResultTestQuery } = resultTestApiSlice;

@@ -65,7 +65,7 @@ export enum listType {
 
 type ComponentListProps = {
   currentUser: user_dto,
-  listType: listType
+  listType: 'tests' | 'games'
 }
 
 
@@ -134,7 +134,7 @@ const ComponentList:FC<ComponentListProps> = ({ currentUser, listType }) => {
   };
 
   const onSearch = (query) => {
-    if (listType === listType.tests) {
+    if (listType === 'tests') {
       dispatch(setTestSearch(query));
     } else {
       dispatch(setGameSearch(query));
@@ -142,7 +142,7 @@ const ComponentList:FC<ComponentListProps> = ({ currentUser, listType }) => {
   };
 
   const onSort = (sortProperty) => {
-    if (listType === listType.tests) {
+    if (listType === 'tests') {
       dispatch(setTestsSortValue(sortProperty));
     } else {
       dispatch(setGamesSortValue(sortProperty));
@@ -150,14 +150,14 @@ const ComponentList:FC<ComponentListProps> = ({ currentUser, listType }) => {
   };
 
   const onBtnAddClick = (type) => () => {
-    if (type === listType.tests) {
+    if (type === 'tests') {
       toggleModal('create')();
     } else if (type === 'games') {
       window.location.href = 'http://localhost:5173/upload/';
     }
   };
 
-  const addBtnText = listType === listType.tests ? 'Добавить тест' : 'Добавить игру';
+  const addBtnText = listType === 'tests' ? 'Добавить тест' : 'Добавить игру';
 
   return (
     <div className={styles.wrapper}>
@@ -166,13 +166,13 @@ const ComponentList:FC<ComponentListProps> = ({ currentUser, listType }) => {
           items={components || observedComponents}
           onSearch={onSearch}
           onSort={onSort}
-          sortList={listType === listType.tests ? testSortList : gameSortList}
+          sortList={listType === 'tests' ? testSortList : gameSortList}
           isError={isError || isObservedComponentsError}
           isLoading={
             isLoading || isFetching || isObservedComponentsLoading || isObservedComponentsFetching
           }
           renderItemContent={(item) => {
-            if (listType === listType.tests) {
+            if (listType === 'tests') {
               return (
                 <TestListItem
                   test={item}
@@ -181,7 +181,7 @@ const ComponentList:FC<ComponentListProps> = ({ currentUser, listType }) => {
                 />
               );
             }
-            if (listType === listType.games) {
+            if (listType === 'games') {
               return (
                 <GameListItem
                   game={item}
@@ -199,7 +199,7 @@ const ComponentList:FC<ComponentListProps> = ({ currentUser, listType }) => {
       </Container>
       <Portal>
         {(() => {
-          if (listType === listType.tests) {
+          if (listType === 'tests') {
             return (
               <>
                 <CreateTestModal
@@ -216,7 +216,7 @@ const ComponentList:FC<ComponentListProps> = ({ currentUser, listType }) => {
               </>
             );
           }
-          if (listType === listType.games) {
+          if (listType === 'games') {
             return (
               <>
                 <AddGameModal

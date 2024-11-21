@@ -2,27 +2,12 @@ import {FC, useState} from "react";
 import styles from "../../modules/ComponentList/components/ComponentList/ComponentList.module.css";
 import {ButtonAddItemList, Container} from "../../UI";
 import {FilteredList, Portal} from "../index";
-import TestListItem from "../../modules/ComponentList/components/TestListItem/TestListItem";
 import {ROLES} from "../../utils/constants";
-import CreateTestModal from "../../modules/ComponentList/components/CreateTestModal/CreateTestModal";
 import AssignComponentModal from "../../modules/ComponentList/components/AssignComponentModal/AssignComponentModal";
-import {useGetTestsQuery} from "../../modules/ComponentList/api/testApiSlice";
 import {useGetGamesQuery} from "../../modules/ComponentList/api/gameApiSlice";
-import {useGetObserverTestsQuery} from "../../app/api/common/testApiSlice";
 import {useGetObserverGamesQuery} from "../../app/api/common/gameApiSlice";
-import {useSelector} from "react-redux";
-import {
-    selectGameSearchValue,
-    selectGamesSortValue,
-    selectSelectedTest
-} from "../../modules/ComponentList/slice/selectors";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {
-    setGameSearch,
-    setGamesSortValue,
-    setTestSearch,
-    setTestsSortValue
-} from "../../modules/ComponentList/slice/testsSlice";
+import {setGameSearch, setGamesSortValue} from "../../modules/ComponentList/slice/testsSlice";
 import GameListItem from "../../modules/ComponentList/components/GameListItem/GameListItem";
 import AddGameModal from "../../modules/ComponentList/components/AddGameModal/AddGameModal";
 
@@ -39,7 +24,7 @@ const gameSortList = [
 
 const ComponentsListGames: FC = (currentUser, listType) => {
 
-    const { id, role } = currentUser;
+    const {id, role} = currentUser;
 
     const [showCreateTestModal, setShowCreateTestModal] = useState(false);
     const [showAddGameModal, setShowAddGameModal] = useState(false);
@@ -59,7 +44,7 @@ const ComponentsListGames: FC = (currentUser, listType) => {
             search: gameSearchValue!.trim(), // TODO: здесь ! не должен быть
             sort: gamesSortValue,
         },
-        { skip: role === ROLES.observed.code },
+        {skip: role === ROLES.observed.code},
     );
 
     const {
@@ -67,7 +52,7 @@ const ComponentsListGames: FC = (currentUser, listType) => {
         isLoading: isObservedComponentsLoading,
         isFetching: isObservedComponentsFetching,
         isError: isObservedComponentsError,
-    } =  useGetObserverGamesQuery({ id }, { skip: role !== ROLES.observed.code });
+    } = useGetObserverGamesQuery({id}, {skip: role !== ROLES.observed.code});
 
     const dispatch = useAppDispatch()
 

@@ -1,0 +1,26 @@
+.root {
+  position: relative;
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid #231c1c;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  h3{
+    font-weight: bold;
+  }
+
+  .buttons{
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .icon{
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 10px;
+    top:5px;
+  }
+}

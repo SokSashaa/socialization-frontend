@@ -17,6 +17,8 @@ import {PageLayout} from '../UI';
 import {ROUTES} from './RouterConfig';
 import {ROLES} from '../utils/constants';
 import ChangeUserInfo from "../modules/Profile/components/ChangeUserInfo/ChangeUserInfo";
+import Organizations from "../pages/Organizations/Organizations";
+import EditOrganizations from "../pages/EditOrganizations/EditOrganizations";
 
 const Router = () => {
     const location = useLocation();
@@ -42,7 +44,9 @@ const Router = () => {
                 <Route
                     element={<RequireAuth allowedRoles={[ROLES.administrator.code]}/>}>
                     <Route path={ROUTES.organization}
-                           element={<></>}/>
+                           element={<Organizations/>}/>
+                    <Route path={ROUTES.organizationEdit} element={<EditOrganizations/>}/>
+
                 </Route>
                 <Route
                     element={<RequireAuth allowedRoles={[ROLES.administrator.code, ROLES.tutor.code]}/>}

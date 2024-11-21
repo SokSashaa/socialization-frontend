@@ -12,8 +12,12 @@ const rootReducers = combineReducers({
 
 
 const store = configureStore({
-    reducer: rootReducers,
-    // devTools: !import.meta.env.PROD,
+    reducer: {
+        auth: authFormReducer,
+        tests: testsReducer,
+        [apiSlice.reducerPath]: apiSlice.reducer,
+    },
+    devTools: !import.meta.env.PROD,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().prepend(loginListener.middleware).concat(apiSlice.middleware),
 });

@@ -9,7 +9,7 @@ import styles from './InputText.module.scss';
 
 type InputTextProps =  HTMLAttributes<HTMLInputElement> & {
   rightIcon?:  any, //any не нужен
-  wrapperClassNames : string
+  wrapperClassNames?: string
   label?: string,
   as?: string,
   maxlength?: number
