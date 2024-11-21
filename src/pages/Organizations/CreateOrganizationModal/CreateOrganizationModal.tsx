@@ -16,9 +16,10 @@ type CreateOrgModalPropsType = {
 }
 const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
     const queryClient = useQueryClient()
+    const url = import.meta.env.VITE_SERVER_URL;
 
     const mutate = useMutation(async (body: Omit<organizations_dto, 'id'>) => {
-        return (await axios.post('http://127.0.0.1:8000/api/organizations/create_org/', body)).data
+        return (await axios.post(url + 'organizations/create_org/', body)).data
     },{
         onSuccess:()=>queryClient.invalidateQueries('organizations')
     })
