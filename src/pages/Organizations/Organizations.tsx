@@ -1,19 +1,21 @@
-import {FC} from "react";
+import {FC, useRef} from "react";
 import {Portal, SearchBar} from "../../components";
 import css from './organizations.module.scss'
 import {ButtonAddItemList} from "../../UI";
 import axios from "axios";
 import {organizations_dto} from "../../dto/organizations.dto";
-import {useMutation, useQuery, useQueryClient} from "react-query";
+import {useMutation, useQuery, useQueryClient, UseQueryOptions} from "react-query";
 import CreateOrganizationModal from "./CreateOrganizationModal/CreateOrganizationModal";
 import {useModalState} from "../../hooks/useModalState";
 import OrganizationItem from "../../modules/Organizations/OrganizationItem/OrganizationItem";
 import {toast} from "react-toastify";
 
-const Organizations: FC = () => {
+const Organizations: FC = (options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>) => {
     const [isOpen, open, close] = useModalState(false)
     const queryClient = useQueryClient()
     const url = import.meta.env.VITE_SERVER_URL;
+    const valueSearch = useRef('')
+
 
     const deleteOrganizationsMutate = useMutation({
         onSuccess: () => queryClient.invalidateQueries('organizations'),
@@ -33,12 +35,23 @@ const Organizations: FC = () => {
             toast.error(error?.data?.detail || error.message || 'Что-то пошло не так');
         }
     }
-    const getOrganizations = async (): Promise<organizations_dto[]> => {
-        return (await axios.get(url + 'organizations/')).data.results
+
+    const getOrganizations = async (value: string): Promise<organizations_dto[]> => {
+        return (await axios.get(url + `organizations/?search=${value}`)).data.results
     }
-    const {data} = useQuery('organizations', getOrganizations)
+
+
+    const onSearch = async (value): Promise<organizations_dto[]> => {
+        valueSearch.current = value;
+        await queryClient.invalidateQueries('organizations')
+    }
+
+    const {data} = useQuery(['organizations', valueSearch], () => getOrganizations(valueSearch.current), {
+        refetchOnWindowFocus: false
+    })
+
     return <div className={css.root}>
-        <SearchBar/>
+        <SearchBar onSearch={onSearch}/>
         <ButtonAddItemList onClick={open}>Добавить организацию</ButtonAddItemList>
         {data && data.map(item => (
             <OrganizationItem key={item.id} item={item} onDelete={() => deleteOnClick(item.id)}/>

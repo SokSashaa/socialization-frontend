@@ -14,6 +14,8 @@ import {toast} from "react-toastify";
 import {useParams} from "react-router-dom";
 import {useModalState} from "../../../../hooks/useModalState";
 import {ROLES} from "../../../../utils/constants";
+import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
+import {Portal} from "../../../../components";
 
 const inputFields: InputFieldType[] = [
     {
@@ -74,7 +76,7 @@ const ChangeUserInfo: FC = () => {
             />
         );
     }
-    const initialValues:Partial<user_dto> = {
+    const initialValues: Partial<user_dto> = {
         name: user?.name || '',
         patronymic: user?.patronymic || '',
         second_name: user?.second_name || '',
@@ -105,28 +107,37 @@ const ChangeUserInfo: FC = () => {
     };
 
 
-    return <div className={styles.wrapper}>
-        <Container>
-            <div className={styles.inner}>
-                <Formik
-                    onSubmit={onSubmit}
-                    initialValues={initialValues}
-                    validationSchema={profileSchema.concat(uploadedFileSchema(fileRef))}
-                >
-                    {(formikProps) => (
-                        <ProfileInfoForm
-                            user={user}
-                            formikProps={formikProps}
-                            preview={preview}
-                            onUpload={onUpload}
-                            onShowModal={open}
-                            fileRef={fileRef}
-                            inputFields={inputFields}/>
-                    )}
-                </Formik>
-            </div>
-        </Container>
-    </div>
+    return <>
+        <div className={styles.wrapper}>
+            <Container>
+                <div className={styles.inner}>
+                    <Formik
+                        onSubmit={onSubmit}
+                        initialValues={initialValues}
+                        validationSchema={profileSchema.concat(uploadedFileSchema(fileRef))}
+                    >
+                        {(formikProps) => (
+                            <ProfileInfoForm
+                                user={user}
+                                formikProps={formikProps}
+                                preview={preview}
+                                onUpload={onUpload}
+                                onShowModal={open}
+                                fileRef={fileRef}
+                                inputFields={inputFields}/>
+                        )}
+                    </Formik>
+                </div>
+            </Container>
+        </div>
+        <Portal>
+            <ChangePasswordModal
+                showModal={isOpen}
+                setShowModal={close}
+                admin
+            />
+        </Portal>
+    </>
 
 }
 

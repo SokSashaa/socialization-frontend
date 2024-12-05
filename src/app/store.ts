@@ -4,13 +4,6 @@ import {testsReducer} from '../modules/ComponentList';
 import {apiSlice} from './api/apiSlice';
 
 
-const rootReducers = combineReducers({
-    auth: authFormReducer,
-    tests: testsReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
-})
-
-
 const store = configureStore({
     reducer: {
         auth: authFormReducer,

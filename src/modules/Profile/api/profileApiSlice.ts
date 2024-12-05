@@ -1,6 +1,6 @@
 import { apiSlice } from '../../../app/api/apiSlice';
 
-const profileApiSlice = apiSlice.injectEndpoints({
+const profileApiSlice = apiSlice.injectEndpoints?.({
   endpoints: (builder) => ({
     changeUserInfo: builder.mutation({
       query: ({ id, data }) => ({
@@ -17,7 +17,14 @@ const profileApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    changePasswordAdmin: builder.mutation({
+      query: ({id,data})=>({
+        url: `/users/${id}/change_password_user/`,
+        method: 'POST',
+        body: data,
+      })
+    })
   }),
 });
 
-export const { useChangeUserInfoMutation, useChangePasswordMutation } = profileApiSlice;
+export const { useChangeUserInfoMutation, useChangePasswordMutation, useChangePasswordAdminMutation } = profileApiSlice;

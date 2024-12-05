@@ -21,6 +21,7 @@ import AnimatedPage from './AnimatedPage/AnimatedPage';
 import ItemListWrapper from './layouts/ItemListWrapper/ItemListWrapper';
 import ButtonAddItemList from './ButtonAddItemList/ButtonAddItemList';
 import TestHeader from './TestHeader/TestHeader';
+import SelectWithSearch from "./SelectWithSearch/SelectWithSearch";
 
 export {
     Button,
@@ -45,5 +46,6 @@ export {
     ItemListWrapper,
     ButtonAddItemList,
     TestHeader,
-    Spinner
+    Spinner,
+    SelectWithSearch
 };

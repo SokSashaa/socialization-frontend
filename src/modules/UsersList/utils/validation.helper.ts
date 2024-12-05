@@ -32,6 +32,7 @@ export const userSchema = Yup.object({
   role: Yup.object({
     tutor_id: Yup.string().required('Обязательное поле'),
   }),
+  organization: Yup.string().required('Обязательное поле')
 });
 
 export const userPhotoSchema = Yup.object({

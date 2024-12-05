@@ -3,8 +3,23 @@ import {EyeIcon, EyeSlashIcon} from '@heroicons/react/24/solid';
 import {Button, InputText} from '../../../../UI';
 import styles from './ChangePasswordForm.module.css';
 import Spinner from "../../../../UI/spinners/Spinner";
+import {FC, FormEvent} from "react";
 
-const ChangePasswordForm = ({isSubmitting, handleSubmit, showPassword, onShowPassword}) => {
+type ChangePasswordFormProps = {
+    isSubmitting: boolean,
+    handleSubmit: (e?: FormEvent<HTMLFormElement>) => void,
+    showPassword: any,
+    onShowPassword: any,
+    admin?: boolean
+}
+
+const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
+                                                             isSubmitting,
+                                                             handleSubmit,
+                                                             showPassword,
+                                                             onShowPassword,
+                                                             admin
+                                                         }) => {
     const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Сохранить';
 
     const rightIconPasswordOld = showPassword.old_password ? (
@@ -40,13 +55,13 @@ const ChangePasswordForm = ({isSubmitting, handleSubmit, showPassword, onShowPas
             className={styles.form}
             method="post"
         >
-            <InputText
+            {!admin && <InputText
                 wrapperClassNames={styles.inputWrapper}
                 name="old_password"
                 type={typePasswordInputOld}
                 label="Старый пароль"
                 rightIcon={rightIconPasswordOld}
-            />
+            />}
             <InputText
                 wrapperClassNames={styles.inputWrapper}
                 name="new_password"

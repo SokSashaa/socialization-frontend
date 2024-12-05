@@ -1,14 +1,18 @@
-import React, {FC, HTMLAttributes, useEffect, useState} from 'react';
+import React, {FC, InputHTMLAttributes, useEffect, useState} from 'react';
 import {useDebounce} from '../../hooks';
 import {InputBase} from '../../UI';
 import styles from './SearchBar.module.css';
 
-const SearchBar: FC<HTMLAttributes<HTMLInputElement>> = ({
-                                                             className,
-                                                             placeholder,
-                                                             onSearch = (value: any) => {
-    }
-                                                         }) => {
+type SearchBarPropsType = InputHTMLAttributes<HTMLInputElement> & {
+    onSearch?: (value: any) => void
+}
+
+const SearchBar: FC<SearchBarPropsType> = ({
+                                               className,
+                                               placeholder,
+                                               onSearch = (value: any) => {
+                                               }
+                                           }) => {
     const [searchValue, setSearchValue] = useState('');
 
     const debouncedSearchValue = useDebounce(searchValue);
