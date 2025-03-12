@@ -28,9 +28,16 @@ const variants = {
     }),
 };
 
+export enum StagesEnum {
+    STAGE1 = 'STAGE1',
+    STAGE2 = 'STAGE2',
+    SUBMIT = 'SUBMIT',
+}
+
 const NewUserForm = () => {
     const fileRef = useRef(null);
     const [stage, setStage] = useState(1);
+    const submitRef = useRef<StagesEnum>(StagesEnum.STAGE1);
     const [addUser] = useAddUserMutation();
 
     const {preview, onUpload, resetPreview} = useUploadPhoto('photo');
@@ -45,7 +52,6 @@ const NewUserForm = () => {
     const organizations = useQuery('organizations', () => {
         return axios.get(url + 'organizations/').then(res => res.data.results)
     }, {cacheTime: 60000, staleTime: 60000})
-    console.log('organizations',organizations.data)
 
     const initialValues = {
         name: '',
@@ -57,12 +63,11 @@ const NewUserForm = () => {
         organization: '',
         role: {
             code: ROLES.tutor.code,
-            tutor_id: '1',
+            tutor_id: '',
         },
         login: '',
         password: '',
     };
-    console.log(initialValues)
 
     const validationSchema =
         stage === 1 ? userSchema : uploadedFileSchema(fileRef).concat(userPhotoSchema);
@@ -75,10 +80,15 @@ const NewUserForm = () => {
 
     const onSubmit = async (values, {setSubmitting, resetForm}) => {
         if (stage === 1) {
-            setStage(2);
-
+            if(submitRef.current===StagesEnum.STAGE1) {
+                setStage(2);
+            }
+            if(submitRef.current===StagesEnum.STAGE2) { //костыли, чтобы нормально переход работал
+                setStage(1);
+                submitRef.current=StagesEnum.STAGE1
+            }
             setSubmitting(false);
-        } else {
+        } else if (submitRef.current === StagesEnum.SUBMIT) {
             try {
                 const res = await addUser(values).unwrap();
 
@@ -96,26 +106,34 @@ const NewUserForm = () => {
                 toast.error(error?.data?.detail || error.message || 'Что-то пошло не так');
             }
         }
+        // else{
+        //     submitRef.current = StagesEnum.STAGE1;
+        // }
     };
 
-    const onRoleSelect =
-        ({setFieldValue}) =>
-            (e) => {
-                const {value} = e.target;
+    // const onRoleSelect =
+    //     ({setFieldValue}) =>
+    //         (e) => {
+    //             const {value} = e.target;
+    //
+    //
+    //             console.log(value)
+    //             if (value === ROLES.observed.code) {
+    //                 setFieldValue('role.tutor_id', '');
+    //             } else {
+    //                 // это для того, чтобы проходила валидация при добавлении наставника
+    //                 // на бэке поле проигнорируется
+    //                 setFieldValue('role.tutor_id', 1);
+    //             }
+    //         };
 
-                if (value === ROLES.observed.code) { //TODO: Разобарться с этим условием
-                    setFieldValue('role.tutor_id', '');
-                } else {
-                    // getTutors();
-                    // это для того, чтобы проходила валидация при добавлении наставника
-                    // на бэке поле проигнорируется
-                    setFieldValue('role.tutor_id', '1');
-                }
-            };
+    const onTutorSelect = (newValue, formikProps) => {
+        formikProps.setFieldValue('role.tutor_id', newValue.value)
+    }
 
-    const onOrganizationSelect = ({setFieldValue}) => (event) => {
-        const {value} = event.target
-        setFieldValue('organization', value)
+
+    const onOrganizationSelect = (newValue, formikProps) => {
+        formikProps.setFieldValue('organization', newValue.value)
     }
 
     return (
@@ -141,14 +159,15 @@ const NewUserForm = () => {
                             >
                                 <NewUserFormStage1
                                     selectRoles={selectRoles}
-                                    onRoleSelect={onRoleSelect}
+                                    // onRoleSelect={onRoleSelect}
                                     // isLoadingTutors={isLoadingTutors || isFetchingTutors}
                                     // tutors={tutors}
                                     isLoadingTutors={isLoading || isFetching}
                                     tutors={data}
                                     formikProps={formikProps}
                                     organizations={organizations.data}
-                                    onOrganizationSelect={onOrganizationSelect}
+                                    onOrganizationSelect={newValue => onOrganizationSelect(newValue, formikProps)}
+                                    onTutorSelect={newValue => onTutorSelect(newValue, formikProps)}
                                 />
                             </m.div>
                         )}
@@ -168,6 +187,7 @@ const NewUserForm = () => {
                                     fileRef={fileRef}
                                     preview={preview}
                                     onUpload={onUpload}
+                                    refSubmit={submitRef}
                                 />
                             </m.div>
                         )}

@@ -2,8 +2,9 @@ import {Button, UploadFile} from '../../../../UI';
 import {userIconV2Big} from '../../../../assets';
 import styles from './NewUserFormStage2.module.css';
 import Spinner from "../../../../UI/spinners/Spinner";
+import {StagesEnum} from "../NewUserForm/NewUserForm";
 
-const NewUserFormStage2 = ({formikProps, onGoBack, fileRef, preview, onUpload}) => {
+const NewUserFormStage2 = ({formikProps, onGoBack, fileRef, preview, onUpload, refSubmit}) => {
     const submitBtnContent = formikProps.isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Добавить';
 
     return (
@@ -40,14 +41,16 @@ const NewUserFormStage2 = ({formikProps, onGoBack, fileRef, preview, onUpload}) 
             </div>
             <div>
                 <Button
-                    onClick={onGoBack}
-                    className={styles.saveButton}
+                    onClick={() => {
+                        refSubmit.current = StagesEnum.STAGE2;
+                        onGoBack()
+                    }}
                 >
                     Назад
                 </Button>
                 <Button
+                    onClick={() => refSubmit.current = StagesEnum.SUBMIT}
                     type="submit"
-                    className={styles.saveButton}
                 >
                     {submitBtnContent}
                 </Button>

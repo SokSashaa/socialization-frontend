@@ -10,7 +10,7 @@ import {useModalState} from "../../hooks/useModalState";
 import OrganizationItem from "../../modules/Organizations/OrganizationItem/OrganizationItem";
 import {toast} from "react-toastify";
 
-const Organizations: FC = (options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>) => {
+const Organizations: FC = () => {
     const [isOpen, open, close] = useModalState(false)
     const queryClient = useQueryClient()
     const url = import.meta.env.VITE_SERVER_URL;

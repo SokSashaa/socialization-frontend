@@ -106,7 +106,7 @@ const Router = () => {
                         element={<Users/>}
                     />
                 </Route>
-                <Route element={<RequireAuth allowedRoles={[ROLES.tutor.code]}/>}>
+                <Route element={<RequireAuth allowedRoles={[ROLES.tutor.code, ROLES.administrator.code]}/>}>
                     <Route
                         path={ROUTES.myObservers}
                         element={<Observers/>}

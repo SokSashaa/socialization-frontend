@@ -1,28 +1,26 @@
 import { useSelector } from "react-redux";
-import clsx from "clsx";
 import { NavLink } from "react-router-dom";
 import { useCallback, useRef, useState } from "react";
 import { selectCurrentUser } from "../../modules/Auth";
 import { links } from "./NavData";
 import UserIcon from "../../assets/icons/user-icon.svg";
-import styles from "./Header.module.scss";
+import styles from './Header.module.scss'
 import { burgerMenu, closeMenu } from "../../assets";
 
 function Header() {
   const currentUser = useSelector(selectCurrentUser);
   const [isMobileVisible, setIsMobileVisible] = useState(false);
-  const header = useRef(null);
+  const header = useRef<HTMLDivElement>(null);
 
   // const menuItemClasses = ({ isActive }) => clsx(styles.navItem, { [styles.navItemCurrent]: isActive }); //useMemo
 
-  const handleMenuClick = useCallback(() => {
+  const handleMenuClick = () => {
     setIsMobileVisible((value) => !value);
     if(header.current && "style" in header.current){
       if (isMobileVisible) {header.current.style.display = "none";}
       else header.current.style.display = "flex";
     }
-
-  }, []);
+  }
 
   return (
     <div>

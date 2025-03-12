@@ -15,10 +15,11 @@
             "*": ["./typings/*"]
         },
         "typeRoots" : ["./node_modules/@types", "./typings"],
-        "jsx": "react",
+        "jsx": "react-jsx",
         "skipLibCheck": true
     },
     "include": [
-        "src"
+        "src",
+        "./global.d.ts"
     ]
 }

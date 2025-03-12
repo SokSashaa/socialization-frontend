@@ -53,7 +53,6 @@ const ChangePasswordModal: FC<ChangePasswordModalProps> = ({showModal, setShowMo
         }
     };
 
-    console.log(admin)
 
     return (
         <Formik

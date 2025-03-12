@@ -98,7 +98,6 @@ rules:
   import/no-extraneous-dependencies:
     - error
     - devDependencies:
-      - '**/*.test.js'
       - '**/*.test.ts'
       - '**/*.test.tsx'
       - 'app/test-utils/**/*'

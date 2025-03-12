@@ -20,8 +20,8 @@ const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
 
     const mutate = useMutation(async (body: Omit<organizations_dto, 'id'>) => {
         return (await axios.post(url + 'organizations/create_org/', body)).data
-    },{
-        onSuccess:()=>queryClient.invalidateQueries('organizations')
+    }, {
+        onSuccess: () => queryClient.invalidateQueries('organizations'),
     })
 
     const onSubmit = async (values: Omit<organizations_dto, 'id'>) => {

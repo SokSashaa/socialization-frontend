@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import styles from './Select.module.css';
 import { FieldInputProps } from "formik";
 
-type SelectProps = {
+export type SelectProps = {
   className?: string,
   error?: string,
   label?: string,
@@ -12,6 +12,7 @@ type SelectProps = {
 }
 const Select:FC<SelectProps> = ({ className, error, label, options, selectProps }) => {
   const id = useId();
+  // console.log(selectProps)
 
   return (
     <div className={clsx(styles.wrapper, className)}>

@@ -5,6 +5,7 @@ import {ROLES} from '../../../../utils/constants';
 import styles from './NewUserFormStage1.module.css';
 import Spinner from "../../../../UI/spinners/Spinner";
 
+
 const NewUserFormStage1 = ({
                                selectRoles,
                                tutors,
@@ -12,9 +13,11 @@ const NewUserFormStage1 = ({
                                isLoadingTutors,
                                formikProps,
                                onOrganizationSelect,
-                               organizations
+                               organizations,
+                               onTutorSelect
                            }) => {
     const {isSubmitting, values} = formikProps;
+
     const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Далее';
     return (
         <>
@@ -66,7 +69,7 @@ const NewUserFormStage1 = ({
                     name="role.code"
                     options={selectRoles}
                     label="Роль"
-                    onChange={onRoleSelect(formikProps)}
+                    // onChange={onRoleSelect(formikProps)}
                     selectProps={{
                         className: styles.selectInput,
                     }}
@@ -83,12 +86,46 @@ const NewUserFormStage1 = ({
                         <FormikSelect
                             name="role.tutor_id"
                             options={[
-                                {value: '', label: 'Выберите наставника'},
-                                ...transformUsersToSelectOptions(tutors), //TODO: ВОТ это всё ломает и тьютора не привязать
+                                ...transformUsersToSelectOptions(tutors),
                             ]}
-                            label="Выберите наставника"
+                            label="Наставник"
+                            isWithFind
+                            onChange={onTutorSelect}
                             selectProps={{
                                 className: styles.selectInput,
+                                placeholder: 'Наставник'
+                            }}
+                            stylesForSearch={{
+                                control: (base, state) => ({
+                                    ...base,
+                                    ":hover": {borderColor: state.isFocused ? 'blue' : 'black'},
+                                    borderColor: state.isFocused ? 'blue' : 'black',
+                                    boxShadow: 'none',
+                                    width: '100%',
+                                    height: '55px',
+                                }),
+                                option: (base, state) => ({
+                                    ...base,
+                                    ":hover": {backgroundColor: 'gray', color: 'white'},
+                                    backgroundColor: state.isSelected ? 'gray' : 'white',
+                                    borderBottom: '1px solid gray',
+                                    height: '30px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }),
+                                placeholder: (base) => ({
+                                    ...base,
+                                    color: 'black'
+                                }),
+                                menuList: (base) => ({
+                                    ...base, padding: 0, margin: 0,
+                                    borderRadius: '10px',
+                                    border: '1px solid gray'
+                                }),
+                                menu: (base) => ({
+                                    ...base,
+                                    boxShadow: 'none',
+                                })
                             }}
                         />
                         <ErrorMessage
@@ -104,16 +141,47 @@ const NewUserFormStage1 = ({
                     className={styles.select}
                     name="organization"
                     options={[
-                        {value: '', label: 'Выберите организацию'},
                         ...transformOrganizationToSelectOptions(organizations)
                     ]}
                     label="Организация"
-                    onChange={onOrganizationSelect(formikProps)}
+                    onChange={onOrganizationSelect}
                     selectProps={{
                         className: styles.selectInput,
+                        placeholder: 'Организация',
+                    }}
+                    isWithFind
+                    stylesForSearch={{
+                        control: (base, state) => ({
+                            ...base,
+                            ":hover": {borderColor: state.isFocused ? 'blue' : 'black'},
+                            borderColor: state.isFocused ? 'blue' : 'black',
+                            boxShadow: 'none',
+                            width: '100%',
+                            height: '55px',
+                        }),
+                        option: (base, state) => ({
+                            ...base,
+                            ":hover": {backgroundColor: 'gray', color: 'white'},
+                            backgroundColor: state.isSelected ? 'gray' : 'white',
+                            borderBottom: '1px solid gray',
+                            height: '30px',
+                            display: 'flex',
+                            alignItems: 'center',
+                        }),
+                        placeholder: (base) => ({
+                            ...base,
+                            color: 'black'
+                        }),
+                        menuList: (base) => ({
+                            ...base, padding: 0, margin: 0,
+                            borderRadius: '10px',
+                        }),
+                        menu: (base) => ({
+                            ...base,
+                            boxShadow: 'none'
+                        })
                     }}
                 />}
-
             </div>
             <div className={styles.btnRow}>
                 <Button type="submit">{submitBtnContent}</Button>

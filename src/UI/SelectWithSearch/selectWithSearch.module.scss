@@ -1,4 +1,9 @@
 .root{
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   width: 100%;
-  border: 1px solid #231C1C;
 }
+
+
+

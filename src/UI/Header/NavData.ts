@@ -1,4 +1,10 @@
-export const links = {
+type linkType = {
+    title: string,
+    path: string,
+}
+type linksType = {[key: string]: linkType[]};
+
+export const links: linksType = {
     administrator: [
         {
             title: 'Главная',
@@ -19,7 +25,11 @@ export const links = {
         {
             title: 'Организации',
             path: '/organizations'
-        }
+        },
+        {
+            title: 'Мои наблюдаемые',
+            path: '/my-observers',
+        },
     ],
     tutor: [
         {

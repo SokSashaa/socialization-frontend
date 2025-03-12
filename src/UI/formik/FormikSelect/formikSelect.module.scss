@@ -1,0 +1,22 @@
+.error {
+  width: 100%;
+  padding-top: 5px;
+  text-align: end;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ff0000;
+}
+
+
+
+.root{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+
+  span{
+    margin: 0;
+  }
+}
+
