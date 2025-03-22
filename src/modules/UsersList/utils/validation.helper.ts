@@ -32,7 +32,7 @@ export const userSchema = Yup.object({
         code: Yup.string().notRequired(),
         tutor_id: Yup.string().when('code', {
             is: 'observed',
-            then: schema => schema.required('123'), //TODO разобраться
+            then: schema => schema.required('Обязательное поле'), //TODO разобраться
             otherwise: schema => schema.notRequired()
         })
     }),

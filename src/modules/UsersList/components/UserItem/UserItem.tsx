@@ -67,7 +67,7 @@ const UserItem = ({ user }) => {
         {id !== currentUserId && (
           <>
             <Link
-              to={`/users/${id}`}
+              to={`/users/${id}/`}
               className={styles.button}
             >
               Информация

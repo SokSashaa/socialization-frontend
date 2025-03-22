@@ -1,14 +1,19 @@
-import {forwardRef} from "react";
+import {forwardRef, HTMLAttributes} from "react";
 import clsx from "clsx";
 import styles from "./Button.module.scss";
 
-const Button = forwardRef<HTMLButtonElement>(({
-                                                  children,
-                                                  onClick,
-                                                  className,
-                                                  type,
-                                                  disabled
-                                              }, ref) => {
+interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
+}
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
+                                                                  children,
+                                                                  onClick,
+                                                                  className,
+                                                                  type,
+                                                                  disabled
+                                                              }, ref) => {
 
     const classes = clsx("bg-main-yellow", styles.button, className);
     return (

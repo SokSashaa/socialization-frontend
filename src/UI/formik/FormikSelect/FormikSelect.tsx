@@ -1,6 +1,6 @@
 import {useField} from "formik";
 import Select from '../../Select/Select';
-import {FC} from "react";
+import {FC, HTMLAttributes} from "react";
 import {SelectWithSearch} from "../../index";
 import css from './formikSelect.module.scss'
 
@@ -24,9 +24,9 @@ const FormikSelect: FC<FormikSelectProps> = ({
                                                  onChange,
                                                  selectProps
                                              }) => {
-    const [field, meta] = useField<HTMLInputElement>(name);
+    const [field, meta] = useField<any>(name); //TODO подумать на счёт типа
 
-    if(name==='role.tutor_id') console.log(meta)
+    // if(name==='role.tutor_id') console.log(meta)
     // const fieldOnChange = useCallback((e) => {
     //     field.onChange(e);
     //
@@ -43,7 +43,7 @@ const FormikSelect: FC<FormikSelectProps> = ({
             } : {};
 
             return {
-                ...stylesForSearch.control(base, state),
+                ...stylesForSearch?.control(base, state),
                 ...errorStyles,
             };
         },}

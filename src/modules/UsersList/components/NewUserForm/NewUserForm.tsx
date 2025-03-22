@@ -45,7 +45,7 @@ const NewUserForm = () => {
     // const [getTutors, {isLoading: isLoadingTutors, isFetching: isFetchingTutors, data: tutors}] =
     //     useLazyGetTutorsQuery();
     const url = import.meta.env.VITE_SERVER_URL;
-    const {data, isLoading, isError, isFetching, f} = useQuery('tutors', () => {
+    const {data, isLoading, isError, isFetching} = useQuery('tutors', () => {
         return axios.get(url + 'users/get_tutors/').then(res => res.data.results)
     }, {cacheTime: 60000, staleTime: 60000})
 
@@ -71,8 +71,6 @@ const NewUserForm = () => {
 
     const validationSchema =
         stage === 1 ? userSchema : uploadedFileSchema(fileRef).concat(userPhotoSchema);
-
-    const selectRoles = transformRolesToSelectOptions(ROLES);
 
     const onGoBack = () => {
         setStage(1);
@@ -106,35 +104,7 @@ const NewUserForm = () => {
                 toast.error(error?.data?.detail || error.message || 'Что-то пошло не так');
             }
         }
-        // else{
-        //     submitRef.current = StagesEnum.STAGE1;
-        // }
     };
-
-    // const onRoleSelect =
-    //     ({setFieldValue}) =>
-    //         (e) => {
-    //             const {value} = e.target;
-    //
-    //
-    //             console.log(value)
-    //             if (value === ROLES.observed.code) {
-    //                 setFieldValue('role.tutor_id', '');
-    //             } else {
-    //                 // это для того, чтобы проходила валидация при добавлении наставника
-    //                 // на бэке поле проигнорируется
-    //                 setFieldValue('role.tutor_id', 1);
-    //             }
-    //         };
-
-    const onTutorSelect = (newValue, formikProps) => {
-        formikProps.setFieldValue('role.tutor_id', newValue.value)
-    }
-
-
-    const onOrganizationSelect = (newValue, formikProps) => {
-        formikProps.setFieldValue('organization', newValue.value)
-    }
 
     return (
         <Formik
@@ -158,16 +128,7 @@ const NewUserForm = () => {
                                 exit="exit"
                             >
                                 <NewUserFormStage1
-                                    selectRoles={selectRoles}
-                                    // onRoleSelect={onRoleSelect}
-                                    // isLoadingTutors={isLoadingTutors || isFetchingTutors}
-                                    // tutors={tutors}
-                                    isLoadingTutors={isLoading || isFetching}
-                                    tutors={data}
                                     formikProps={formikProps}
-                                    organizations={organizations.data}
-                                    onOrganizationSelect={newValue => onOrganizationSelect(newValue, formikProps)}
-                                    onTutorSelect={newValue => onTutorSelect(newValue, formikProps)}
                                 />
                             </m.div>
                         )}

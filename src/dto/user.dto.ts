@@ -1,5 +1,5 @@
-import {ROLES} from "../utils/constants";
 import {organizations_dto} from "./organizations.dto";
+import {ROLES} from "../utils/constants";
 
 export type user_dto = {
     birthday: Date | null | string,

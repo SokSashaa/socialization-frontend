@@ -1,21 +1,18 @@
-import {ErrorMessage} from 'formik';
-import {Button, FormikSelect, InputText} from '../../../../UI';
-import {transformOrganizationToSelectOptions, transformUsersToSelectOptions} from '../../utils/data.helper';
-import {ROLES} from '../../../../utils/constants';
+import {Button, InputText} from '../../../../UI';
 import styles from './NewUserFormStage1.module.css';
 import Spinner from "../../../../UI/spinners/Spinner";
+import RoleSelect from "../../../../components/RoleSelect/RoleSelect";
+import OrganizationsSelect from "../../../../components/OrganizationsSelect/OrganizationsSelect";
+import {FormikProps} from "formik";
+import {FC} from "react";
 
+interface NewUserFormStage1Props<T> {
+    formikProps: FormikProps<T>
+}
 
-const NewUserFormStage1 = ({
-                               selectRoles,
-                               tutors,
-                               onRoleSelect,
-                               isLoadingTutors,
-                               formikProps,
-                               onOrganizationSelect,
-                               organizations,
-                               onTutorSelect
-                           }) => {
+const NewUserFormStage1: FC<NewUserFormStage1Props<any>> = ({
+                                                                formikProps,
+                                                            }) => {
     const {isSubmitting, values} = formikProps;
 
     const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Далее';
@@ -64,124 +61,12 @@ const NewUserFormStage1 = ({
                 />
             </div>
             <div className={styles.row}>
-                <FormikSelect
-                    className={styles.select}
-                    name="role.code"
-                    options={selectRoles}
-                    label="Роль"
-                    // onChange={onRoleSelect(formikProps)}
-                    selectProps={{
-                        className: styles.selectInput,
-                    }}
-                />
-
-                {isLoadingTutors && (
-                    <div className="basis-20 self-center">
-                        <Spinner typeSpinner={'mini'}/>
-                    </div>
-                )}
-
-                {values.role.code === ROLES.observed.code && !isLoadingTutors && (
-                    <div className={styles.selectContainer}>
-                        <FormikSelect
-                            name="role.tutor_id"
-                            options={[
-                                ...transformUsersToSelectOptions(tutors),
-                            ]}
-                            label="Наставник"
-                            isWithFind
-                            onChange={onTutorSelect}
-                            selectProps={{
-                                className: styles.selectInput,
-                                placeholder: 'Наставник'
-                            }}
-                            stylesForSearch={{
-                                control: (base, state) => ({
-                                    ...base,
-                                    ":hover": {borderColor: state.isFocused ? 'blue' : 'black'},
-                                    borderColor: state.isFocused ? 'blue' : 'black',
-                                    boxShadow: 'none',
-                                    width: '100%',
-                                    height: '55px',
-                                }),
-                                option: (base, state) => ({
-                                    ...base,
-                                    ":hover": {backgroundColor: 'gray', color: 'white'},
-                                    backgroundColor: state.isSelected ? 'gray' : 'white',
-                                    borderBottom: '1px solid gray',
-                                    height: '30px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }),
-                                placeholder: (base) => ({
-                                    ...base,
-                                    color: 'black'
-                                }),
-                                menuList: (base) => ({
-                                    ...base, padding: 0, margin: 0,
-                                    borderRadius: '10px',
-                                    border: '1px solid gray'
-                                }),
-                                menu: (base) => ({
-                                    ...base,
-                                    boxShadow: 'none',
-                                })
-                            }}
-                        />
-                        <ErrorMessage
-                            className={styles.selectError}
-                            name="role.tutor_id"
-                            component="span"
-                        />
-                    </div>)
-                }
+                <RoleSelect formikProps={formikProps} classNameError={styles.selectError}
+                            classNameSelect={styles.select}/>
             </div>
             <div className={styles.row}>
-                {organizations && <FormikSelect
-                    className={styles.select}
-                    name="organization"
-                    options={[
-                        ...transformOrganizationToSelectOptions(organizations)
-                    ]}
-                    label="Организация"
-                    onChange={onOrganizationSelect}
-                    selectProps={{
-                        className: styles.selectInput,
-                        placeholder: 'Организация',
-                    }}
-                    isWithFind
-                    stylesForSearch={{
-                        control: (base, state) => ({
-                            ...base,
-                            ":hover": {borderColor: state.isFocused ? 'blue' : 'black'},
-                            borderColor: state.isFocused ? 'blue' : 'black',
-                            boxShadow: 'none',
-                            width: '100%',
-                            height: '55px',
-                        }),
-                        option: (base, state) => ({
-                            ...base,
-                            ":hover": {backgroundColor: 'gray', color: 'white'},
-                            backgroundColor: state.isSelected ? 'gray' : 'white',
-                            borderBottom: '1px solid gray',
-                            height: '30px',
-                            display: 'flex',
-                            alignItems: 'center',
-                        }),
-                        placeholder: (base) => ({
-                            ...base,
-                            color: 'black'
-                        }),
-                        menuList: (base) => ({
-                            ...base, padding: 0, margin: 0,
-                            borderRadius: '10px',
-                        }),
-                        menu: (base) => ({
-                            ...base,
-                            boxShadow: 'none'
-                        })
-                    }}
-                />}
+                <OrganizationsSelect formikProps={formikProps} classNameError={styles.selectError}
+                                     classNameSelect={styles.select}/>
             </div>
             <div className={styles.btnRow}>
                 <Button type="submit">{submitBtnContent}</Button>

@@ -7,7 +7,7 @@ import {profileSchema} from "../../utils/validation.helper";
 import {uploadedFileSchema} from "../../../../utils/helpers";
 import ProfileInfoForm, {InputFieldType} from "../ProfileInfoForm/ProfileInfoForm";
 import {useChangeUserInfoMutation} from "../../api/profileApiSlice";
-import {useGetSingleUserQuery} from "../../../../app/api/common/usersApiSlice";
+import {useGetSingleUserQuery, useGetTutorByObservedQuery} from "../../../../app/api/common/usersApiSlice";
 import {useUploadPhoto} from "../../../../hooks";
 import Spinner from "../../../../UI/spinners/Spinner";
 import {toast} from "react-toastify";
@@ -43,11 +43,6 @@ const inputFields: InputFieldType[] = [
         label: 'Email *',
         type: 'email',
     },
-    {
-        name: 'role',
-        label: 'Роль',
-        type: 'select'
-    }
 ];
 
 const ChangeUserInfo: FC = () => {
@@ -57,7 +52,8 @@ const ChangeUserInfo: FC = () => {
     const fileRef = useRef(null);
 
     const [changeUserInfo] = useChangeUserInfoMutation();
-    const {data: user, isFetching, isLoading, isError} = useGetSingleUserQuery(id);
+    const {data: user, isFetching, isLoading, isError} = useGetSingleUserQuery(id!);
+    const {data: tutor, isError: isErrorTutor} = useGetTutorByObservedQuery(id!)
 
     const {preview, onUpload} = useUploadPhoto('photo');
 
@@ -76,6 +72,13 @@ const ChangeUserInfo: FC = () => {
             />
         );
     }
+
+    const tutor_id = () => {
+        if (user?.role !== ROLES.observed.code && !isErrorTutor) {
+            return ''
+        }
+        return tutor?.id
+    }
     const initialValues: Partial<user_dto> = {
         name: user?.name || '',
         patronymic: user?.patronymic || '',
@@ -83,7 +86,12 @@ const ChangeUserInfo: FC = () => {
         birthday: user?.birthday || '2022-01-01',
         email: user?.email || '',
         photo: user?.photo || '',
-        role: user?.role || ROLES.observed.code
+        // role: user?.role || ROLES.observed.code,
+        role: {
+            code: user?.role || ROLES.observed.code,
+            tutor_id: tutor_id(),
+        },
+        organization: user?.organization
     };
 
 
@@ -93,7 +101,7 @@ const ChangeUserInfo: FC = () => {
             photo: values.photo.indexOf('data:image') === -1 ? null : values.photo,
         };
         try {
-            const res = await changeUserInfo({id: user.id, data: newInfo}).unwrap();
+            const res = await changeUserInfo({id: user?.id, data: newInfo}).unwrap();
 
             if (!res.success) {
                 throw new Error(res.errors[0]);
@@ -102,7 +110,8 @@ const ChangeUserInfo: FC = () => {
 
             toast.success('Данные профиля обновлены');
         } catch (error) {
-            toast.error(error?.data?.detail || error.message || 'Что-то пошло не так');
+            console.log(error)
+            toast.error(error?.data?.detail || error.message || error?.data?.error || 'Что-то пошло не так');
         }
     };
 

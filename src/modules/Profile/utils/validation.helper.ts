@@ -16,6 +16,14 @@ export const profileSchema = Yup.object({
         .trim()
         .matches(/^[a-zA-Zа-яА-Я-]+(\s+[a-zA-Zа-яА-Я-]+)*$/, 'Содержит недопустимые символы')
         .matches(/^\S+$/, 'Содержит недопустимые символы'),
+    role: Yup.object().shape({
+        code: Yup.string().notRequired(),
+        tutor_id: Yup.string().when('code', {
+            is: 'observed',
+            then: schema => schema.required('Обязательное поле'), //TODO разобраться
+            otherwise: schema => schema.notRequired()
+        })
+    })
 });
 
 export const changePasswordSchema = Yup.object({

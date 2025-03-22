@@ -1,20 +1,14 @@
 import {toInitial} from '../../../utils/helpers';
 import {organizations_dto} from "../../../dto/organizations.dto";
+import {ROLES} from "../../../utils/constants";
 
-export const transformRolesToSelectOptions = (roles) =>
-    Object.keys(roles).reduce((acc, role) => {
-        if (roles[role].code !== roles.administrator.code) {
-            return [
-                ...acc,
-                {
-                    value: roles[role].code,
-                    label: roles[role].label,
-                },
-            ];
+export const rolesSelectOptions = () =>
+    [...Object.values(ROLES)].map((item) => {
+        return {
+            value: item.code,
+            label: item.label
         }
-
-        return acc;
-    }, []);
+    })
 
 export const transformUsersToSelectOptions = (users) =>
     users.map((user) => ({

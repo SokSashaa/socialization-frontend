@@ -13,6 +13,7 @@ type InputTextProps =  HTMLAttributes<HTMLInputElement> & {
   label?: string,
   as?: string,
   maxlength?: number
+  name: string
 }
 const InputText: FC<InputTextProps> = (props) => {
   const {

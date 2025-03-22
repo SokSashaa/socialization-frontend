@@ -1,0 +1,13 @@
+.selectInput {
+  border-color: black;
+
+  &:focus {
+    border-color: #505cc9;
+  }
+}
+
+.selectContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}

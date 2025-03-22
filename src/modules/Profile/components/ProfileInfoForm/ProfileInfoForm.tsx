@@ -3,12 +3,15 @@ import {Button, InputText, UploadFile} from '../../../../UI';
 import {userIconV2Big} from '../../../../assets';
 import {ROLES} from '../../../../utils/constants';
 import styles from './ProfileInfoForm.module.css';
+import css from './ProfileInfo.module.scss';
 import Spinner from "../../../../UI/spinners/Spinner";
 import {user_dto} from "../../../../dto/user.dto";
 import {FC, MutableRefObject} from "react";
-import Select from "../../../../UI/Select/Select";
-import FormikSelect from "../../../../UI/formik/FormikSelect/FormikSelect";
 import {useAppSelector} from "../../../../hooks/redux";
+import {useGetObservedsByTutorQuery, useGetTutorByObservedQuery} from "../../../../app/api/common/usersApiSlice";
+import ItemUser from "./ItemUser/ItemUser";
+import OrganizationsSelect from "../../../../components/OrganizationsSelect/OrganizationsSelect";
+import RoleSelect from "../../../../components/RoleSelect/RoleSelect";
 
 
 export type InputFieldType = {
@@ -36,13 +39,16 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                                                            user,
                                                            inputFields
                                                        }) => {
+
     const submitBtnContent = formikProps.isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Сохранить';
 
     const optionSelect = [...Object.values(ROLES)].map((item) => {
         return {value: item.code, label: item.label}
     })
 
-    const user_auth = useAppSelector((state)=>state.auth)
+    const user_auth = useAppSelector((state) => state.auth)
+    const {data: observeds} = useGetObservedsByTutorQuery({id: user.id})
+    const {data: tutor} = useGetTutorByObservedQuery(user.id)
 
     return (
         <Form
@@ -92,23 +98,28 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                     if (type === 'date' && user.role !== ROLES.observed.code) {
                         return null;
                     }
-                    if (type === 'select') {
-                        if(user_auth.user.role === ROLES.administrator.code){
-                            return <FormikSelect key={name} options={optionSelect} selectProps={{defaultValue: user.role}} name={'role'}/>
-                        }
-                        else return null
+                    return (<InputText
+                        key={name}
+                        wrapperClassNames={styles.input}
+                        label={label}
+                        name={name}
+                        type={type}
+                    />)
+                    // if (type === 'select') {
+                    //     if (user_auth.user.role === ROLES.administrator.code) {
+                    //         return <FormikSelect key={name} options={optionSelect}
+                    //                              selectProps={{defaultValue: user.role}} name={'role'}/>
+                    //     } else return null
+                    //
+                    // } else return (
 
-                    }
-                    else return (
-                        <InputText
-                            key={name}
-                            wrapperClassNames={styles.input}
-                            label={label}
-                            name={name}
-                            type={type}
-                        />
-                    );
+                    // );
                 })}
+                <div className={css.container}>
+                    <RoleSelect formikProps={formikProps} classNameError={css.selectError}/>
+                    <OrganizationsSelect formikProps={formikProps}/>
+                </div>
+
                 <div className={styles.saveButtonWrapper}>
                     <Button
                         type="submit"
@@ -117,6 +128,26 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         {submitBtnContent}
                     </Button>
                 </div>
+                {
+                    (user.role === ROLES.administrator.code || user.role === ROLES.tutor.code) && observeds && <>
+                        {observeds.length < 1 && <h3 className={css.title}>Наблюдаемых нет</h3>}
+                        {observeds.length > 0 && <>
+                            <h3 className={css.title}>Назначенные наблюдаемые: </h3>
+                            <div>{observeds.map(item => {
+
+                                if (item) return <ItemUser key={item.id} user={item}/>
+                                else return null
+                            })}</div>
+                        </>}
+                    </>
+                }
+                {
+                    tutor && user.role === ROLES.observed.code && <>
+                        <h3 className={css.title}>Назначенный тьютор:</h3>
+                        <ItemUser user={tutor}/>
+                    </>
+                }
+
             </div>
         </Form>
     );
