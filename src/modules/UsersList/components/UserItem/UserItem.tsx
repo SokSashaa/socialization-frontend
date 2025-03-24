@@ -9,82 +9,88 @@ import { userIconV2 } from '../../../../assets';
 import { ROLES } from '../../../../utils/constants';
 import { toInitial } from '../../../../utils/helpers';
 import styles from './UserItem.module.css';
+import { FC } from 'react';
+import {user_dto} from "../../../../dto/user.dto";
 
-const UserItem = ({ user }) => {
-  const { id, name, role, photo, patronymic, second_name } = user;
+interface UserItemProps {
+    user: Partial<user_dto>
+}
 
-  const [deleteUser] = useDeleteUserMutation();
+const UserItem: FC<UserItemProps> = ({ user }) => {
+    const { id, name, role, photo, patronymic, second_name } = user;
 
-  const { id: currentUserId } = useSelector(selectCurrentUser);
+    const [deleteUser] = useDeleteUserMutation();
 
-  const onDelete = (userId) => async () => {
-    const toastId = toast.loading('Удаление пользователя...');
+    const { id: currentUserId } = useSelector(selectCurrentUser);
 
-    try {
-      await deleteUser(userId).unwrap();
+    const onDelete = (userId:string) => async () => {
+        const toastId = toast.loading('Удаление пользователя...');
 
-      toast.update(toastId, {
-        render: 'Пользователь удален',
-        type: 'success',
-        isLoading: false,
-        autoClose: 2000,
-      });
-    } catch (error) {
-      toast.update(toastId, {
-        render: 'Произошла ошибка при удалении пользователя',
-        type: 'error',
-        isLoading: false,
-        autoClose: 2000,
-      });
-    }
-  };
+        try {
+            await deleteUser(userId).unwrap();
 
-  return (
-    <ItemListWrapper>
-      <div className={styles.info}>
-        {photo ? (
-          <div className={styles.imageWrapper}>
-            <img
-              className={styles.image}
-              src={photo}
-              alt="user"
-            />
-          </div>
-        ) : (
-          <img
-            src={userIconV2}
-            alt="user"
-          />
-        )}
-        <div className={styles.text}>
-          <p className={styles.name}>
-            {`${second_name} ${toInitial(name)} ${toInitial(patronymic)}`}
-          </p>
-          <p className={styles.role}>{ROLES[role]?.label ?? 'Неизвестная роль'}</p>
-        </div>
-      </div>
-      <div className={styles.buttons}>
-        {id !== currentUserId && (
-          <>
-            <Link
-              to={`/users/${id}/`}
-              className={styles.button}
-            >
-              Информация
-            </Link>
-            <button
-              className={styles.delete}
-              type="button"
-              aria-label="Удалить пользователя"
-              onClick={onDelete(id)}
-            >
-              <XCircleIcon className={styles.icon} />
-            </button>
-          </>
-        )}
-      </div>
-    </ItemListWrapper>
-  );
+            toast.update(toastId, {
+                render: 'Пользователь удален',
+                type: 'success',
+                isLoading: false,
+                autoClose: 2000,
+            });
+        } catch (error) {
+            toast.update(toastId, {
+                render: 'Произошла ошибка при удалении пользователя',
+                type: 'error',
+                isLoading: false,
+                autoClose: 2000,
+            });
+        }
+    };
+
+    return (
+        <ItemListWrapper>
+            <div className={styles.info}>
+                {photo ? (
+                    <div className={styles.imageWrapper}>
+                        <img
+                            className={styles.image}
+                            src={photo}
+                            alt="user"
+                        />
+                    </div>
+                ) : (
+                    <img
+                        src={userIconV2}
+                        alt="user"
+                    />
+                )}
+                <div className={styles.text}>
+                    <p className={styles.name}>
+                        {`${second_name} ${toInitial(name)} ${toInitial(patronymic)}`}
+                    </p>
+                    <p className={styles.role}>{ROLES[role!]?.label ?? 'Неизвестная роль'}</p>
+                </div>
+            </div>
+            <div className={styles.buttons}>
+                {id !== currentUserId && (
+                    <>
+                        <Link
+                            to={`/users/${id}/`}
+                            className={styles.button}
+                        >
+                            Информация
+                        </Link>
+                        <button
+                            className={styles.delete}
+                            type="button"
+                            aria-label="Удалить пользователя"
+                            onClick={onDelete(id!)}
+                        >
+                            <XCircleIcon className={styles.icon} />
+                        </button>
+                    </>
+                )}
+            </div>
+        </ItemListWrapper>
+    );
 };
 
 export default UserItem;

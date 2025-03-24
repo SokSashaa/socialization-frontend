@@ -14,6 +14,8 @@ type InputTextProps =  HTMLAttributes<HTMLInputElement> & {
   as?: string,
   maxlength?: number
   name: string
+  type?:  "email" | "date" | "text" | "select";
+
 }
 const InputText: FC<InputTextProps> = (props) => {
   const {

@@ -1,153 +1,69 @@
-import {FC, useRef} from "react";
-import {user_dto} from "../../../../dto/user.dto";
-import styles from "../Profile/Profile.module.css";
-import {Container, ErrorMessage} from "../../../../UI";
-import {Formik} from "formik";
-import {profileSchema} from "../../utils/validation.helper";
-import {uploadedFileSchema} from "../../../../utils/helpers";
-import ProfileInfoForm, {InputFieldType} from "../ProfileInfoForm/ProfileInfoForm";
-import {useChangeUserInfoMutation} from "../../api/profileApiSlice";
-import {useGetSingleUserQuery, useGetTutorByObservedQuery} from "../../../../app/api/common/usersApiSlice";
-import {useUploadPhoto} from "../../../../hooks";
-import Spinner from "../../../../UI/spinners/Spinner";
-import {toast} from "react-toastify";
-import {useParams} from "react-router-dom";
-import {useModalState} from "../../../../hooks/useModalState";
-import {ROLES} from "../../../../utils/constants";
-import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
-import {Portal} from "../../../../components";
-
-const inputFields: InputFieldType[] = [
-    {
-        name: 'name',
-        label: 'Имя *',
-        type: 'text',
-    },
-    {
-        name: 'second_name',
-        label: 'Фамилия *',
-        type: 'text',
-    },
-    {
-        name: 'patronymic',
-        label: 'Отчество (при наличии)',
-        type: 'text',
-    },
-    {
-        name: 'birthday',
-        label: 'Дата рождения *',
-        type: 'date',
-    },
-    {
-        name: 'email',
-        label: 'Email *',
-        type: 'email',
-    },
-];
+import { FC } from 'react';
+import {
+    useGetSingleUserQuery,
+    useGetTutorByObservedQuery,
+} from '../../../../app/api/common/usersApiSlice';
+import { useParams } from 'react-router-dom';
+import { useModalState } from '../../../../hooks/useModalState';
+import { ROLES } from '../../../../utils/constants';
+import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
+import { Portal } from '../../../../components';
+import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
+import { initialValuesType } from '../WrapperProfileInfo/types';
 
 const ChangeUserInfo: FC = () => {
+    const { id } = useParams();
 
-    const {id} = useParams()
-
-    const fileRef = useRef(null);
-
-    const [changeUserInfo] = useChangeUserInfoMutation();
-    const {data: user, isFetching, isLoading, isError} = useGetSingleUserQuery(id!);
-    const {data: tutor, isError: isErrorTutor} = useGetTutorByObservedQuery(id!)
-
-    const {preview, onUpload} = useUploadPhoto('photo');
+    const { data: user, isFetching, isLoading, isError } = useGetSingleUserQuery(id!);
+    const { data: tutor, isError: isErrorTutor } = useGetTutorByObservedQuery(id!); //TODO: Исправить бы тут, запрос чисто на то, чтобы ид тютора выцепить. Проверку может какую то
 
     const [isOpen, open, close] = useModalState(false);
 
-
-    if (isLoading || isFetching) {
-        return <Spinner typeSpinner={'big'} className="mt-10"/>;
-    }
-
-    if (isError) {
-        return (
-            <ErrorMessage
-                message="Ошибка загрузки профиля"
-                className="mt-10"
-            />
-        );
-    }
-
     const tutor_id = () => {
         if (user?.role !== ROLES.observed.code && !isErrorTutor) {
-            return ''
+            return '';
         }
-        return tutor?.id
-    }
-    const initialValues: Partial<user_dto> = {
+        if (tutor) {
+            return tutor.id;
+        }
+        return '';
+    };
+
+    const initialValues: initialValuesType = {
         name: user?.name || '',
         patronymic: user?.patronymic || '',
         second_name: user?.second_name || '',
         birthday: user?.birthday || '2022-01-01',
         email: user?.email || '',
         photo: user?.photo || '',
-        // role: user?.role || ROLES.observed.code,
         role: {
             code: user?.role || ROLES.observed.code,
             tutor_id: tutor_id(),
         },
-        organization: user?.organization
+        organization: user?.organization,
     };
 
+    return (
+        <>
+            {user && (
+                <WrapperProfileInfo
+                    user={user}
+                    initialValues={initialValues}
+                    isLoading={isLoading}
+                    isFetching={isFetching}
+                    isError={isError}
+                    open={open}
+                />
+            )}
+            <Portal>
+                <ChangePasswordModal
+                    showModal={isOpen}
+                    setShowModal={close}
+                    admin
+                />
+            </Portal>
+        </>
+    );
+};
 
-    const onSubmit = async (values) => {
-        const newInfo = {
-            ...values,
-            photo: values.photo.indexOf('data:image') === -1 ? null : values.photo,
-        };
-        try {
-            const res = await changeUserInfo({id: user?.id, data: newInfo}).unwrap();
-
-            if (!res.success) {
-                throw new Error(res.errors[0]);
-            }
-
-
-            toast.success('Данные профиля обновлены');
-        } catch (error) {
-            console.log(error)
-            toast.error(error?.data?.detail || error.message || error?.data?.error || 'Что-то пошло не так');
-        }
-    };
-
-
-    return <>
-        <div className={styles.wrapper}>
-            <Container>
-                <div className={styles.inner}>
-                    <Formik
-                        onSubmit={onSubmit}
-                        initialValues={initialValues}
-                        validationSchema={profileSchema.concat(uploadedFileSchema(fileRef))}
-                    >
-                        {(formikProps) => (
-                            <ProfileInfoForm
-                                user={user}
-                                formikProps={formikProps}
-                                preview={preview}
-                                onUpload={onUpload}
-                                onShowModal={open}
-                                fileRef={fileRef}
-                                inputFields={inputFields}/>
-                        )}
-                    </Formik>
-                </div>
-            </Container>
-        </div>
-        <Portal>
-            <ChangePasswordModal
-                showModal={isOpen}
-                setShowModal={close}
-                admin
-            />
-        </Portal>
-    </>
-
-}
-
-export default ChangeUserInfo
+export default ChangeUserInfo;

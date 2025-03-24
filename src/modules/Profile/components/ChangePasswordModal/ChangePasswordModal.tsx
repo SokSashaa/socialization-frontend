@@ -40,8 +40,8 @@ const ChangePasswordModal: FC<ChangePasswordModalProps> = ({showModal, setShowMo
                 res = await changePassword(values).unwrap();
             }
 
+            if (!res.success) { // тут ошибка
 
-            if (!res.success) {
                 throw new Error(res.errors[0]);
             }
 

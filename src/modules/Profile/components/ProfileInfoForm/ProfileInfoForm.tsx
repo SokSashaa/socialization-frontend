@@ -1,54 +1,50 @@
-import {Form} from 'formik';
-import {Button, InputText, UploadFile} from '../../../../UI';
-import {userIconV2Big} from '../../../../assets';
-import {ROLES} from '../../../../utils/constants';
+import { Form } from 'formik';
+import { Button, InputText, UploadFile } from '../../../../UI';
+import { userIconV2Big } from '../../../../assets';
+import { ROLES } from '../../../../utils/constants';
 import styles from './ProfileInfoForm.module.css';
 import css from './ProfileInfo.module.scss';
-import Spinner from "../../../../UI/spinners/Spinner";
-import {user_dto} from "../../../../dto/user.dto";
-import {FC, MutableRefObject} from "react";
-import {useAppSelector} from "../../../../hooks/redux";
-import {useGetObservedsByTutorQuery, useGetTutorByObservedQuery} from "../../../../app/api/common/usersApiSlice";
-import ItemUser from "./ItemUser/ItemUser";
-import OrganizationsSelect from "../../../../components/OrganizationsSelect/OrganizationsSelect";
-import RoleSelect from "../../../../components/RoleSelect/RoleSelect";
-
+import Spinner from '../../../../UI/spinners/Spinner';
+import { user_dto } from '../../../../dto/user.dto';
+import { FC, MutableRefObject, ReactNode } from 'react';
+import { useAppSelector } from '../../../../hooks/redux';
+import ObservedList from '../ObservedList/ObservedList';
+import AppointedTutor from '../AppointedTutor/AppointedTutor';
 
 export type InputFieldType = {
-    type: 'email' | 'date' | 'text' | 'select',
-    name: string,
-    label: string
-}
+    type: 'email' | 'date' | 'text' | 'select';
+    name: string;
+    label: string;
+};
 
-type ProfileInfoFormPropsType = {
-    formikProps: any,
-    preview: string | null,
-    onUpload: any,
-    onShowModal: () => void,
-    fileRef: MutableRefObject<null>,
-    user: user_dto,
-    inputFields: InputFieldType[]
+interface ProfileInfoFormPropsType {
+    formikProps: any;
+    preview: string | null;
+    onUpload: any;
+    onShowModal: () => void;
+    fileRef: MutableRefObject<null>;
+    user: user_dto;
+    inputFields: InputFieldType[];
+    children?: ReactNode;
 }
 
 const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
-                                                           formikProps,
-                                                           preview,
-                                                           onUpload,
-                                                           onShowModal,
-                                                           fileRef,
-                                                           user,
-                                                           inputFields
-                                                       }) => {
+    formikProps,
+    preview,
+    onUpload,
+    onShowModal,
+    fileRef,
+    user,
+    inputFields,
+    children,
+}) => {
+    const submitBtnContent = formikProps.isSubmitting ? (
+        <Spinner typeSpinner={'mini'} />
+    ) : (
+        'Сохранить'
+    );
 
-    const submitBtnContent = formikProps.isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Сохранить';
-
-    const optionSelect = [...Object.values(ROLES)].map((item) => {
-        return {value: item.code, label: item.label}
-    })
-
-    const user_auth = useAppSelector((state) => state.auth)
-    const {data: observeds} = useGetObservedsByTutorQuery({id: user.id})
-    const {data: tutor} = useGetTutorByObservedQuery(user.id)
+    const user_auth = useAppSelector((state) => state.auth);
 
     return (
         <Form
@@ -94,31 +90,21 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                 </div>
             </div>
             <div className={styles.right}>
-                {inputFields.map(({name, label, type}) => {
+                {inputFields.map(({ name, label, type }) => {
                     if (type === 'date' && user.role !== ROLES.observed.code) {
                         return null;
                     }
-                    return (<InputText
-                        key={name}
-                        wrapperClassNames={styles.input}
-                        label={label}
-                        name={name}
-                        type={type}
-                    />)
-                    // if (type === 'select') {
-                    //     if (user_auth.user.role === ROLES.administrator.code) {
-                    //         return <FormikSelect key={name} options={optionSelect}
-                    //                              selectProps={{defaultValue: user.role}} name={'role'}/>
-                    //     } else return null
-                    //
-                    // } else return (
-
-                    // );
+                    return (
+                        <InputText
+                            key={name}
+                            wrapperClassNames={styles.input}
+                            label={label}
+                            name={name}
+                            type={type}
+                        />
+                    );
                 })}
-                <div className={css.container}>
-                    <RoleSelect formikProps={formikProps} classNameError={css.selectError}/>
-                    <OrganizationsSelect formikProps={formikProps}/>
-                </div>
+                {children && <div className={css.container}>{children}</div>}
 
                 <div className={styles.saveButtonWrapper}>
                     <Button
@@ -128,26 +114,8 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         {submitBtnContent}
                     </Button>
                 </div>
-                {
-                    (user.role === ROLES.administrator.code || user.role === ROLES.tutor.code) && observeds && <>
-                        {observeds.length < 1 && <h3 className={css.title}>Наблюдаемых нет</h3>}
-                        {observeds.length > 0 && <>
-                            <h3 className={css.title}>Назначенные наблюдаемые: </h3>
-                            <div>{observeds.map(item => {
-
-                                if (item) return <ItemUser key={item.id} user={item}/>
-                                else return null
-                            })}</div>
-                        </>}
-                    </>
-                }
-                {
-                    tutor && user.role === ROLES.observed.code && <>
-                        <h3 className={css.title}>Назначенный тьютор:</h3>
-                        <ItemUser user={tutor}/>
-                    </>
-                }
-
+                {user.role !== ROLES.observed.code && <ObservedList user_id={user.id} />}
+                {user.role === ROLES.observed.code && <AppointedTutor user_id={user.id} />}
             </div>
         </Form>
     );
