@@ -54,11 +54,11 @@ rules:
   import/order:
     - error
     - groups:
-      - builtin
-      - external
-      - parent
-      - sibling
-      - index
+        - builtin
+        - external
+        - parent
+        - sibling
+        - index
   object-curly-spacing:
     - error
     - never
@@ -76,8 +76,8 @@ rules:
   react/jsx-filename-extension:
     - error
     - extensions:
-      - .jsx
-      - .tsx
+        - .jsx
+        - .tsx
   no-return-assign: off
   react/sort-comp: off
   react/destructuring-assignment: off
@@ -98,9 +98,9 @@ rules:
   import/no-extraneous-dependencies:
     - error
     - devDependencies:
-      - '**/*.test.ts'
-      - '**/*.test.tsx'
-      - 'app/test-utils/**/*'
+        - '**/*.test.ts'
+        - '**/*.test.tsx'
+        - 'app/test-utils/**/*'
   prefer-arrow-callback: off
   react/jsx-props-no-spreading: off
   react/jsx-one-expression-per-line: off

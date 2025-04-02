@@ -44,8 +44,6 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
         'Сохранить'
     );
 
-    const user_auth = useAppSelector((state) => state.auth);
-
     return (
         <Form
             method="post"

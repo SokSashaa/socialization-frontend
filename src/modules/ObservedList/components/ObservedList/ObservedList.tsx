@@ -35,6 +35,7 @@ const ObservedList = ({ userId }) => {
     setSearchValue(query);
   };
 
+  console.log(curObserveds)
   return (
     <div className={styles.wrapper}>
       <Container>

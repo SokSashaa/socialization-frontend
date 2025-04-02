@@ -1,27 +1,16 @@
-import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import { Formik } from 'formik';
-import { useUploadPhoto } from '../../../../hooks';
-import { useChangeUserInfoMutation } from '../../api/profileApiSlice';
 import { useGetUserInfoQuery } from '../../../../app/api/common/usersApiSlice';
 import { logout, setUserCredentials } from '../../../Auth';
 
-import { Button, Container, ErrorMessage } from '../../../../UI';
+import { Button } from '../../../../UI';
 import { Portal } from '../../../../components';
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
-import ProfileInfoForm, { InputFieldType } from '../ProfileInfoForm/ProfileInfoForm';
-
-import { profileSchema } from '../../utils/validation.helper';
-import { uploadedFileSchema } from '../../../../utils/helpers';
 import styles from './Profile.module.css';
-import Spinner from '../../../../UI/spinners/Spinner';
 import { useModalState } from '../../../../hooks/useModalState';
-import WrapperProfileInfo from "../WrapperProfileInfo/WrapperProfileInfo";
+import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
 
 const Profile = () => {
-
     const { data: user, isFetching, isLoading, isError } = useGetUserInfoQuery();
 
     const navigate = useNavigate();
@@ -54,7 +43,7 @@ const Profile = () => {
                     isFetching={isFetching}
                     isError={isError}
                     open={open}
-                    onSubmit={(res)=>dispatch(setUserCredentials(res.result))}
+                    onSubmit={(res) => dispatch(setUserCredentials(res.result))}
                 >
                     <div className={styles.logoutButtonContainer}>
                         <Button

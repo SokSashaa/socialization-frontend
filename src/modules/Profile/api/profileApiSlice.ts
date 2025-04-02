@@ -1,4 +1,5 @@
 import { apiSlice } from '../../../app/api/apiSlice';
+import {BaseQueryMeta, BaseQueryResult} from "@reduxjs/toolkit/dist/query/baseQueryTypes";
 
 const profileApiSlice = apiSlice.injectEndpoints?.({
     endpoints: (builder) => ({
@@ -27,4 +28,8 @@ const profileApiSlice = apiSlice.injectEndpoints?.({
     }),
 });
 
-export const { useChangeUserInfoMutation, useChangePasswordMutation, useChangePasswordAdminMutation } = profileApiSlice;
+export const {
+    useChangeUserInfoMutation,
+    useChangePasswordMutation,
+    useChangePasswordAdminMutation,
+} = profileApiSlice;

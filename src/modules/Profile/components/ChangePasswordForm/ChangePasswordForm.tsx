@@ -9,7 +9,7 @@ type ChangePasswordFormProps = {
     isSubmitting: boolean,
     handleSubmit: (e?: FormEvent<HTMLFormElement>) => void,
     showPassword: any,
-    onShowPassword: any,
+    onShowPassword?: any,
     admin?: boolean
 }
 
@@ -22,29 +22,29 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
                                                          }) => {
     const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Сохранить';
 
-    const rightIconPasswordOld = showPassword.old_password ? (
-        <EyeSlashIcon
-            className={styles.icon}
-            onClick={onShowPassword('old_password')}
-        />
-    ) : (
-        <EyeIcon
-            className={styles.icon}
-            onClick={onShowPassword('old_password')}
-        />
-    );
-
-    const rightIconPasswordNew = showPassword.new_password ? (
-        <EyeSlashIcon
-            className={styles.icon}
-            onClick={onShowPassword('new_password')}
-        />
-    ) : (
-        <EyeIcon
-            className={styles.icon}
-            onClick={onShowPassword('new_password')}
-        />
-    );
+    // const rightIconPasswordOld = showPassword.old_password ? ( //TODO: Посмотреть, как ведет себя без этого
+    //     <EyeSlashIcon
+    //         className={styles.icon}
+    //         onClick={onShowPassword('old_password')}
+    //     />
+    // ) : (
+    //     <EyeIcon
+    //         className={styles.icon}
+    //         onClick={onShowPassword('old_password')}
+    //     />
+    // );
+    //
+    // const rightIconPasswordNew = showPassword.new_password ? (
+    //     <EyeSlashIcon
+    //         className={styles.icon}
+    //         onClick={onShowPassword('new_password')}
+    //     />
+    // ) : (
+    //     <EyeIcon
+    //         className={styles.icon}
+    //         onClick={onShowPassword('new_password')}
+    //     />
+    // );
 
     const typePasswordInput = showPassword.new_password ? 'text' : 'password';
 
@@ -60,14 +60,14 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
                 name="old_password"
                 type={typePasswordInputOld}
                 label="Старый пароль"
-                rightIcon={rightIconPasswordOld}
+                // rightIcon={rightIconPasswordOld}
             />}
             <InputText
                 wrapperClassNames={styles.inputWrapper}
                 name="new_password"
                 type={typePasswordInput}
                 label="Новый пароль"
-                rightIcon={rightIconPasswordNew}
+                // rightIcon={rightIconPasswordNew}
             />
             <Button
                 className={styles.button}
