@@ -1,7 +1,7 @@
 import { writeStorage, deleteFromStorage } from '@rehooks/local-storage';
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { setToken, updateToken, logout, setUserCredentials } from './authSlice';
-import { getLocalStorageItem } from '../../../utils/helpers';
+import { getLocalStorageItem } from '@utils/helpers';
 
 const loginListener = createListenerMiddleware();
 

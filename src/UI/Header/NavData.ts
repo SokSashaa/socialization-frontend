@@ -1,3 +1,5 @@
+import {ROUTES} from "@routes/RouterConfig";
+
 type linkType = {
     title: string,
     path: string,
@@ -8,59 +10,59 @@ export const links: linksType = {
     administrator: [
         {
             title: 'Главная',
-            path: '/',
+            path: ROUTES.home,
         },
         {
             title: 'Пользователи',
-            path: '/users',
+            path: ROUTES.users,
         },
         {
             title: 'Игры',
-            path: '/games',
+            path: ROUTES.games,
         },
         {
             title: 'Тесты',
-            path: '/tests',
+            path: ROUTES.tests,
         },
         {
             title: 'Организации',
-            path: '/organizations'
+            path: ROUTES.organization
         },
         {
             title: 'Мои наблюдаемые',
-            path: '/my-observers',
+            path: ROUTES.myObservers,
         },
     ],
     tutor: [
         {
             title: 'Главная',
-            path: '/',
+            path: ROUTES.home,
         },
         {
             title: 'Мои наблюдаемые',
-            path: '/my-observers',
+            path: ROUTES.myObservers,
         },
         {
             title: 'Игры',
-            path: '/games',
+            path: ROUTES.games,
         },
         {
             title: 'Тесты',
-            path: '/tests',
+            path: ROUTES.tests,
         },
     ],
     observed: [
         {
             title: 'Главная',
-            path: '/',
+            path: ROUTES.home,
         },
         {
             title: 'Игры',
-            path: '/games',
+            path: ROUTES.games,
         },
         {
             title: 'Тесты',
-            path: '/tests',
+            path: ROUTES.tests,
         },
     ],
 };

@@ -1,19 +1,21 @@
-import {useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {Formik} from 'formik';
-import {toast} from 'react-toastify';
-import {useMediaQuery} from 'react-responsive';
-import {useLoginMutation} from '../../api/authApiSlice';
-import {useLazyGetUserInfoQuery} from '../../../../app/api/common/usersApiSlice';
-import {setToken, setUserCredentials} from '../../slice/authSlice';
-import {authSchema} from '../../utils/validation.helper';
+import {FC, useState} from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
+import { toast } from 'react-toastify';
+import { useMediaQuery } from 'react-responsive';
+import { useLoginMutation } from '../../api/authApiSlice';
+import { useLazyGetUserInfoQuery } from '@app/api/common/usersApiSlice';
+import { setToken, setUserCredentials } from '../../slice/authSlice';
+import { authSchema } from '../../utils/validation.helper';
 import AuthFormLayout from '../AuthFormLayout/AuthFormLayout';
+import { AuthType } from '@modules/Auth/components/AuthForm/types';
 
 const DEFAULT_PATH = '/';
 
-const AuthForm = () => {
-    const initialState = {
+const AuthForm:FC = () => {
+
+    const initialState: AuthType = {
         login: '',
         password: '',
     };
@@ -30,8 +32,7 @@ const AuthForm = () => {
     const [login] = useLoginMutation();
     const [getUserInfo] = useLazyGetUserInfoQuery();
 
-
-    const onSubmit = async (values, {resetForm}) => {
+    const onSubmit = async (values: AuthType, {resetForm}: FormikHelpers<AuthType>) => {
         try {
             const tokenData = await login(values).unwrap();
             dispatch(setToken({...tokenData}));
@@ -52,7 +53,7 @@ const AuthForm = () => {
             validationSchema={authSchema}
             onSubmit={onSubmit}
         >
-            {(formikProps) => (
+            {(formikProps: FormikProps<AuthType>) => (
                 <AuthFormLayout
                     isMobile={isMobile}
                     onShowPassword={() => setShowPassword((prev) => !prev)}

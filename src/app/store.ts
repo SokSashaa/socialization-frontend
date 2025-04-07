@@ -1,7 +1,9 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import {authFormReducer, loginListener} from '../modules/Auth';
-import {testsReducer} from '../modules/ComponentList';
-import {apiSlice} from './api/apiSlice';
+import { configureStore } from '@reduxjs/toolkit';
+
+import { authFormReducer, loginListener } from '../modules/Auth';
+import { testsReducer } from '../modules/ComponentList';
+
+import { apiSlice } from './api/apiSlice';
 
 
 const store = configureStore({

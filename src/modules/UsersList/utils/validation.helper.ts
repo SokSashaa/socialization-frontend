@@ -24,7 +24,7 @@ export const userSchema = Yup.object({
 
     password: Yup.string()
         .required('Обязательное поле')
-        .matches(/^\S+$/, 'Неккорректный пароль')
+        .matches(/^\S+$/, 'Некорректный пароль')
         .matches(/^(?=.*\d)(?=.*[a-zA-Z]).+$/, 'Должен содержать хотя бы одну букву и цифру')
         .min(8, 'Минимум 8 символов'),
     login: Yup.string().required('Обязательное поле').matches(/^\S+$/, 'Неккорректный логин'),
@@ -32,11 +32,19 @@ export const userSchema = Yup.object({
         code: Yup.string().notRequired(),
         tutor_id: Yup.string().when('code', {
             is: 'observed',
-            then: schema => schema.required('Обязательное поле'), //TODO разобраться
-            otherwise: schema => schema.notRequired()
-        })
+            then: (schema) => schema.required('Обязательное поле'), //TODO разобраться
+            otherwise: (schema) => schema.notRequired(),
+        }),
     }),
-    organization: Yup.string().required('Обязательное поле')
+    organization: Yup.string().required('Обязательное поле'),
+    phone_number: Yup.string()
+        .required('Обязательное поле')
+        .matches(/^\+?[1-9][0-9]{7,14}$/, 'Некорректный формат номера. +7XXXXXXXXXX'),
+    address: Yup.string().when('role.code', {
+        is: 'observed',
+        then: (schema) => schema.required('Обязательное поле'),
+        otherwise: (schema) => schema.notRequired(),
+    }),
 });
 
 export const userPhotoSchema = Yup.object({

@@ -1,9 +1,12 @@
-import FormikSelect from '../../UI/formik/FormikSelect/FormikSelect';
-import { transformOrganizationToSelectOptions } from '../../modules/UsersList/utils/data.helper';
-import { defaultConfigStylesForSearch } from '../../UI/formik/FormikSelect/defaultConfigStylesForSearch';
 import { FC } from 'react';
 import { FormikProps } from 'formik';
-import { useGetOrganizationsQuery } from '../../app/api/common/organizationsApiSlice';
+import { useGetOrganizationsQuery } from '@app/api/common/organizationsApiSlice';
+
+import { transformOrganizationToSelectOptions } from '@modules/UsersList/utils/data.helper';
+
+import { defaultConfigStylesForSearch } from '@UI/formik/FormikSelect/defaultConfigStylesForSearch';
+
+import FormikSelect from '../../UI/formik/FormikSelect/FormikSelect';
 
 interface OrganizationProps<T> {
     formikProps: FormikProps<T>;
@@ -23,17 +26,17 @@ const OrganizationsSelect: FC<OrganizationProps<any>> = (props) => {
         <>
             {organizations.data && (
                 <FormikSelect
+                    isWithFind
                     className={props.classNameSelect}
                     name="organization"
                     options={[...transformOrganizationToSelectOptions(organizations.data)]}
                     label="Организация"
-                    onChange={onOrganizationSelect}
+                    stylesForSearch={defaultConfigStylesForSearch}
                     selectProps={{
                         // className: styles.selectInput,
                         placeholder: 'Организация',
                     }}
-                    isWithFind
-                    stylesForSearch={defaultConfigStylesForSearch}
+                    onChange={onOrganizationSelect}
                 />
             )}
         </>

@@ -1,6 +1,8 @@
 import React from 'react';
-import './Home.scss';
+
 import { homeImage } from '../../assets';
+
+import './Home.scss';
 
 function Home() {
   return (

@@ -1,4 +1,4 @@
-import {InputFieldType} from "../../ProfileInfoForm/ProfileInfoForm";
+import { InputFieldType } from '../../ProfileInfoForm/ProfileInfoForm';
 
 export const INPUT_FIELDS: InputFieldType[] = [
     {
@@ -25,5 +25,10 @@ export const INPUT_FIELDS: InputFieldType[] = [
         name: 'email',
         label: 'Email *',
         type: 'email',
+    },
+    {
+        name: 'phone_number',
+        label: 'Телефон *',
+        type: 'text',
     },
 ];

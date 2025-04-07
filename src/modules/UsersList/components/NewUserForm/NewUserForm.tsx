@@ -1,30 +1,29 @@
-import {useRef, useState} from 'react';
-import {AnimatePresence, m} from 'framer-motion';
-import {toast} from 'react-toastify';
-import {Form, Formik} from 'formik';
-import {useAddUserMutation} from '../../api/usersApiSlice';
-import {useUploadPhoto} from '../../../../hooks';
+import { useRef, useState } from 'react';
+import { toast } from 'react-toastify';
+import { Form, Formik, FormikHelpers } from 'formik';
+import { AnimatePresence, m } from 'framer-motion';
 
+import { ROLES } from '@utils/constants';
+import { uploadedFileSchema } from '@utils/helpers';
+
+import { useUploadPhoto } from '../../../../hooks';
+import { useAddUserMutation } from '../../api/usersApiSlice';
+import { userPhotoSchema, userSchema } from '../../utils/validation.helper';
 import NewUserFormStage1 from '../NewUserFormStage1/NewUserFormStage1';
 import NewUserFormStage2 from '../NewUserFormStage2/NewUserFormStage2';
-import {ROLES} from '../../../../utils/constants';
-import {userPhotoSchema, userSchema} from '../../utils/validation.helper';
-import {transformRolesToSelectOptions} from '../../utils/data.helper';
-import {uploadedFileSchema} from '../../../../utils/helpers';
+
 import styles from './NewUserForm.module.css';
-import {useQuery} from "react-query";
-import axios from "axios";
 
 const variants = {
     initial: (direction) => ({
         opacity: 0,
         x: direction === 1 ? '-100%' : '100%',
     }),
-    animate: {opacity: 1, x: 0, transition: {duration: 0.25}},
+    animate: { opacity: 1, x: 0, transition: { duration: 0.25 } },
     exit: (direction) => ({
         opacity: 0,
         x: direction === 1 ? '100%' : '-100%',
-        transition: {duration: 0.25},
+        transition: { duration: 0.25 },
     }),
 };
 
@@ -40,18 +39,10 @@ const NewUserForm = () => {
     const submitRef = useRef<StagesEnum>(StagesEnum.STAGE1);
     const [addUser] = useAddUserMutation();
 
-    const {preview, onUpload, resetPreview} = useUploadPhoto('photo');
+    const { preview, onUpload, resetPreview } = useUploadPhoto('photo');
 
     // const [getTutors, {isLoading: isLoadingTutors, isFetching: isFetchingTutors, data: tutors}] =
     //     useLazyGetTutorsQuery();
-    const url = import.meta.env.VITE_SERVER_URL;
-    const {data, isLoading, isError, isFetching} = useQuery('tutors', () => {
-        return axios.get(url + 'users/get_tutors/').then(res => res.data.results)
-    }, {cacheTime: 60000, staleTime: 60000})
-
-    const organizations = useQuery('organizations', () => {
-        return axios.get(url + 'organizations/').then(res => res.data.results)
-    }, {cacheTime: 60000, staleTime: 60000})
 
     const initialValues = {
         name: '',
@@ -67,6 +58,8 @@ const NewUserForm = () => {
         },
         login: '',
         password: '',
+        phone_number: '',
+        address: '',
     };
 
     const validationSchema =
@@ -76,14 +69,15 @@ const NewUserForm = () => {
         setStage(1);
     };
 
-    const onSubmit = async (values, {setSubmitting, resetForm}) => {
+    const onSubmit = async (values, { setSubmitting, resetForm }: FormikHelpers<any>) => {
         if (stage === 1) {
-            if(submitRef.current===StagesEnum.STAGE1) {
+            if (submitRef.current === StagesEnum.STAGE1) {
                 setStage(2);
             }
-            if(submitRef.current===StagesEnum.STAGE2) { //костыли, чтобы нормально переход работал
+            if (submitRef.current === StagesEnum.STAGE2) {
+                //костыли, чтобы нормально переход работал
                 setStage(1);
-                submitRef.current=StagesEnum.STAGE1
+                submitRef.current = StagesEnum.STAGE1;
             }
             setSubmitting(false);
         } else if (submitRef.current === StagesEnum.SUBMIT) {
@@ -93,13 +87,16 @@ const NewUserForm = () => {
                 if (!res.success) {
                     if (res.errors.login) {
                         throw new Error('Такой логин уже существует');
-                    } else throw new Error();
+                    } else {
+                        throw new Error();
+                    }
                 }
 
                 toast.success('Пользователь создан');
-                resetForm({values: initialValues});
+                resetForm({ values: initialValues });
                 resetPreview();
                 onGoBack();
+                submitRef.current = StagesEnum.STAGE1;
             } catch (error) {
                 toast.error(error?.data?.detail || error.message || 'Что-то пошло не так');
             }
@@ -109,8 +106,8 @@ const NewUserForm = () => {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={onSubmit}
             validationSchema={validationSchema}
+            onSubmit={onSubmit}
         >
             {(formikProps) => (
                 <Form className={styles.form}>
@@ -127,9 +124,7 @@ const NewUserForm = () => {
                                 animate="animate"
                                 exit="exit"
                             >
-                                <NewUserFormStage1
-                                    formikProps={formikProps}
-                                />
+                                <NewUserFormStage1 formikProps={formikProps} />
                             </m.div>
                         )}
 
@@ -144,11 +139,11 @@ const NewUserForm = () => {
                             >
                                 <NewUserFormStage2
                                     formikProps={formikProps}
-                                    onGoBack={onGoBack}
                                     fileRef={fileRef}
                                     preview={preview}
-                                    onUpload={onUpload}
                                     refSubmit={submitRef}
+                                    onGoBack={onGoBack}
+                                    onUpload={onUpload}
                                 />
                             </m.div>
                         )}

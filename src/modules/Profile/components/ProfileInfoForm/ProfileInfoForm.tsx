@@ -1,15 +1,24 @@
-import { Form } from 'formik';
-import { Button, InputText, UploadFile } from '../../../../UI';
-import { userIconV2Big } from '../../../../assets';
-import { ROLES } from '../../../../utils/constants';
-import styles from './ProfileInfoForm.module.css';
-import css from './ProfileInfo.module.scss';
-import Spinner from '../../../../UI/spinners/Spinner';
-import { user_dto } from '../../../../dto/user.dto';
 import { FC, MutableRefObject, ReactNode } from 'react';
-import { useAppSelector } from '../../../../hooks/redux';
-import ObservedList from '../ObservedList/ObservedList';
+import { useLocation } from 'react-router-dom';
+import { Form, FormikProps } from 'formik';
+import { userIconV2Big } from '@assets/index';
+
+import { UserWithRoleCodeType } from '@modules/Profile/components/types';
+
+import { Button, InputText, UploadFile } from '@UI/index';
+import Spinner from '@UI/spinners/Spinner';
+
+import { user_dto } from '@dto/user.dto';
+
+import {useAppSelector} from '@hooks/redux';
+
+import { ROLES } from '@utils/constants';
+
 import AppointedTutor from '../AppointedTutor/AppointedTutor';
+import ObservedList from '../ObservedList/ObservedList';
+
+import css from './ProfileInfo.module.scss';
+import styles from './ProfileInfoForm.module.css';
 
 export type InputFieldType = {
     type: 'email' | 'date' | 'text' | 'select';
@@ -18,7 +27,7 @@ export type InputFieldType = {
 };
 
 interface ProfileInfoFormPropsType {
-    formikProps: any;
+    formikProps: FormikProps<UserWithRoleCodeType>;
     preview: string | null;
     onUpload: any;
     onShowModal: () => void;
@@ -38,6 +47,14 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
     inputFields,
     children,
 }) => {
+    const { values } = formikProps;
+
+    const location = useLocation();
+
+    const authUser = useAppSelector(state => state.auth.user)
+
+    const isUserPage = location.pathname.includes('/users/');
+
     const submitBtnContent = formikProps.isSubmitting ? (
         <Spinner typeSpinner={'mini'} />
     ) : (
@@ -55,7 +72,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         <div className={styles.avatarContainer}>
                             <img
                                 className={styles.avatar}
-                                src={preview || user?.photo}
+                                src={preview || user?.photo || ''}
                                 alt="avatar"
                             />
                         </div>
@@ -73,11 +90,11 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         fileRef={fileRef}
                         label="Изменить фото"
                         className={styles.upload}
-                        onChange={onUpload(formikProps)}
                         inputProps={{
                             name: 'photo',
                             accept: 'image/png, image/jpeg, image/jpg',
                         }}
+                        onChange={onUpload(formikProps)}
                     />
                     <Button
                         className={styles.changePaswordButton}
@@ -92,6 +109,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                     if (type === 'date' && user.role !== ROLES.observed.code) {
                         return null;
                     }
+
                     return (
                         <InputText
                             key={name}
@@ -102,6 +120,14 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         />
                     );
                 })}
+                {values.role?.code === ROLES.observed.code && (
+                    <InputText
+                        name={'address'}
+                        label={'Адрес'}
+                        type={'text'}
+                        wrapperClassNames={styles.input}
+                    />
+                )}
                 {children && <div className={css.container}>{children}</div>}
 
                 <div className={styles.saveButtonWrapper}>
@@ -112,8 +138,12 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         {submitBtnContent}
                     </Button>
                 </div>
-                {user.role !== ROLES.observed.code && <ObservedList user_id={user.id} />}
-                {user.role === ROLES.observed.code && <AppointedTutor user_id={user.id} />}
+                {isUserPage && authUser?.role === ROLES.administrator.code && (
+                    <>
+                        {user.role !== ROLES.observed.code && <ObservedList user_id={user.id} />}
+                        {user.role === ROLES.observed.code && <AppointedTutor user_id={user.id} />}
+                    </>
+                )}
             </div>
         </Form>
     );

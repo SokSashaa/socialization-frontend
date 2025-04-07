@@ -1,24 +1,29 @@
-import {FC} from "react";
-import {Button} from "../../../UI";
-import {Form} from "formik";
-import InputText from "../../../UI/formik/InputText/InputText";
-import {InputFieldType} from "../../Profile/components/ProfileInfoForm/ProfileInfoForm";
-import css from './edit_organization_form.module.scss'
+import { FC } from 'react';
+import { Form } from 'formik';
+
+import { InputFieldType } from '@modules/Profile/components/ProfileInfoForm/ProfileInfoForm';
+
+import InputText from '@UI/formik/InputText/InputText';
+import { Button } from '@UI/index';
+
+import css from './edit_organization_form.module.scss';
 
 type OrganizationPropsType = {
-    formikProps?: any,
-    itemsInputs?: InputFieldType[]
-    buttonText?: string,
-}
-const OrganizationForm: FC<OrganizationPropsType> = ({buttonText='Сохранить', formikProps, itemsInputs,onSubmit}) => {
+    formikProps?: any;
+    itemsInputs?: InputFieldType[];
+    buttonText?: string;
+};
+const OrganizationForm: FC<OrganizationPropsType> = ({buttonText = 'Сохранить', formikProps, itemsInputs}) => {
     return (
         <Form className={css.root}>
-            {itemsInputs?.map(item =>
+            {itemsInputs?.map((item) => (
                 <InputText
-                key={item.name}
-                label={item.label}
-                name={item.name}
-                type={item.type}/>)}
+                    key={item.name}
+                    label={item.label}
+                    name={item.name}
+                    type={item.type}
+                />
+            ))}
             <Button
                 type="submit"
                 disabled={formikProps.isSubmitting}
@@ -26,6 +31,6 @@ const OrganizationForm: FC<OrganizationPropsType> = ({buttonText='Сохрани
                 {buttonText}
             </Button>
         </Form>
-    )
-}
-export default OrganizationForm
+    );
+};
+export default OrganizationForm;

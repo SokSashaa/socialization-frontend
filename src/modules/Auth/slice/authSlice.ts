@@ -1,13 +1,13 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {user_dto} from "../../../dto/user.dto";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { user_dto } from '@dto/user.dto';
 
 type initialStateType = {
-    user: user_dto | null,
-    access: null | string,
-    refresh: null | string
-}
+    user: user_dto | null;
+    access: null | string;
+    refresh: null | string;
+};
 
-type tokensType = Omit<initialStateType, 'user'>
+type tokensType = Omit<initialStateType, 'user'>;
 
 const initialState: initialStateType = {
     user: null,
@@ -20,7 +20,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setToken: (state, action: PayloadAction<tokensType>) => {
-            const {access, refresh} = action.payload;
+            const { access, refresh } = action.payload;
 
             state.access = access;
             state.refresh = refresh;
@@ -39,7 +39,7 @@ const authSlice = createSlice({
     },
 });
 
-const {reducer, actions} = authSlice;
+const { reducer, actions } = authSlice;
 
-export const {setToken, logout, setUserCredentials, updateToken} = actions;
+export const { setToken, logout, setUserCredentials, updateToken } = actions;
 export default reducer;

@@ -1,21 +1,24 @@
-import {Button, InputText} from '../../../../UI';
+import { FC } from 'react';
+import { FormikProps } from 'formik';
+
+import { ROLES } from '@utils/constants';
+
+import OrganizationsSelect from '../../../../components/OrganizationsSelect/OrganizationsSelect';
+import RoleSelect from '../../../../components/RoleSelect/RoleSelect';
+import { Button, InputText } from '../../../../UI';
+import Spinner from '../../../../UI/spinners/Spinner';
+
 import styles from './NewUserFormStage1.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
-import RoleSelect from "../../../../components/RoleSelect/RoleSelect";
-import OrganizationsSelect from "../../../../components/OrganizationsSelect/OrganizationsSelect";
-import {FormikProps} from "formik";
-import {FC} from "react";
 
 interface NewUserFormStage1Props<T> {
-    formikProps: FormikProps<T>
+    formikProps: FormikProps<T>;
 }
 
-const NewUserFormStage1: FC<NewUserFormStage1Props<any>> = ({
-                                                                formikProps,
-                                                            }) => {
-    const {isSubmitting, values} = formikProps;
+const NewUserFormStage1: FC<NewUserFormStage1Props<any>> = ({ formikProps }) => {
+    const { isSubmitting, values } = formikProps;
 
-    const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Далее';
+    const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'} /> : 'Далее';
+
     return (
         <>
             <div className={styles.row}>
@@ -47,6 +50,11 @@ const NewUserFormStage1: FC<NewUserFormStage1Props<any>> = ({
                     name="email"
                     label="Почта *"
                 />
+                <InputText
+                    wrapperClassNames={styles.inputText}
+                    name="phone_number"
+                    label="Телефон *"
+                />
             </div>
             <div className={styles.row}>
                 <InputText
@@ -60,13 +68,28 @@ const NewUserFormStage1: FC<NewUserFormStage1Props<any>> = ({
                     label="Пароль *"
                 />
             </div>
+            {values.role.code === ROLES.observed.code && (
+<div className={styles.row}>
+                <InputText
+                    wrapperClassNames={styles.inputText}
+                    name="address"
+                    label="Адрес *"
+                />
+            </div>
+)}
             <div className={styles.row}>
-                <RoleSelect formikProps={formikProps} classNameError={styles.selectError}
-                            classNameSelect={styles.select}/>
+                <RoleSelect
+                    formikProps={formikProps}
+                    classNameError={styles.selectError}
+                    classNameSelect={styles.select}
+                />
             </div>
             <div className={styles.row}>
-                <OrganizationsSelect formikProps={formikProps} classNameError={styles.selectError}
-                                     classNameSelect={styles.select}/>
+                <OrganizationsSelect
+                    formikProps={formikProps}
+                    classNameError={styles.selectError}
+                    classNameSelect={styles.select}
+                />
             </div>
             <div className={styles.btnRow}>
                 <Button type="submit">{submitBtnContent}</Button>

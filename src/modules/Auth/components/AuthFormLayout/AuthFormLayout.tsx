@@ -1,19 +1,28 @@
-import {Form} from 'formik';
-import {EyeIcon, EyeSlashIcon} from '@heroicons/react/24/solid';
-import {Button, InputText} from '../../../../UI';
-import {bg1Desktop, bg1Mobile, bg2Desktop, bg2Mobile, bg3Desktop, bg3Mobile,} from '../../../../assets';
+import { Form, FormikProps } from 'formik';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
+import { Button, InputText } from '@UI/index';
+import { bg1Desktop, bg1Mobile, bg2Desktop, bg2Mobile, bg3Desktop, bg3Mobile } from '@assets/index';
 import styles from './AuthFormLayout.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
+import Spinner from '@UI/spinners/Spinner';
+import { AuthType } from '@modules/Auth/components/AuthForm/types';
+import { FC } from 'react';
 
-const AuthFormLayout = (props) => {
+interface AuthFormLayoutProps {
+    isMobile: boolean;
+    showPassword: boolean;
+    formikProps: FormikProps<AuthType>;
+    onShowPassword: () => void;
+}
+
+const AuthFormLayout: FC<AuthFormLayoutProps> = (props) => {
     const {
         isMobile,
         onShowPassword,
         showPassword,
-        formikProps: {isSubmitting, handleSubmit},
+        formikProps: { isSubmitting, handleSubmit },
     } = props;
 
-    const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Войти';
+    const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'} /> : 'Войти';
 
     const bg1 = isMobile ? bg1Mobile : bg1Desktop;
     const bg2 = isMobile ? bg2Mobile : bg2Desktop;

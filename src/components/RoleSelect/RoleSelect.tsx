@@ -1,15 +1,20 @@
 import { FC } from 'react';
 import { ErrorMessage, FormikProps } from 'formik';
+import { useGetTutorsQuery } from '@app/api/common/usersApiSlice';
+
 import {
     rolesSelectOptions,
     transformUsersToSelectOptions,
-} from '../../modules/UsersList/utils/data.helper';
-import { ROLES } from '../../utils/constants';
+} from '@modules/UsersList/utils/data.helper';
+
+import { defaultConfigStylesForSearch } from '@UI/formik/FormikSelect/defaultConfigStylesForSearch';
+
+import { ROLES } from '@utils/constants';
+
 import FormikSelect from '../../UI/formik/FormikSelect/FormikSelect';
-import css from './RoleSelect.module.scss';
-import { useGetTutorsQuery } from '../../app/api/common/usersApiSlice';
-import { defaultConfigStylesForSearch } from '../../UI/formik/FormikSelect/defaultConfigStylesForSearch';
 import Spinner from '../../UI/spinners/Spinner';
+
+import css from './RoleSelect.module.scss';
 
 interface RoleSelectProps<T> {
     formikProps: FormikProps<T>;
@@ -27,7 +32,8 @@ const RoleSelect: FC<RoleSelectProps<any>> = (props) => {
     const onTutorSelect = ({ value }: { value: string; initialValue: string }) => {
         props.formikProps.setFieldValue('role.tutor_id', value);
     };
-    return (
+
+return (
         <>
             <FormikSelect
                 className={props.classNameSelect}
@@ -49,16 +55,16 @@ const RoleSelect: FC<RoleSelectProps<any>> = (props) => {
             {values.role.code === ROLES.observed.code && tutors && (
                 <div className={css.selectContainer}>
                     <FormikSelect
+                        isWithFind
                         name="role.tutor_id"
                         options={[...transformUsersToSelectOptions(tutors)]}
                         label="Наставник"
-                        isWithFind
-                        onChange={onTutorSelect}
+                        stylesForSearch={defaultConfigStylesForSearch}
                         selectProps={{
                             className: props.classNameSelect,
                             placeholder: 'Наставник',
                         }}
-                        stylesForSearch={defaultConfigStylesForSearch}
+                        onChange={onTutorSelect}
                     />
                     <ErrorMessage
                         className={props.classNameError}

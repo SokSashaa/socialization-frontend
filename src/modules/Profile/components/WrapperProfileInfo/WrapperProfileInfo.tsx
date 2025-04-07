@@ -1,31 +1,41 @@
-import { FC, ReactNode, useRef } from 'react';
+import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import styles from '../Profile/Profile.module.css';
-import { Container, ErrorMessage } from '../../../../UI';
-import { Formik } from 'formik';
-import { profileSchema } from '../../utils/validation.helper';
-import { uploadedFileSchema } from '../../../../utils/helpers';
-import ProfileInfoForm from '../ProfileInfoForm/ProfileInfoForm';
+import { Formik, FormikProps } from 'formik';
+import { useLazyGetTutorByObservedQuery } from '@app/api/common/usersApiSlice';
+
+import {OnSubmitFormType, UserWithRoleCodeType} from '@modules/Profile/components/types';
+
+import OrganizationsSelect from '@components/OrganizationsSelect/OrganizationsSelect';
+import RoleSelect from '@components/RoleSelect/RoleSelect';
+
+import { Container, ErrorMessage } from '@UI/index';
+import Spinner from '@UI/spinners/Spinner';
+
+import { user_dto } from '@dto/user.dto';
+
+import { useUploadPhoto } from '@hooks/index';
+import { useAppSelector } from '@hooks/redux';
+
+import { ROLES } from '@utils/constants';
+import { uploadedFileSchema } from '@utils/helpers';
+
 import { useChangeUserInfoMutation } from '../../api/profileApiSlice';
-import Spinner from '../../../../UI/spinners/Spinner';
-import { useUploadPhoto } from '../../../../hooks';
-import { user_dto } from '../../../../dto/user.dto';
+import { profileSchema } from '../../utils/validation.helper';
+import ProfileInfoForm from '../ProfileInfoForm/ProfileInfoForm';
+
 import { INPUT_FIELDS } from './config/inputFields';
-import { initialValuesType } from './types';
-import { useLocation } from 'react-router-dom';
-import RoleSelect from "../../../../components/RoleSelect/RoleSelect";
-import OrganizationsSelect from "../../../../components/OrganizationsSelect/OrganizationsSelect";
-import css from './WrapperProfileInfo.module.scss'
+
+import styles from '../Profile/Profile.module.css';
+import css from './WrapperProfileInfo.module.scss';
 
 interface WrapperProfileInfoProps {
     user: user_dto;
-    initialValues: initialValuesType;
     isLoading: boolean;
     isFetching: boolean;
     isError: boolean;
     open: () => void;
     children?: ReactNode;
-    onSubmit?: (res:any) => void;
+    onSubmit?: (res: OnSubmitFormType) => void;
 }
 
 const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
@@ -33,19 +43,68 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
     isError,
     isFetching,
     isLoading,
-    initialValues,
     onSubmit: onSubmitProps,
     user,
     open,
 }) => {
-    const location = useLocation();
     const fileRef = useRef(null);
 
+    const [initialValues, setInitialValues] = useState<UserWithRoleCodeType>();
+
     const [changeUserInfo] = useChangeUserInfoMutation();
+    const [getTutor] = useLazyGetTutorByObservedQuery();
 
     const { preview, onUpload } = useUploadPhoto('photo');
 
-    const isUserPage = location.pathname.includes('/users/');
+    const currentUser = useAppSelector((state) => state.auth?.user);
+
+    const getTutorID = useMemo(async () => {
+        if (user?.role !== ROLES.observed.code) {
+            return '';
+        }
+
+        const { data: tutor, isError } = await getTutor(user?.id);
+
+        if (isError) {
+            return '';
+        }
+
+        if (tutor) {
+            return tutor.id;
+        }
+
+        return '';
+    }, [getTutor, user?.id, user?.role]);
+
+    const getInitialValuesForm = useMemo(async (): Promise<UserWithRoleCodeType> => {
+        return {
+            name: user?.name || '',
+            patronymic: user?.patronymic || '',
+            second_name: user?.second_name || '',
+            birthday: user?.birthday || '2022-01-01',
+            email: user?.email || '',
+            photo: user?.photo || '',
+            role: {
+                code: user?.role || ROLES.observed.code,
+                tutor_id: await getTutorID,
+            },
+            organization: user?.organization,
+            address: user?.address,
+            phone_number: user?.phone_number || '',
+        };
+    }, [getTutorID, user]);
+
+    useEffect(() => {
+        if (user) {
+            getInitialValuesForm.then((value) => {
+                setInitialValues(value);
+            });
+        }
+    }, [user]);
+
+    if (!user || !initialValues) {
+        return null;
+    }
 
     if (isLoading || isFetching) {
         return (
@@ -65,16 +124,16 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
         );
     }
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values: UserWithRoleCodeType) => {
         const newInfo = {
             ...values,
-            photo: values.photo.indexOf('data:image') === -1 ? null : values.photo,
+            photo: values.photo && values.photo.indexOf('data:image') === -1 ? null : values.photo,
         };
 
         try {
-            const res = await changeUserInfo({ id: user?.id, data: newInfo }).unwrap();
+            const res:OnSubmitFormType  = await changeUserInfo({ id: user?.id, data: newInfo }).unwrap();
 
-            if (!res.success) {
+            if (!res.success && res.errors) {
                 throw new Error(res.errors[0]);
             }
             if (onSubmitProps) {
@@ -94,21 +153,21 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
             <Container>
                 <div className={styles.inner}>
                     <Formik
-                        onSubmit={onSubmit}
                         initialValues={initialValues}
                         validationSchema={profileSchema.concat(uploadedFileSchema(fileRef))}
+                        onSubmit={onSubmit}
                     >
-                        {(formikProps) => (
+                        {(formikProps: FormikProps<UserWithRoleCodeType>) => (
                             <ProfileInfoForm
                                 user={user}
                                 formikProps={formikProps}
                                 preview={preview}
-                                onUpload={onUpload}
-                                onShowModal={open}
                                 fileRef={fileRef}
                                 inputFields={INPUT_FIELDS}
+                                onUpload={onUpload}
+                                onShowModal={open}
                             >
-                                {isUserPage && (
+                                {currentUser?.role === ROLES.administrator.code && (
                                     <>
                                         <RoleSelect
                                             formikProps={formikProps}

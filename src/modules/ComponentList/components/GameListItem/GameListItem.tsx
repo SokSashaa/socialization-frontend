@@ -6,7 +6,7 @@ import { useDeleteGamesMutation } from '../../api/gameApiSlice';
 import { selectCurrentUser } from '../../../Auth';
 import { setSelectedTest } from '../../slice/testsSlice';
 import { ItemListWrapper } from '../../../../UI';
-import { ROLES } from '../../../../utils/constants';
+import { ROLES } from '@utils/constants';
 import { defaultGameIcon } from '../../../../assets';
 import styles from './GameListItem.module.scss';
 

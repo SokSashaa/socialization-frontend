@@ -3,10 +3,10 @@ import {Portal, SearchBar} from "../../components";
 import css from './organizations.module.scss'
 import {ButtonAddItemList} from "../../UI";
 import axios from "axios";
-import {organizations_dto} from "../../dto/organizations.dto";
+import {organizations_dto} from "@dto/organizations.dto";
 import {useMutation, useQuery, useQueryClient, UseQueryOptions} from "react-query";
 import CreateOrganizationModal from "./CreateOrganizationModal/CreateOrganizationModal";
-import {useModalState} from "../../hooks/useModalState";
+import {useModalState} from "@hooks/useModalState";
 import OrganizationItem from "../../modules/Organizations/OrganizationItem/OrganizationItem";
 import {toast} from "react-toastify";
 

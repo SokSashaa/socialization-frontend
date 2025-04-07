@@ -1,17 +1,29 @@
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useGetUserInfoQuery } from '../../../../app/api/common/usersApiSlice';
-import { logout, setUserCredentials } from '../../../Auth';
+import {useCallback} from 'react';
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {useGetUserInfoQuery} from '@app/api/common/usersApiSlice';
 
-import { Button } from '../../../../UI';
-import { Portal } from '../../../../components';
+import {logout, setUserCredentials} from '@modules/Auth';
+import {OnSubmitFormType} from '@modules/Profile/components/types';
+
+import {Portal} from '@components/index';
+
+import {Button} from '@UI/index';
+
+import {useModalState} from '@hooks/useModalState';
+
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
-import styles from './Profile.module.css';
-import { useModalState } from '../../../../hooks/useModalState';
 import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
 
+import styles from './Profile.module.css';
+
 const Profile = () => {
-    const { data: user, isFetching, isLoading, isError } = useGetUserInfoQuery();
+    const {
+data: user,
+isFetching,
+isLoading,
+isError
+} = useGetUserInfoQuery();
 
     const navigate = useNavigate();
 
@@ -19,31 +31,27 @@ const Profile = () => {
 
     const dispatch = useDispatch();
 
-    const initialValues = {
-        name: user?.name || '',
-        patronymic: user?.patronymic || '',
-        second_name: user?.second_name || '',
-        birthday: user?.birthday || '2022-01-01',
-        email: user?.email || '',
-        photo: user?.photo || '',
-    };
-
     const onLogout = () => {
         dispatch(logout());
         navigate('/auth');
     };
+
+    const onSubmit = useCallback((res: OnSubmitFormType) => {
+        if (res.result) {
+            dispatch(setUserCredentials(res.result))
+        }
+    }, [dispatch]);
 
     return (
         <>
             {user && (
                 <WrapperProfileInfo
                     user={user}
-                    initialValues={initialValues}
+                    isError={isError}
                     isLoading={isLoading}
                     isFetching={isFetching}
-                    isError={isError}
                     open={open}
-                    onSubmit={(res) => dispatch(setUserCredentials(res.result))}
+                    onSubmit={onSubmit}
                 >
                     <div className={styles.logoutButtonContainer}>
                         <Button

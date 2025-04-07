@@ -1,35 +1,41 @@
-import React, {FC} from "react";
-import {Modal, ModalLayout} from "../../../UI";
-import {Formik} from "formik";
-import OrganizationForm from "../../../modules/Organizations/OrganizationForm/EditOrganizationForm";
-import {inputFieldsOrganizations} from "../../EditOrganizations/EditOrganizations";
-import {organizations_dto} from "../../../dto/organizations.dto";
-import {toast} from "react-toastify";
-import {useMutation, useQueryClient} from "react-query";
-import axios from "axios";
-import {organizationsValidate} from "../../../modules/Organizations/utils/validate.shema";
+import React, { FC } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { Formik } from 'formik';
+
+import OrganizationForm from '@modules/Organizations/OrganizationForm/EditOrganizationForm';
+import { organizationsValidate } from '@modules/Organizations/utils/validate.shema';
+
+import { Modal, ModalLayout } from '@UI/index';
+
+import { organizations_dto } from '@dto/organizations.dto';
+
+import { inputFieldsOrganizations } from '../../EditOrganizations/EditOrganizations';
 // import styles from "../../../modules/ComponentList/components/CreateTestForm/CreateTestForm.module.scss";
 
 type CreateOrgModalPropsType = {
-    isOpenModal: boolean,
-    setShowModal: () => void
-}
+    isOpenModal: boolean;
+    setShowModal: () => void;
+};
 const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     const url = import.meta.env.VITE_SERVER_URL;
 
-    const mutate = useMutation(async (body: Omit<organizations_dto, 'id'>) => {
-        return (await axios.post(url + 'organizations/create_org/', body)).data
-    }, {
-        onSuccess: () => queryClient.invalidateQueries('organizations'),
-    })
+    const mutate = useMutation(
+        async (body: Omit<organizations_dto, 'id'>) => {
+            return (await axios.post(url + 'organizations/create_org/', body)).data;
+        },
+        {
+            onSuccess: () => queryClient.invalidateQueries('organizations'),
+        },
+    );
 
     const onSubmit = async (values: Omit<organizations_dto, 'id'>) => {
-
         try {
-            mutate.mutate(values)
+            mutate.mutate(values);
             toast.success('Организация создана');
-            props.setShowModal()
+            props.setShowModal();
         } catch (error) {
             toast.error(error?.data?.detail || error.message || 'Что-то пошло не так');
         }
@@ -40,14 +46,14 @@ const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
         address: '',
         site: '',
         phone_number: '',
-        email: ''
-    }
+        email: '',
+    };
 
     return (
         <Formik
             initialValues={initialState}
-            onSubmit={onSubmit}
             validationSchema={organizationsValidate}
+            onSubmit={onSubmit}
         >
             {(formikProps) => (
                 <Modal
@@ -58,14 +64,17 @@ const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
                     <ModalLayout
                         title="Создание организации"
                         content={
-                            <OrganizationForm itemsInputs={inputFieldsOrganizations} formikProps={formikProps}
-                                              buttonText={'Создать'}/>
+                            <OrganizationForm
+                                itemsInputs={inputFieldsOrganizations}
+                                formikProps={formikProps}
+                                buttonText={'Создать'}
+                            />
                         }
                     />
                 </Modal>
             )}
         </Formik>
-    )
-}
+    );
+};
 
-export default CreateOrganizationModal
+export default CreateOrganizationModal;

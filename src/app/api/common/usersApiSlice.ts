@@ -92,4 +92,5 @@ export const {
     useLazyGetUserInfoQuery,
     useGetSingleUserQuery,
     useGetTutorByObservedQuery,
+    useLazyGetTutorByObservedQuery
 } = usersApiSlice;

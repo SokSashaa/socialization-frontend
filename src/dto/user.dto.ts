@@ -1,5 +1,5 @@
 import { organizations_dto } from './organizations.dto';
-import { RoleCode } from '../utils/constants';
+import { RoleCode } from '@utils/constants';
 
 export type user_dto = {
     id: string;
@@ -13,4 +13,5 @@ export type user_dto = {
     patronymic?: string;
     phone_number?: string;
     role?: RoleCode;
+    address?: string;
 };

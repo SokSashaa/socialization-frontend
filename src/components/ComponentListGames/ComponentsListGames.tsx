@@ -1,15 +1,20 @@
-import {FC, useState} from "react";
-import styles from "../../modules/ComponentList/components/ComponentList/ComponentList.module.css";
-import {ButtonAddItemList, Container} from "../../UI";
-import {FilteredList, Portal} from "../index";
-import {ROLES} from "../../utils/constants";
-import AssignComponentModal from "../../modules/ComponentList/components/AssignComponentModal/AssignComponentModal";
-import {useGetGamesQuery} from "../../modules/ComponentList/api/gameApiSlice";
-import {useGetObserverGamesQuery} from "../../app/api/common/gameApiSlice";
-import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {setGameSearch, setGamesSortValue} from "../../modules/ComponentList/slice/testsSlice";
-import GameListItem from "../../modules/ComponentList/components/GameListItem/GameListItem";
-import AddGameModal from "../../modules/ComponentList/components/AddGameModal/AddGameModal";
+import { FC, useState } from 'react';
+import { useGetObserverGamesQuery } from '@app/api/common/gameApiSlice';
+
+import { useGetGamesQuery } from '@modules/ComponentList/api/gameApiSlice';
+import { setGameSearch, setGamesSortValue } from '@modules/ComponentList/slice/testsSlice';
+
+import { useAppDispatch, useAppSelector } from '@hooks/redux';
+
+import { ROLES } from '@utils/constants';
+
+import AddGameModal from '../../modules/ComponentList/components/AddGameModal/AddGameModal';
+import AssignComponentModal from '../../modules/ComponentList/components/AssignComponentModal/AssignComponentModal';
+import GameListItem from '../../modules/ComponentList/components/GameListItem/GameListItem';
+import { ButtonAddItemList, Container } from '../../UI';
+import { FilteredList, Portal } from '../index';
+
+import styles from '../../modules/ComponentList/components/ComponentList/ComponentList.module.css';
 
 const gameSortList = [
     {
@@ -23,16 +28,15 @@ const gameSortList = [
 ];
 
 const ComponentsListGames: FC = (currentUser, listType) => {
-
-    const {id, role} = currentUser;
+    const { id, role } = currentUser;
 
     const [showCreateTestModal, setShowCreateTestModal] = useState(false);
     const [showAddGameModal, setShowAddGameModal] = useState(false);
     const [showAssignModal, setShowAssignModal] = useState(false);
 
-    const gameSearchValue = useAppSelector(state => state.tests?.gameSearch)
-    const gamesSortValue = useAppSelector(state => state.tests?.gamesSortValue)
-    const selectedTest = useAppSelector(state => state.tests?.selectedTest);
+    const gameSearchValue = useAppSelector((state) => state.tests?.gameSearch);
+    const gamesSortValue = useAppSelector((state) => state.tests?.gamesSortValue);
+    const selectedTest = useAppSelector((state) => state.tests?.selectedTest);
 
     const {
         data: components,
@@ -44,7 +48,7 @@ const ComponentsListGames: FC = (currentUser, listType) => {
             search: gameSearchValue!.trim(), // TODO: здесь ! не должен быть
             sort: gamesSortValue,
         },
-        {skip: role === ROLES.observed.code},
+        { skip: role === ROLES.observed.code },
     );
 
     const {
@@ -52,9 +56,9 @@ const ComponentsListGames: FC = (currentUser, listType) => {
         isLoading: isObservedComponentsLoading,
         isFetching: isObservedComponentsFetching,
         isError: isObservedComponentsError,
-    } = useGetObserverGamesQuery({id}, {skip: role !== ROLES.observed.code});
+    } = useGetObserverGamesQuery({ id }, { skip: role !== ROLES.observed.code });
 
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     const onSearch = (query) => {
         dispatch(setGameSearch(query));
@@ -62,7 +66,6 @@ const ComponentsListGames: FC = (currentUser, listType) => {
 
     const onSort = (sortProperty) => {
         dispatch(setGamesSortValue(sortProperty));
-
     };
 
     const toggleModal = (action) => () => {
@@ -75,53 +78,58 @@ const ComponentsListGames: FC = (currentUser, listType) => {
         }
     };
 
-
-    return <div className={styles.wrapper}>
-        <Container>
-            <FilteredList
-                items={components || observedComponents}
-                onSearch={onSearch}
-                onSort={onSort}
-                sortList={gameSortList}
-                isError={isError || isObservedComponentsError}
-                isLoading={
-                    isLoading || isFetching || isObservedComponentsLoading || isObservedComponentsFetching
-                }
-                renderItemContent={(item) => {
-                    return (
-                        <GameListItem
-                            game={item}
-                            toggleModal={toggleModal('assign')}
-                        />
-                    );
-
-                }}
-            >
-                {role !== ROLES.observed.code && role !== ROLES.tutor.code && (
-                    <ButtonAddItemList onClick={() => toggleModal('create')}>Добавить игру</ButtonAddItemList>
-                )}
-            </FilteredList>
-            <Portal>
-                {(() => {
-                    return (
-                        <>
-                            <AddGameModal
-                                toggleModal={toggleModal('add')}
-                                showModal={showAddGameModal}
-                                setShowModal={setShowAddGameModal}
+    return (
+        <div className={styles.wrapper}>
+            <Container>
+                <FilteredList
+                    items={components || observedComponents}
+                    sortList={gameSortList}
+                    isError={isError || isObservedComponentsError}
+                    isLoading={
+                        isLoading ||
+                        isFetching ||
+                        isObservedComponentsLoading ||
+                        isObservedComponentsFetching
+                    }
+                    renderItemContent={(item) => {
+                        return (
+                            <GameListItem
+                                game={item}
+                                toggleModal={toggleModal('assign')}
                             />
-                            <AssignComponentModal
-                                componentId={selectedTest}
-                                showModal={showAssignModal}
-                                setShowModal={setShowAssignModal}
-                                listType={listType}
-                            />
-                        </>
-                    );
-                })()}
-            </Portal>
-        </Container>
-    </div>
-}
+                        );
+                    }}
+                    onSearch={onSearch}
+                    onSort={onSort}
+                >
+                    {role !== ROLES.observed.code && role !== ROLES.tutor.code && (
+                        <ButtonAddItemList onClick={() => toggleModal('create')}>
+                            Добавить игру
+                        </ButtonAddItemList>
+                    )}
+                </FilteredList>
+                <Portal>
+                    {(() => {
+                        return (
+                            <>
+                                <AddGameModal
+                                    toggleModal={toggleModal('add')}
+                                    showModal={showAddGameModal}
+                                    setShowModal={setShowAddGameModal}
+                                />
+                                <AssignComponentModal
+                                    componentId={selectedTest}
+                                    showModal={showAssignModal}
+                                    setShowModal={setShowAssignModal}
+                                    listType={listType}
+                                />
+                            </>
+                        );
+                    })()}
+                </Portal>
+            </Container>
+        </div>
+    );
+};
 
-export default ComponentsListGames
+export default ComponentsListGames;

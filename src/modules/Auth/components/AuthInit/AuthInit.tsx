@@ -1,39 +1,45 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useLocalStorage } from '@rehooks/local-storage';
-import { setUserCredentials, logout } from '../../slice/authSlice';
-import { useLazyGetUserInfoQuery } from '../../../../app/api/common/usersApiSlice';
+import {FC, ReactNode, useEffect} from 'react';
+import {useDispatch} from 'react-redux';
+import {useLocalStorage} from '@rehooks/local-storage';
+import {logout, setUserCredentials} from '@modules/Auth';
+import {useLazyGetUserInfoQuery} from '@app/api/common/usersApiSlice';
+import {LocalStorageUser} from '../../../../types';
 
 /**
  * Получаем инфу о пользователе при первом открытии приложения
  */
-const AuthInit = ({ children }) => {
-  const dispatch = useDispatch();
-  const [auth] = useLocalStorage('auth', null);
 
-  const [getUserInfo, { isLoading, isUninitialized }] = useLazyGetUserInfoQuery();
+interface AuthInitProps {
+    children: ReactNode;
+}
 
-  const access = auth?.access;
+const AuthInit: FC<AuthInitProps> = ({ children }) => {
+    const dispatch = useDispatch();
+    const [auth] = useLocalStorage<LocalStorageUser | null>('auth', null);
 
-  useEffect(() => {
-    const userRequest = async () => {
-      try {
-        const user = await getUserInfo().unwrap();
+    const [getUserInfo, { isLoading, isUninitialized }] = useLazyGetUserInfoQuery();
 
-        dispatch(setUserCredentials(user));
-      } catch (error) {
-        dispatch(logout());
-      }
-    };
+    const access = auth?.access;
 
-    if (access) {
-      userRequest();
-    } else {
-      dispatch(logout());
-    }
-  }, []);
+    useEffect(() => {
+        const userRequest = async () => {
+            try {
+                const user = await getUserInfo().unwrap();
 
-  return (isLoading || isUninitialized) && access ? <p>Загрузка...</p> : children;
+                dispatch(setUserCredentials(user));
+            } catch (error) {
+                dispatch(logout());
+            }
+        };
+
+        if (access) {
+            userRequest();
+        } else {
+            dispatch(logout());
+        }
+    }, []);
+
+    return (isLoading || isUninitialized) && access ? <p>Загрузка...</p> : children;
 };
 
 export default AuthInit;
