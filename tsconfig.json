@@ -1,25 +1,66 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "strict" : true,
-        "strictFunctionTypes" : false,
-        "allowSyntheticDefaultImports": true,
-        "useUnknownInCatchVariables": false,
-        "module": "ESNext",
-        "moduleResolution" : "node",
-        "lib": ["DOM","ES6","DOM.Iterable","ScriptHost", "ES2017"],
-        "target": "ES2017",
-        "paths": {
-            "*": ["./typings/*"]
-        },
-        "typeRoots" : ["./node_modules/@types", "./typings"],
-        "jsx": "react-jsx",
-        "skipLibCheck": true
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "strict": true,
+    "strictFunctionTypes": false,
+    "allowSyntheticDefaultImports": true,
+    "useUnknownInCatchVariables": false,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": [
+      "DOM",
+      "ES6",
+      "DOM.Iterable",
+      "ScriptHost",
+      "ES2017"
+    ],
+    "target": "ES2017",
+    "paths": {
+      "*": [
+        "./typings/*"
+      ],
+      "@pages/*": [
+        "./pages/*"
+      ],
+      "@routes/*": [
+        "./routes/*"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ],
+      "@dto/*": [
+        "./dto/*"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@app/*": [
+        "./app/*"
+      ],
+      "@UI/*": [
+        "./UI/*"
+      ],
+      "@modules/*": [
+        "./modules/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ]
     },
-    "include": [
-        "src",
-        "./global.d.ts"
-    ]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings"
+    ],
+    "jsx": "react-jsx",
+    "skipLibCheck": true
+  },
+  "include": [
+    "src",
+    "./global.d.ts"
+  ]
 }
