@@ -1,12 +1,14 @@
-import styles from "./ButtonAddItemList.module.scss";
-import {addFileIcon} from "../../assets";
-import React, {FC, HTMLAttributes} from "react";
+import React, { FC, HTMLAttributes } from 'react';
+
+import { addFileIcon } from '@assets/index';
+
+import styles from './ButtonAddItemList.module.scss';
 
 const ButtonAddItemList: FC<HTMLAttributes<HTMLButtonElement>> = (props) => (
     <button
         className={`group ${styles.button}`}
-        onClick={props.onClick}
         type="button"
+        onClick={props.onClick}
     >
         <img
             className={`group-hover:fill-white ${styles.icon}`}
@@ -16,6 +18,5 @@ const ButtonAddItemList: FC<HTMLAttributes<HTMLButtonElement>> = (props) => (
         {props.children}
     </button>
 );
-
 
 export default ButtonAddItemList;

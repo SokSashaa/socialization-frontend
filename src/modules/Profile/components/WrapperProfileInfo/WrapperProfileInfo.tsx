@@ -3,10 +3,9 @@ import { toast } from 'react-toastify';
 import { Formik, FormikProps } from 'formik';
 import { useLazyGetTutorByObservedQuery } from '@app/api/common/usersApiSlice';
 
+import OrganizationsSelect from '@modules/Organizations/components/OrganizationsSelect/OrganizationsSelect';
+import RoleSelect from '@modules/Profile/components/RoleSelect/RoleSelect';
 import {OnSubmitFormType, UserWithRoleCodeType} from '@modules/Profile/components/types';
-
-import OrganizationsSelect from '@components/OrganizationsSelect/OrganizationsSelect';
-import RoleSelect from '@components/RoleSelect/RoleSelect';
 
 import { Container, ErrorMessage } from '@UI/index';
 import Spinner from '@UI/spinners/Spinner';

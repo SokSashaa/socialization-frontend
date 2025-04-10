@@ -1,15 +1,18 @@
-import {m} from 'framer-motion';
-import Sort from '../Sort/Sort';
+import { FC, OptionHTMLAttributes, ReactNode } from 'react';
+import { m } from 'framer-motion';
+
+import { ErrorMessage } from '../../UI';
+import Spinner from '../../UI/spinners/Spinner';
 import SearchBar from '../SearchBar/SearchBar';
-import {ErrorMessage} from '../../UI';
+import Sort from '../Sort/Sort';
+
 import styles from './FilteredList.module.css';
-import Spinner from "../../UI/spinners/Spinner";
 
 const liVariants = {
     visible: (i) => ({
         y: 0,
         opacity: 1,
-        transition: {delay: i * 0.2, duration: 0.2, type: 'ease'},
+        transition: { delay: i * 0.2, duration: 0.2, type: 'ease' },
     }),
     hidden: {
         opacity: 0,
@@ -17,16 +20,27 @@ const liVariants = {
     },
 };
 
-const FilteredList = ({
-                          items,
-                          children,
-                          isLoading,
-                          isError,
-                          sortList = [],
-                          renderItemContent = () => {},
-                          onSearch = (value: any) => {},
-                          onSort = () => {},
-                      }) => {
+interface FilteredListProps {
+    items: any;
+    sortList: OptionHTMLAttributes<HTMLOptionElement>[];
+    onSort: (value: string) => void;
+    onSearch: (value: string) => void;
+    renderItemContent: (value: any) => void;
+    children?: ReactNode;
+    isLoading?: boolean;
+    isError?: boolean;
+}
+
+const FilteredList: FC<FilteredListProps> = ({
+    items,
+    children,
+    isLoading,
+    isError,
+    sortList = [],
+    renderItemContent = () => {},
+    onSearch = (value) => {},
+    onSort = (value) => {},
+}) => {
     const renderItems = (data, renderItem) => {
         const renderedItems = data?.map((item, i) => (
             <m.li
@@ -44,7 +58,12 @@ const FilteredList = ({
         return <ul>{renderedItems}</ul>; // className={styles.list}
     };
 
-    const loading = isLoading ? <Spinner typeSpinner={'big'} className="mt-7"/> : null;
+    const loading = isLoading ? (
+        <Spinner
+            typeSpinner={'big'}
+            className="mt-7"
+        />
+    ) : null;
 
     const error = isError ? (
         <ErrorMessage
@@ -59,13 +78,13 @@ const FilteredList = ({
         <div className={styles.wrapper}>
             <form className={styles.form}>
                 <SearchBar
-                    onSearch={onSearch}
                     className={styles.searchBar}
+                    onSearch={onSearch}
                 />
                 <Sort
                     className={styles.sortWrapper}
-                    onSort={onSort}
                     options={sortList}
+                    onSort={onSort}
                 />
             </form>
             {children}

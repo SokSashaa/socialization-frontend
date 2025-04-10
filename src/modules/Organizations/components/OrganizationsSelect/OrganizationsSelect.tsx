@@ -5,8 +5,7 @@ import { useGetOrganizationsQuery } from '@app/api/common/organizationsApiSlice'
 import { transformOrganizationToSelectOptions } from '@modules/UsersList/utils/data.helper';
 
 import { defaultConfigStylesForSearch } from '@UI/formik/FormikSelect/defaultConfigStylesForSearch';
-
-import FormikSelect from '../../UI/formik/FormikSelect/FormikSelect';
+import FormikSelect from '@UI/formik/FormikSelect/FormikSelect';
 
 interface OrganizationProps<T> {
     formikProps: FormikProps<T>;

@@ -1,19 +1,21 @@
-import {useField} from "formik";
+import { FC } from 'react';
+import { useField } from 'formik';
+
+import { SelectWithSearch } from '../../index';
 import Select from '../../Select/Select';
-import {FC, HTMLAttributes} from "react";
-import {SelectWithSearch} from "../../index";
-import css from './formikSelect.module.scss'
+
+import css from './formikSelect.module.scss';
 
 type FormikSelectProps = {
-    name: string,
-    options?: any,
-    className?: string,
-    label?: string,
-    onChange?: Function
-    selectProps: any // по другому работать не будет //TODO подумать на счёт типа был htmlattributes<HTMLinput>,
-    isWithFind?: boolean,
-    stylesForSearch?: object,
-}
+    name: string;
+    selectProps: any; // по другому работать не будет //TODO подумать на счёт типа был htmlattributes<HTMLinput>,
+    options?: any;
+    className?: string;
+    label?: string;
+    onChange?: Function;
+    isWithFind?: boolean;
+    stylesForSearch?: object;
+};
 const FormikSelect: FC<FormikSelectProps> = ({
                                                  name,
                                                  options,
@@ -26,14 +28,6 @@ const FormikSelect: FC<FormikSelectProps> = ({
                                              }) => {
     const [field, meta] = useField<any>(name); //TODO подумать на счёт типа
 
-    // if(name==='role.tutor_id') console.log(meta)
-    // const fieldOnChange = useCallback((e) => {
-    //     field.onChange(e);
-    //
-    //     if (onChange) {
-    //         onChange(e);
-    //     }
-    // }, [])
 
     const combineStylesForSearch = {...stylesForSearch,
         control: (base, state) => {
@@ -53,8 +47,8 @@ const FormikSelect: FC<FormikSelectProps> = ({
     return (<div className={css.root}>
             {
                 isWithFind ?
-                    <SelectWithSearch className={className} options={options} label={label} onChange={onChange}
-                                      selectProps={{...selectProps, ...field,}} stylesForSearch={combineStylesForSearch}
+                    <SelectWithSearch className={className} options={options} label={label} selectProps={{...selectProps, ...field,}}
+                                      stylesForSearch={combineStylesForSearch} onChange={onChange}
                     /> :
                     <Select
                         className={className}

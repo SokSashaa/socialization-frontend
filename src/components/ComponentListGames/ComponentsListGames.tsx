@@ -60,11 +60,11 @@ const ComponentsListGames: FC = (currentUser, listType) => {
 
     const dispatch = useAppDispatch();
 
-    const onSearch = (query) => {
+    const onSearch = (query: string) => {
         dispatch(setGameSearch(query));
     };
 
-    const onSort = (sortProperty) => {
+    const onSort = (sortProperty: string) => {
         dispatch(setGamesSortValue(sortProperty));
     };
 

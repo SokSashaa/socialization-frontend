@@ -1,29 +1,40 @@
-import {FC, useCallback, useEffect, useState} from 'react';
-import {toast} from 'react-toastify';
-import {useLazyGetObservedsQuery} from '../../../../app/api/common/usersApiSlice';
-import {useAssignTestMutation} from '../../api/testApiSlice';
-import {useAssignGameMutation} from '../../api/gameApiSlice';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import { useLazyGetObservedsQuery } from '../../../../app/api/common/usersApiSlice';
+import { Modal, ModalLayout } from '../../../../UI';
+import { useAssignGameMutation } from '../../api/gameApiSlice';
+import { useAssignTestMutation } from '../../api/testApiSlice';
 import AssignComponentLayout from '../AssignComponentLayout/AssignComponentLayout';
-import {Modal, ModalLayout} from '../../../../UI';
 
 type AssignComponentModalProps = {
-    showModal: boolean,
-    setShowModal: (value) => void,
-    componentId: any,
-    listType: string,
-}
-const AssignComponentModal: FC<AssignComponentModalProps> = ({showModal, setShowModal, componentId, listType}) => {
+    showModal: boolean;
+    setShowModal: (value) => void;
+    componentId: any;
+    listType: string;
+};
+const AssignComponentModal: FC<AssignComponentModalProps> = ({
+    showModal,
+    setShowModal,
+    componentId,
+    listType,
+}) => {
     const [selectedUsers, setSelectedUsers] = useState([]);
 
     const [
         getObserveds,
-        {isLoading: isUsersLoading, isFetching: isUsersFetching, isError: isUsersError, data: users},
+        {
+            isLoading: isUsersLoading,
+            isFetching: isUsersFetching,
+            isError: isUsersError,
+            data: users,
+        },
     ] = useLazyGetObservedsQuery();
 
     const useAssignMutationHook =
         listType === 'tests' ? useAssignTestMutation : useAssignGameMutation;
 
-    const [assignComponent, {isLoading: isAssignComponentLoading}] = useAssignMutationHook();
+    const [assignComponent, { isLoading: isAssignComponentLoading }] = useAssignMutationHook();
 
     useEffect(() => {
         const onObservedsRequest = async (params) => {
@@ -31,26 +42,25 @@ const AssignComponentModal: FC<AssignComponentModalProps> = ({showModal, setShow
                 const observeds = await getObserveds(params).unwrap();
 
                 const selectedObserved = observeds
-                    .filter(
-                        ({tests, games}) =>
-                            (listType === 'tests' ? tests : games).some(
-                                (entity) => entity[listType === 'tests' ? 'test' : 'game'].id === componentId,
-                            ),
+                    .filter(({ tests, games }) =>
+                        (listType === 'tests' ? tests : games).some(
+                            (entity) =>
+                                entity[listType === 'tests' ? 'test' : 'game'].id === componentId,
+                        ),
                     )
                     .map((u) => u.id);
 
                 setSelectedUsers(selectedObserved);
-            } catch (error) {
-            }
+            } catch (error) {}
         };
 
         if (showModal) {
-            onObservedsRequest({text: ''});
+            onObservedsRequest({ text: '' });
         }
     }, [showModal]);
 
     const onSelectUser = (e) => {
-        const {checked, value} = e.target;
+        const { checked, value } = e.target;
 
         if (checked) {
             setSelectedUsers((prev) => [...prev, +value]);
@@ -81,11 +91,11 @@ const AssignComponentModal: FC<AssignComponentModalProps> = ({showModal, setShow
         } catch (error) {
             toast.error(error?.data?.detail || 'Что-то пошло не так');
         }
-    }, [selectedUsers, componentId, assignComponent])
+    }, [selectedUsers, componentId, assignComponent]);
 
     const onSearch = (isModalShowed) => async (query) => {
         if (isModalShowed) {
-            await getObserveds({text: query.trim()});
+            await getObserveds({ text: query.trim() });
         }
     };
 
@@ -99,14 +109,14 @@ const AssignComponentModal: FC<AssignComponentModalProps> = ({showModal, setShow
                 title={`Назначить/отвязать ${listType === 'tests' ? 'тест' : 'игру'} наблюдаемым`}
                 content={
                     <AssignComponentLayout
-                        onAssign={onAssign}
                         selectedUsers={selectedUsers}
-                        onSelectUser={onSelectUser}
-                        onSearch={onSearch(showModal)}
                         users={users}
                         isError={isUsersError}
                         isUsersLoading={isUsersLoading || isUsersFetching}
                         isAssigning={isAssignComponentLoading}
+                        onAssign={onAssign}
+                        onSelectUser={onSelectUser}
+                        onSearch={onSearch(showModal)}
                     />
                 }
             />

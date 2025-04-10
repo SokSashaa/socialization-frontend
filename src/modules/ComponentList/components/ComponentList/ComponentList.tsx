@@ -1,15 +1,20 @@
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetTestsQuery } from '../../api/testApiSlice';
-import { useGetGamesQuery } from '../../api/gameApiSlice';
 import { useGetObserverGamesQuery } from '@app/api/common/gameApiSlice';
 import { useGetObserverTestsQuery } from '@app/api/common/testApiSlice';
-import {
-    setGameSearch,
-    setGamesSortValue,
-    setTestSearch,
-    setTestsSortValue,
-} from '../../slice/testsSlice';
+
+import { gameSortList, testSortList } from '@modules/ComponentList/config/sortList';
+
+import { FilteredList, Portal } from '@components/index';
+
+import { ButtonAddItemList, Container } from '@UI/index';
+
+import { user_dto } from '@dto/user.dto';
+
+import { ROLES } from '@utils/constants';
+
+import { useGetGamesQuery } from '../../api/gameApiSlice';
+import { useGetTestsQuery } from '../../api/testApiSlice';
 import {
     selectGameSearchValue,
     selectGamesSortValue,
@@ -17,49 +22,19 @@ import {
     selectTestSearchValue,
     selectTestSortValue,
 } from '../../slice/selectors';
-
-import { FilteredList, Portal } from '../../../../components';
-import { ButtonAddItemList, Container } from '../../../../UI';
-import TestListItem from '../TestListItem/TestListItem';
-import GameListItem from '../GameListItem/GameListItem';
-import CreateTestModal from '../CreateTestModal/CreateTestModal';
+import {
+    setGameSearch,
+    setGamesSortValue,
+    setTestSearch,
+    setTestsSortValue,
+} from '../../slice/testsSlice';
 import AddGameModal from '../AddGameModal/AddGameModal';
 import AssignComponentModal from '../AssignComponentModal/AssignComponentModal';
+import CreateTestModal from '../CreateTestModal/CreateTestModal';
+import GameListItem from '../GameListItem/GameListItem';
+import TestListItem from '../TestListItem/TestListItem';
 
-import { ROLES } from '@utils/constants';
 import styles from './ComponentList.module.css';
-import { user_dto } from '@dto/user.dto';
-
-const gameSortList = [
-    {
-        label: 'По умолчанию',
-        value: 'id',
-    },
-    {
-        label: 'По имени (А-Я)',
-        value: 'name',
-    },
-];
-
-const testSortList = [
-    {
-        label: 'По умолчанию',
-        value: 'id',
-    },
-    {
-        label: 'По имени (А-Я)',
-        value: 'title',
-    },
-    {
-        label: 'По дате',
-        value: 'created_at',
-    },
-];
-
-export enum listType {
-    tests,
-    games,
-}
 
 type ComponentListProps = {
     currentUser: user_dto;
@@ -120,7 +95,7 @@ const ComponentList: FC<ComponentListProps> = ({ currentUser, listType }) => {
         [],
     );
 
-    const toggleModal = (action) => () => {
+    const toggleModal = (action: string) => () => {
         if (action === 'assign') {
             setShowAssignModal((prev) => !prev);
         } else if (action === 'create') {
@@ -130,7 +105,7 @@ const ComponentList: FC<ComponentListProps> = ({ currentUser, listType }) => {
         }
     };
 
-    const onSearch = (query) => {
+    const onSearch = (query: string) => {
         if (listType === 'tests') {
             dispatch(setTestSearch(query));
         } else {
@@ -138,7 +113,7 @@ const ComponentList: FC<ComponentListProps> = ({ currentUser, listType }) => {
         }
     };
 
-    const onSort = (sortProperty) => {
+    const onSort = (sortProperty: string) => {
         if (listType === 'tests') {
             dispatch(setTestsSortValue(sortProperty));
         } else {
@@ -146,7 +121,7 @@ const ComponentList: FC<ComponentListProps> = ({ currentUser, listType }) => {
         }
     };
 
-    const onBtnAddClick = (type) => () => {
+    const onBtnAddClick = (type: string) => () => {
         if (type === 'tests') {
             toggleModal('create')();
         } else if (type === 'games') {
@@ -161,8 +136,6 @@ const ComponentList: FC<ComponentListProps> = ({ currentUser, listType }) => {
             <Container>
                 <FilteredList
                     items={components || observedComponents}
-                    onSearch={onSearch}
-                    onSort={onSort}
                     sortList={listType === 'tests' ? testSortList : gameSortList}
                     isError={isError || isObservedComponentsError}
                     isLoading={
@@ -189,8 +162,11 @@ const ComponentList: FC<ComponentListProps> = ({ currentUser, listType }) => {
                                 />
                             );
                         }
+
                         return null;
                     }}
+                    onSearch={onSearch}
+                    onSort={onSort}
                 >
                     {role !== ROLES.observed.code && role !== ROLES.tutor.code && (
                         <ButtonAddItemList onClick={onBtnAddClick(listType)}>
@@ -235,6 +211,7 @@ const ComponentList: FC<ComponentListProps> = ({ currentUser, listType }) => {
                             </>
                         );
                     }
+
                     return null;
                 })()}
             </Portal>

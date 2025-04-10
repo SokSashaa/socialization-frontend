@@ -1,7 +1,6 @@
 import { FC, MutableRefObject, ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Form, FormikProps } from 'formik';
-import { userIconV2Big } from '@assets/index';
 
 import { UserWithRoleCodeType } from '@modules/Profile/components/types';
 
@@ -13,6 +12,8 @@ import { user_dto } from '@dto/user.dto';
 import {useAppSelector} from '@hooks/redux';
 
 import { ROLES } from '@utils/constants';
+
+import { userIconV2Big } from '@assets/index';
 
 import AppointedTutor from '../AppointedTutor/AppointedTutor';
 import ObservedList from '../ObservedList/ObservedList';

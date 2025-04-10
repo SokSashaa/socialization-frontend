@@ -4,20 +4,19 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Formik } from 'formik';
 
-import OrganizationForm from '@modules/Organizations/OrganizationForm/EditOrganizationForm';
+import OrganizationForm from '@modules/Organizations/components/OrganizationForm/EditOrganizationForm';
+import { inputFieldsOrganizations } from '@modules/Organizations/config/inputFieldsOrganizations';
 import { organizationsValidate } from '@modules/Organizations/utils/validate.shema';
 
 import { Modal, ModalLayout } from '@UI/index';
 
 import { organizations_dto } from '@dto/organizations.dto';
 
-import { inputFieldsOrganizations } from '../../EditOrganizations/EditOrganizations';
-// import styles from "../../../modules/ComponentList/components/CreateTestForm/CreateTestForm.module.scss";
-
 type CreateOrgModalPropsType = {
     isOpenModal: boolean;
     setShowModal: () => void;
 };
+
 const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
     const queryClient = useQueryClient();
     const url = import.meta.env.VITE_SERVER_URL;

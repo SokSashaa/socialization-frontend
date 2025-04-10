@@ -1,9 +1,11 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { ROUTES } from './RouterConfig';
-import { ROLES } from '@utils/constants';
 import { lazy } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+
 import { RequireAuth } from '@components/index';
-import {startTransition} from "react";
+
+import { ROLES } from '@utils/constants';
+
+import { ROUTES } from './RouterConfig';
 
 const AuthPage = lazy(() => import('@pages/Auth/AuthPage'));
 const PageLayout = lazy(() => import('@UI/layouts/PageLayout/PageLayout'));

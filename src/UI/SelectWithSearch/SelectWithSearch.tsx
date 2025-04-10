@@ -1,29 +1,37 @@
-import {FC, useId} from "react";
-import Select from "react-select";
-import css from './selectWithSearch.module.scss'
-import {SelectProps} from "../Select/Select";
-import clsx from "clsx";
+import { FC, useId } from 'react';
+import Select from 'react-select';
+import clsx from 'clsx';
+
+import { SelectProps } from '../Select/Select';
+
+import css from './selectWithSearch.module.scss';
 
 type SelectWithSearchProps = SelectProps & {
-    stylesForSearch?: object,
-    onChange?: any,
-}
+    stylesForSearch?: object;
+    onChange?: any;
+};
 
 const SelectWithSearch: FC<SelectWithSearchProps> = (props) => {
-
     const id = useId();
 
-    return <div className={clsx(css.root,props.className)}>
-        {props.label && <label id={id}>{props.label}</label>}
+    return (
+        <div className={clsx(css.root, props.className)}>
+            {props.label && <label id={id}>{props.label}</label>}
 
-        <Select {...props.selectProps} id={id}
+            <Select
+                {...props.selectProps}
+                id={id}
                 styles={props.stylesForSearch}
                 options={props.options}
+                value={
+                    props.options
+                        ? props.options.find((option) => option.value == props.selectProps.value)
+                        : ''
+                }
                 onChange={props.onChange}
-                value={props.options ? props.options.find(option => option.value == props.selectProps.value) : ''}
-        />
+            />
+        </div>
+    );
+};
 
-    </div>
-}
-
-export default SelectWithSearch
+export default SelectWithSearch;

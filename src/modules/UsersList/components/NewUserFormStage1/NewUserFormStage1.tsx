@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import { FormikProps } from 'formik';
 
+import OrganizationsSelect from '@modules/Organizations/components/OrganizationsSelect/OrganizationsSelect';
+import RoleSelect from '@modules/Profile/components/RoleSelect/RoleSelect';
+
 import { ROLES } from '@utils/constants';
 
-import OrganizationsSelect from '../../../../components/OrganizationsSelect/OrganizationsSelect';
-import RoleSelect from '../../../../components/RoleSelect/RoleSelect';
 import { Button, InputText } from '../../../../UI';
 import Spinner from '../../../../UI/spinners/Spinner';
 
@@ -69,14 +70,14 @@ const NewUserFormStage1: FC<NewUserFormStage1Props<any>> = ({ formikProps }) => 
                 />
             </div>
             {values.role.code === ROLES.observed.code && (
-<div className={styles.row}>
-                <InputText
-                    wrapperClassNames={styles.inputText}
-                    name="address"
-                    label="Адрес *"
-                />
-            </div>
-)}
+                <div className={styles.row}>
+                    <InputText
+                        wrapperClassNames={styles.inputText}
+                        name="address"
+                        label="Адрес *"
+                    />
+                </div>
+            )}
             <div className={styles.row}>
                 <RoleSelect
                     formikProps={formikProps}

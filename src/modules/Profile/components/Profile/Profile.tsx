@@ -1,16 +1,16 @@
-import {useCallback} from 'react';
-import {useDispatch} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
-import {useGetUserInfoQuery} from '@app/api/common/usersApiSlice';
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useGetUserInfoQuery } from '@app/api/common/usersApiSlice';
 
-import {logout, setUserCredentials} from '@modules/Auth';
-import {OnSubmitFormType} from '@modules/Profile/components/types';
+import { logout, setUserCredentials } from '@modules/Auth';
+import { OnSubmitFormType } from '@modules/Profile/components/types';
 
-import {Portal} from '@components/index';
+import { Portal } from '@components/index';
 
-import {Button} from '@UI/index';
+import { Button } from '@UI/index';
 
-import {useModalState} from '@hooks/useModalState';
+import { useModalState } from '@hooks/useModalState';
 
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
 import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
@@ -36,11 +36,14 @@ isError
         navigate('/auth');
     };
 
-    const onSubmit = useCallback((res: OnSubmitFormType) => {
-        if (res.result) {
-            dispatch(setUserCredentials(res.result))
-        }
-    }, [dispatch]);
+    const onSubmit = useCallback(
+        (res: OnSubmitFormType) => {
+            if (res.result) {
+                dispatch(setUserCredentials(res.result));
+            }
+        },
+        [dispatch],
+    );
 
     return (
         <>

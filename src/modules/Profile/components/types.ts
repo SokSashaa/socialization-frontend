@@ -1,7 +1,7 @@
 import { user_dto } from '@dto/user.dto';
 
 export type UserWithRoleCodeType = Omit<user_dto, 'role' | 'id'> & {
-    role?: {
+    role: {
         code: string;
         tutor_id: string;
     };

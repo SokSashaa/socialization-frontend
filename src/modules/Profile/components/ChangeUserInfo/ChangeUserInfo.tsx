@@ -12,12 +12,7 @@ import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
 const ChangeUserInfo: FC = () => {
     const { id } = useParams();
 
-    const {
-data: user,
-isFetching,
-isLoading,
-isError
-} = useGetSingleUserQuery(id!);
+    const { data: user, isFetching, isLoading, isError } = useGetSingleUserQuery(id!);
 
     const [isOpen, open, close] = useModalState(false);
 
