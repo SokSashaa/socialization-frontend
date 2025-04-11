@@ -1,29 +1,54 @@
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { XCircleIcon } from '@heroicons/react/24/solid';
 import { toast } from 'react-toastify';
+import { XCircleIcon } from '@heroicons/react/24/solid';
+
+import { selectCurrentUser } from '@modules/Auth';
+import { isValidRole } from '@modules/Profile/utils/isValidRole';
+
+import ControlModal from '@components/ControlModal/ControlModal';
+
+import { ItemListWrapper } from '@UI/index';
+
+import { user_dto } from '@dto/user.dto';
+
+import { useIsToggled } from '@hooks/useIsToggled';
+
+import { ROLES } from '@utils/constants';
+import { toInitial } from '@utils/helpers';
+
+import { userIconV2 } from '@assets/index';
+
 import { useDeleteUserMutation } from '../../api/usersApiSlice';
-import { selectCurrentUser } from '../../../Auth';
-import { ItemListWrapper } from '../../../../UI';
-import { userIconV2 } from '../../../../assets';
-import { ROLES } from '../../../../utils/constants';
-import { toInitial } from '../../../../utils/helpers';
-import styles from './UserItem.module.css';
-import { FC } from 'react';
-import {user_dto} from "../../../../dto/user.dto";
+
+import styles from './UserItem.module.scss';
 
 interface UserItemProps {
-    user: Partial<user_dto>
+    user: user_dto;
 }
+
+const NOT_FOUND_ROLE = 'Неизвестная роль';
 
 const UserItem: FC<UserItemProps> = ({ user }) => {
     const { id, name, role, photo, patronymic, second_name } = user;
+
+    const {
+        isToggled: isOpenModal,
+        toggle: setIsOpenModal,
+        toggleOn: openModal,
+        toggleOff: closeModal,
+    } = useIsToggled(false);
+
+    const currentRole = role && isValidRole(role) ? ROLES[role].label : NOT_FOUND_ROLE;
+
+    const fullName = `${second_name} ${toInitial(name)} ${toInitial(patronymic)}`;
 
     const [deleteUser] = useDeleteUserMutation();
 
     const { id: currentUserId } = useSelector(selectCurrentUser);
 
-    const onDelete = (userId:string) => async () => {
+    const onDelete = async (userId: string) => {
         const toastId = toast.loading('Удаление пользователя...');
 
         try {
@@ -63,10 +88,8 @@ const UserItem: FC<UserItemProps> = ({ user }) => {
                     />
                 )}
                 <div className={styles.text}>
-                    <p className={styles.name}>
-                        {`${second_name} ${toInitial(name)} ${toInitial(patronymic)}`}
-                    </p>
-                    <p className={styles.role}>{ROLES[role!]?.label ?? 'Неизвестная роль'}</p>
+                    <p className={styles.name}>{fullName}</p>
+                    <p className={styles.role}>{currentRole}</p>
                 </div>
             </div>
             <div className={styles.buttons}>
@@ -82,12 +105,24 @@ const UserItem: FC<UserItemProps> = ({ user }) => {
                             className={styles.delete}
                             type="button"
                             aria-label="Удалить пользователя"
-                            onClick={onDelete(id!)}
+                            onClick={() => openModal()}
                         >
                             <XCircleIcon className={styles.icon} />
                         </button>
                     </>
                 )}
+                <ControlModal
+                    isOpen={isOpenModal}
+                    setIsOpen={() => setIsOpenModal()}
+                    onClickNo={() => closeModal()}
+                    onClickYes={() => onDelete(id)}
+                >
+                    <p className={styles.childrenModal}>
+                        Уверены, что хотите удалить пользователя
+                        <span> {fullName}</span>, у которого роль
+                        <span> {currentRole}</span>
+                    </p>
+                </ControlModal>
             </div>
         </ItemListWrapper>
     );

@@ -1,1 +1,1 @@
-export const toInitial = (str) => (str ? `${str[0].toUpperCase()}.` : '');
+export const toInitial = (str?: string) => (str ? `${str[0].toUpperCase()}.` : '');

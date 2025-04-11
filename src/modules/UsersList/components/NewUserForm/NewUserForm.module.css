@@ -1,17 +1,17 @@
 .form {
-  @apply h-[536px] w-[250px] overflow-hidden;
+    @apply w-[250px] overflow-hidden;
 }
 
 .inner {
-  @apply h-full overflow-y-scroll pe-3;
+    @apply h-full overflow-y-scroll pe-3;
 }
 
 @media screen(md) {
-  .form {
-    @apply w-[728px] overflow-auto p-0;
-  }
+    .form {
+        @apply w-[728px] overflow-auto p-0;
+    }
 
-  .inner {
-    @apply overflow-y-auto p-0;
-  }
+    .inner {
+        @apply overflow-y-auto p-0;
+    }
 }

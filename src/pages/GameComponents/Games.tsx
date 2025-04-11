@@ -1,23 +1,20 @@
-import {useSelector} from 'react-redux';
-import {selectCurrentUser} from '../../modules/Auth';
-import {useAppSelector} from "../../hooks/redux";
-import ComponentsListGames from "../../components/ComponentListGames/ComponentsListGames";
-import {listType} from "../../modules/ComponentList/components/ComponentList/ComponentList";
-import {ComponentList} from "../../modules/ComponentList";
+import { ComponentList } from '@modules/ComponentList';
+
+import { useAppSelector } from '@hooks/redux';
 
 function Tests() {
-    const currentUser = useAppSelector(state => state.auth?.user)
+    const currentUser = useAppSelector((state) => state.auth?.user);
 
     return (
-      <ComponentList
-        currentUser={currentUser}
-        listType="games"
-      />
+        <ComponentList
+            currentUser={currentUser}
+            listType="games"
+        />
     );
 
     // return (
     //     <>
-    //         {currentUser && <ComponentsListGames currentUser={currentUser} listType={listType.games}/>}
+    //         {currentUser && <ComponentsListGames currentUser={currentUser} listType={listType.games}/>} //TODO: Компонент выделен, но нужно проверять как работает
     //     </>
     // )
 }

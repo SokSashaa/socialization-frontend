@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { useGetObserverTestsQuery } from '@app/api/common/testApiSlice';
 
 import { useGetTestsQuery } from '@modules/ComponentList/api/testApiSlice';
@@ -8,7 +8,7 @@ import CreateTestModal from '@modules/ComponentList/components/CreateTestModal/C
 import TestListItem from '@modules/ComponentList/components/TestListItem/TestListItem';
 import { testSortList } from '@modules/ComponentList/config/sortList';
 import { setTestSearch, setTestsSortValue } from '@modules/ComponentList/slice/testsSlice';
-import { ListTypeEnum } from '@modules/ComponentList/types';
+import { ComponentListProps, ListTypeEnum } from '@modules/ComponentList/types';
 
 import { FilteredList, Portal } from '@components/index';
 
@@ -20,12 +20,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
 import { ROLES } from '@utils/constants';
 
-interface ComponentListTestsProps {
-    currentUser: user_dto;
-    listType: ListTypeEnum;
-}
-
-const ComponentListTests: FC<ComponentListTestsProps> = ({ currentUser, listType }) => {
+const ComponentListTests: FC<ComponentListProps> = ({ currentUser, listType }) => {
     const { id, role } = currentUser;
 
     const [showCreateTestModal, setShowCreateTestModal] = useState(false);
@@ -71,9 +66,6 @@ const ComponentListTests: FC<ComponentListTestsProps> = ({ currentUser, listType
         } else if (action === 'create') {
             setShowCreateTestModal((prev) => !prev);
         }
-        // else if (action === 'add') {
-        //     setShowAddGameModal((prev) => !prev);
-        // }
     };
 
     return (

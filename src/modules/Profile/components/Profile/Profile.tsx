@@ -18,12 +18,7 @@ import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
 import styles from './Profile.module.css';
 
 const Profile = () => {
-    const {
-data: user,
-isFetching,
-isLoading,
-isError
-} = useGetUserInfoQuery();
+    const { data: user, isFetching, isLoading, isError } = useGetUserInfoQuery();
 
     const navigate = useNavigate();
 

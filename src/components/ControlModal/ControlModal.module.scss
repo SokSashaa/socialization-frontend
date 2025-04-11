@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  .buttons {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 550px) {
+  .root {
+    .buttons {
+      flex-direction: column;
+    }
+  }
+}

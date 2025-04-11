@@ -6,7 +6,7 @@ import { ButtonAddItemList, Container, Modal, ModalLayout } from '../../../../UI
 import NewUserForm from '../NewUserForm/NewUserForm';
 import UserItem from '../UserItem/UserItem';
 
-import styles from './UsersList.module.css';
+import styles from './UsersList.module.scss';
 
 const sortList: OptionHTMLAttributes<HTMLOptionElement>[] = [
     {

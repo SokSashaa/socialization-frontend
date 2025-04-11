@@ -1,42 +1,38 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGetObserverGamesQuery } from '@app/api/common/gameApiSlice';
 
 import { useGetGamesQuery } from '@modules/ComponentList/api/gameApiSlice';
+import AddGameModal from '@modules/ComponentList/components/AddGameModal/AddGameModal';
+import AssignComponentModal from '@modules/ComponentList/components/AssignComponentModal/AssignComponentModal';
+import GameListItem from '@modules/ComponentList/components/GameListItem/GameListItem';
+import { gameSortList } from '@modules/ComponentList/config/sortList';
 import { setGameSearch, setGamesSortValue } from '@modules/ComponentList/slice/testsSlice';
+import { ComponentListProps } from '@modules/ComponentList/types';
+
+import { FilteredList, Portal } from '@components/index';
+
+import { ButtonAddItemList, Container } from '@UI/index';
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
 import { ROLES } from '@utils/constants';
 
-import AddGameModal from '../../modules/ComponentList/components/AddGameModal/AddGameModal';
-import AssignComponentModal from '../../modules/ComponentList/components/AssignComponentModal/AssignComponentModal';
-import GameListItem from '../../modules/ComponentList/components/GameListItem/GameListItem';
-import { ButtonAddItemList, Container } from '../../UI';
-import { FilteredList, Portal } from '../index';
+import { ActionModalEnum } from './types';
 
 import styles from '../../modules/ComponentList/components/ComponentList/ComponentList.module.css';
 
-const gameSortList = [
-    {
-        label: 'По умолчанию',
-        value: 'id',
-    },
-    {
-        label: 'По имени (А-Я)',
-        value: 'name',
-    },
-];
-
-const ComponentsListGames: FC = (currentUser, listType) => {
+const ComponentsListGames: FC<ComponentListProps> = ({ currentUser, listType }) => {
     const { id, role } = currentUser;
 
-    const [showCreateTestModal, setShowCreateTestModal] = useState(false);
     const [showAddGameModal, setShowAddGameModal] = useState(false);
     const [showAssignModal, setShowAssignModal] = useState(false);
 
     const gameSearchValue = useAppSelector((state) => state.tests?.gameSearch);
     const gamesSortValue = useAppSelector((state) => state.tests?.gamesSortValue);
     const selectedTest = useAppSelector((state) => state.tests?.selectedTest);
+
+    const navigate = useNavigate();
 
     const {
         data: components,
@@ -60,6 +56,11 @@ const ComponentsListGames: FC = (currentUser, listType) => {
 
     const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        dispatch(setGameSearch(''));
+        dispatch(setGamesSortValue('id'));
+    }, []);
+
     const onSearch = (query: string) => {
         dispatch(setGameSearch(query));
     };
@@ -68,11 +69,9 @@ const ComponentsListGames: FC = (currentUser, listType) => {
         dispatch(setGamesSortValue(sortProperty));
     };
 
-    const toggleModal = (action) => () => {
+    const toggleModal = (action: ActionModalEnum) => {
         if (action === 'assign') {
             setShowAssignModal((prev) => !prev);
-        } else if (action === 'create') {
-            setShowCreateTestModal((prev) => !prev);
         } else if (action === 'add') {
             setShowAddGameModal((prev) => !prev);
         }
@@ -95,7 +94,7 @@ const ComponentsListGames: FC = (currentUser, listType) => {
                         return (
                             <GameListItem
                                 game={item}
-                                toggleModal={toggleModal('assign')}
+                                toggleModal={() => toggleModal(ActionModalEnum.ASSIGN)}
                             />
                         );
                     }}
@@ -103,7 +102,9 @@ const ComponentsListGames: FC = (currentUser, listType) => {
                     onSort={onSort}
                 >
                     {role !== ROLES.observed.code && role !== ROLES.tutor.code && (
-                        <ButtonAddItemList onClick={() => toggleModal('create')}>
+                        <ButtonAddItemList onClick={() => navigate('#')}>
+                            {' '}
+                            {/*TODO: Исправить, когда будет ясность что тут и как*/}
                             Добавить игру
                         </ButtonAddItemList>
                     )}
@@ -113,7 +114,7 @@ const ComponentsListGames: FC = (currentUser, listType) => {
                         return (
                             <>
                                 <AddGameModal
-                                    toggleModal={toggleModal('add')}
+                                    toggleModal={() => toggleModal(ActionModalEnum.ADD)}
                                     showModal={showAddGameModal}
                                     setShowModal={setShowAddGameModal}
                                 />
