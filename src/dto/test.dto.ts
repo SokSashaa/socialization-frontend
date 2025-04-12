@@ -1,11 +1,13 @@
-import {questions_dto} from "./questions.dto";
+import { questions_dto } from './questions.dto';
 
-export type test_dto = {
-    id: string,
-    title:string,
-    description: string,
-    created_at: Date,
-    questions: questions_dto[]
-}
+type Base_Test_Dto = {
+    id: string;
+    title: string;
+    description: string;
+    created_at: Date;
+};
 
-
+export type Test_dto = Base_Test_Dto & {
+    questions?: questions_dto[];
+    is_passed?: boolean;
+};

@@ -74,7 +74,7 @@ const UserItem: FC<UserItemProps> = ({ user }) => {
         <ItemListWrapper>
             <div className={styles.info}>
                 {photo ? (
-                    <div className={styles.imageWrapper}>
+                    <div key={'photo_div'} className={styles.imageWrapper}>
                         <img
                             className={styles.image}
                             src={photo}
@@ -83,6 +83,7 @@ const UserItem: FC<UserItemProps> = ({ user }) => {
                     </div>
                 ) : (
                     <img
+                        key={'photo_img'}
                         src={userIconV2}
                         alt="user"
                     />

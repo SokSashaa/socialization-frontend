@@ -1,14 +1,14 @@
-import {toInitial} from '../../../utils/helpers';
-import {organizations_dto} from "../../../dto/organizations.dto";
-import {ROLES} from "../../../utils/constants";
+import { toInitial } from '@utils/helpers';
+import { organizations_dto } from '@dto/organizations.dto';
+import { ROLES } from '@utils/constants';
 
 export const rolesSelectOptions = () =>
     [...Object.values(ROLES)].map((item) => {
         return {
             value: item.code,
-            label: item.label
-        }
-    })
+            label: item.label,
+        };
+    });
 
 export const transformUsersToSelectOptions = (users) =>
     users.map((user) => ({
@@ -19,5 +19,5 @@ export const transformUsersToSelectOptions = (users) =>
 export const transformOrganizationToSelectOptions = (organizations: organizations_dto[]) =>
     organizations.map((item) => ({
         value: item.id,
-        label: item.name
-    }))
+        label: item.name,
+    }));
