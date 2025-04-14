@@ -7,20 +7,37 @@
   display: flex;
   justify-content: space-between;
 
-  h3{
+  h3 {
     font-weight: bold;
   }
 
-  .buttons{
+  .buttons {
     display: flex;
     align-items: flex-end;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
   }
 
-  .icon{
+  .icon {
     width: 25px;
     height: 25px;
     position: absolute;
     right: 10px;
-    top:5px;
+    top: 5px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.childrenModal {
+  font-size: 25px;
+
+  span {
+    color: red;
   }
 }

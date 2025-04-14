@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { FormikProps } from 'formik';
-import { useGetOrganizationsQuery } from '@app/api/common/organizationsApiSlice';
+import { useGetAllOrganizationsQuery } from '@app/api/common/organizationsApiSlice';
 
 import { transformOrganizationToSelectOptions } from '@modules/UsersList/utils/data.helper';
 
@@ -14,8 +14,7 @@ interface OrganizationProps<T> {
 }
 
 const OrganizationsSelect: FC<OrganizationProps<any>> = (props) => {
-
-    const organizations = useGetOrganizationsQuery();
+    const organizations = useGetAllOrganizationsQuery('');
 
     const onOrganizationSelect = ({ value }: { value: string; initialValue: string }) => {
         props.formikProps.setFieldValue('organization', value);

@@ -1,12 +1,14 @@
 import React, { FC } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
-import axios from 'axios';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 
+import { useCreateOrganizationMutation } from '@modules/Organizations/api/organizaionsApi.slice';
 import OrganizationForm from '@modules/Organizations/components/OrganizationForm/EditOrganizationForm';
 import { inputFieldsOrganizations } from '@modules/Organizations/config/inputFieldsOrganizations';
+import { findFirstErrorWithPath } from '@modules/Organizations/utils/findFirstErrorWithPath';
 import { organizationsValidate } from '@modules/Organizations/utils/validate.shema';
+
+import { Portal } from '@components/index';
 
 import { Modal, ModalLayout } from '@UI/index';
 
@@ -18,25 +20,27 @@ type CreateOrgModalPropsType = {
 };
 
 const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
-    const queryClient = useQueryClient();
-    const url = import.meta.env.VITE_SERVER_URL;
+    const [createOrganization] = useCreateOrganizationMutation();
 
-    const mutate = useMutation(
-        async (body: Omit<organizations_dto, 'id'>) => {
-            return (await axios.post(url + 'organizations/create_org/', body)).data;
-        },
-        {
-            onSuccess: () => queryClient.invalidateQueries('organizations'),
-        },
-    );
-
-    const onSubmit = async (values: Omit<organizations_dto, 'id'>) => {
+    const onSubmit = async (
+        values: Omit<organizations_dto, 'id'>,
+        { resetForm }: FormikHelpers<Omit<organizations_dto, 'id'>>,
+    ) => {
         try {
-            mutate.mutate(values);
-            toast.success('Организация создана');
+            const organization = await createOrganization(values).unwrap();
+
+            if (organization.error) {
+                throw organization.error;
+            }
+
             props.setShowModal();
+
+            resetForm();
+            toast.success('Организация создана');
         } catch (error) {
-            toast.error(error?.data?.detail || error.message || 'Что-то пошло не так');
+            toast.error(
+                findFirstErrorWithPath(error).message || error.message || 'Что-то пошло не так',
+            );
         }
     };
 
@@ -49,30 +53,31 @@ const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
     };
 
     return (
-        <Formik
-            initialValues={initialState}
-            validationSchema={organizationsValidate}
-            onSubmit={onSubmit}
-        >
-            {(formikProps) => (
-                <Modal
-                    active={props.isOpenModal}
-                    setActive={props.setShowModal}
-                    handleClose={formikProps.handleReset}
-                >
-                    <ModalLayout
-                        title="Создание организации"
-                        content={
-                            <OrganizationForm
-                                itemsInputs={inputFieldsOrganizations}
-                                formikProps={formikProps}
-                                buttonText={'Создать'}
-                            />
-                        }
-                    />
-                </Modal>
-            )}
-        </Formik>
+        <Portal>
+            <Modal
+                active={props.isOpenModal}
+                setActive={props.setShowModal}
+            >
+                <ModalLayout
+                    title="Создание организации"
+                    content={
+                        <Formik
+                            initialValues={initialState}
+                            validationSchema={organizationsValidate}
+                            onSubmit={onSubmit}
+                        >
+                            {(formikProps) => (
+                                <OrganizationForm
+                                    itemsInputs={inputFieldsOrganizations}
+                                    formikProps={formikProps}
+                                    buttonText={'Создать'}
+                                />
+                            )}
+                        </Formik>
+                    }
+                />
+            </Modal>
+        </Portal>
     );
 };
 

@@ -1,5 +1,6 @@
+import { organizations_dto } from '@dto/organizations.dto';
+
 import { apiSlice } from '../apiSlice';
-import { organizations_dto } from '../../../dto/organizations.dto';
 
 type OrganizationsResponse = {
     count: number;
@@ -8,13 +9,29 @@ type OrganizationsResponse = {
     results: organizations_dto[];
 };
 
-const organizationsApiSlice = apiSlice.injectEndpoints?.({
+export const BASE_URL_ORGANIZATIONS = '/organizations/';
+
+export const organizationsApiSlice = apiSlice.injectEndpoints?.({
     endpoints: (builder) => ({
-        getOrganizations: builder.query<organizations_dto[], void>({
-            query: () => `/organizations/`,
+        getAllOrganizations: builder.query<organizations_dto[], string>({
+            query: (value: string) => ({
+                url: `${BASE_URL_ORGANIZATIONS}?search=${value}`,
+                method: 'GET',
+            }),
             transformResponse: (res: OrganizationsResponse) => res.results,
+            providesTags: ['Organizations'],
+        }),
+        getOrganizationInfo: builder.query({
+            query: (id: string) => ({
+                url: `${BASE_URL_ORGANIZATIONS + id}/`,
+                method: 'GET',
+            }),
         }),
     }),
 });
 
-export const { useGetOrganizationsQuery } = organizationsApiSlice;
+export const {
+    useGetAllOrganizationsQuery,
+    useLazyGetAllOrganizationsQuery,
+    useGetOrganizationInfoQuery,
+} = organizationsApiSlice;

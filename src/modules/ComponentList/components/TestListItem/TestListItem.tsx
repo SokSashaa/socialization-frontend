@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 
+import ControlModal from '@components/ControlModal/ControlModal';
+
 import { ItemListWrapper } from '@UI/index';
 
 import { Test_dto } from '@dto/test.dto';
 
 import { useAppSelector } from '@hooks/redux';
+import { useModalState } from '@hooks/useModalState';
 
 import { RoleCode, ROLES } from '@utils/constants';
 import { convertDate } from '@utils/helpers';
@@ -17,8 +20,6 @@ import { useDeleteTestMutation } from '../../api/testApiSlice';
 import { setSelectedTest } from '../../slice/testsSlice';
 
 import styles from './TestListItem.module.scss';
-import ControlModal from '@components/ControlModal/ControlModal';
-import { useModalState } from '@hooks/useModalState';
 
 interface TestListItemProps {
     test: Test_dto;

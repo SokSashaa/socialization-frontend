@@ -74,7 +74,10 @@ const UserItem: FC<UserItemProps> = ({ user }) => {
         <ItemListWrapper>
             <div className={styles.info}>
                 {photo ? (
-                    <div key={'photo_div'} className={styles.imageWrapper}>
+                    <div
+                        key={'photo_div'}
+                        className={styles.imageWrapper}
+                    >
                         <img
                             className={styles.image}
                             src={photo}
@@ -119,9 +122,9 @@ const UserItem: FC<UserItemProps> = ({ user }) => {
                     onClickYes={() => onDelete(id)}
                 >
                     <p className={styles.childrenModal}>
-                        Уверены, что хотите удалить пользователя
+                        Вы уверены, что хотите удалить пользователя
                         <span> {fullName}</span>, у которого роль
-                        <span> {currentRole}</span>
+                        <span> {currentRole}</span>?
                     </p>
                 </ControlModal>
             </div>

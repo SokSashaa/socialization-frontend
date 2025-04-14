@@ -1,7 +1,8 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {toast} from 'react-toastify';
-import {logout, updateToken} from '../../modules/Auth';
-import {getLocalStorageItem} from '../../utils/helpers';
+import { toast } from 'react-toastify';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+import { logout, updateToken } from '@modules/Auth';
+import { getLocalStorageItem } from '@utils/helpers';
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -9,8 +10,7 @@ const API_URL = import.meta.env.VITE_SERVER_URL;
 const baseQuery = fetchBaseQuery({
     baseUrl: API_URL,
     credentials: 'include',
-    prepareHeaders: (headers, {getState, endpoint}) => {
-
+    prepareHeaders: (headers, { getState, endpoint }) => {
         if (endpoint !== 'refresh') {
             const access =
                 getState().auth.access || JSON.parse(getLocalStorageItem('auth'))?.access || '';
@@ -29,19 +29,17 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
     if (result?.error?.status === 401) {
-
         const refresh = JSON.parse(getLocalStorageItem('auth'))?.refresh;
 
         const refreshResult = await baseQuery(
-            {url: '/refresh_token/', method: 'POST', body: {refresh}},
-            {...api, endpoint: 'refresh'},
+            { url: '/refresh_token/', method: 'POST', body: { refresh } },
+            { ...api, endpoint: 'refresh' },
             extraOptions,
         );
 
-
         // если запрос прошел успешно, обновляем токен
         if (refreshResult?.data) {
-            api.dispatch(updateToken({access: refreshResult.data.access}));
+            api.dispatch(updateToken({ access: refreshResult.data.access }));
 
             // повторяем запрос с обновленным токеном
             result = await baseQuery(args, api, extraOptions);
@@ -69,6 +67,6 @@ export const apiSlice = createApi({
         'Users',
         'ObservedsTutor',
         'ObservedGames',
-        'Organizations'
+        'Organizations',
     ],
 });
