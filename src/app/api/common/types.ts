@@ -1,4 +1,4 @@
-import { user_dto } from '../../../dto/user.dto';
+import { user_dto } from '@dto/user.dto';
 
 export type UserResponseDefault = {
     count: number;
@@ -7,7 +7,7 @@ export type UserResponseDefault = {
     results: user_dto[];
 };
 
-export type UserResponseArray = {
+export type UserArrayResponse = {
     success: boolean;
     result: user_dto[];
 };

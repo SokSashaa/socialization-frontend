@@ -1,7 +1,13 @@
-import { apiSlice } from '../apiSlice';
-import { user_dto } from '../../../dto/user.dto';
-import {UserResponse, UserResponseArray, UserResponseDefault} from "./types";
+import {
+    transformResponseUser,
+    transformResponseUserArray,
+} from '@app/api/common/utils/transformResponsePhoto';
 
+import { user_dto } from '@dto/user.dto';
+
+import { apiSlice } from '../apiSlice';
+
+import { UserResponse, UserArrayResponse, UserResponseDefault } from './types';
 
 const usersApiSlice = apiSlice.injectEndpoints?.({
     endpoints: (builder) => ({
@@ -10,16 +16,17 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 url: '/users/',
                 params,
             }),
-            transformResponse: (res: UserResponseDefault) => res.results,
+            transformResponse: (res: UserResponseDefault) =>
+                transformResponseUserArray(res.results),
             providesTags: ['Users'],
         }),
-        getObserveds: builder.query({
+        getObserveds: builder.query<user_dto[], { text: string }>({
             query: (params) => ({
                 url: '/users/get_observeds/',
                 params,
             }),
             providesTags: ['Observeds'],
-            transformResponse: (res) => res.results,
+            transformResponse: (res: UserArrayResponse) => transformResponseUserArray(res.result),
         }),
         getObservedsByTutor: builder.query<
             user_dto[], //TODO: Исправить тип
@@ -31,6 +38,7 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
         >({
             query: (params) => {
                 const { id, text, ordering } = params;
+
                 return {
                     url: `/users/${id}/get_observeds_by_tutor/`,
                     method: 'GET',
@@ -38,14 +46,14 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 };
             },
             providesTags: ['ObservedsTutor'],
-            transformResponse: (res) => res.result,
+            transformResponse: (res: UserArrayResponse) => transformResponseUserArray(res.result),
         }),
         getTutors: builder.query<user_dto[], void>({
             query: () => ({
                 url: '/users/get_tutors/',
                 method: 'GET',
             }),
-            transformResponse: (res: UserResponseArray) => res.result,
+            transformResponse: (res: UserArrayResponse) => transformResponseUserArray(res.result),
         }),
         appointObserveds: builder.mutation({
             query: (data) => ({
@@ -61,7 +69,7 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 url: '/users/me/',
                 method: 'GET',
             }),
-            transformResponse: (response: UserResponse) => response.result,
+            transformResponse: (response: UserResponse) => transformResponseUser(response.result),
             providesTags: ['User'],
         }),
         getSingleUser: builder.query<user_dto, string>({
@@ -69,13 +77,14 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 url: `/users/${id}/`,
                 method: 'GET',
             }),
+            transformResponse: (res: user_dto) => transformResponseUser(res),
         }),
         getTutorByObserved: builder.query<user_dto, string>({
             query: (id: string) => ({
                 url: `/users/${id}/get_tutor_by_observed/`,
                 method: 'GET',
             }),
-            transformResponse: (res: UserResponse) => res.result,
+            transformResponse: (res: UserResponse) => transformResponseUser(res.result),
         }),
     }),
 });
@@ -92,5 +101,5 @@ export const {
     useLazyGetUserInfoQuery,
     useGetSingleUserQuery,
     useGetTutorByObservedQuery,
-    useLazyGetTutorByObservedQuery
+    useLazyGetTutorByObservedQuery,
 } = usersApiSlice;

@@ -9,7 +9,7 @@ import Spinner from '@UI/spinners/Spinner';
 
 import { user_dto } from '@dto/user.dto';
 
-import {useAppSelector} from '@hooks/redux';
+import { useAppSelector } from '@hooks/redux';
 
 import { ROLES } from '@utils/constants';
 
@@ -52,7 +52,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 
     const location = useLocation();
 
-    const authUser = useAppSelector(state => state.auth.user)
+    const authUser = useAppSelector((state) => state.auth.user);
 
     const isUserPage = location.pathname.includes('/users/');
 
