@@ -69,5 +69,6 @@ export const apiSlice = createApi({
         'ObservedsTutor',
         'ObservedGames',
         'Organizations',
+        'Games',
     ],
 });

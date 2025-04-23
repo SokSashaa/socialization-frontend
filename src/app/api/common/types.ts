@@ -1,10 +1,10 @@
 import { user_dto } from '@dto/user.dto';
 
-export type UserResponseDefault = {
+export type BaseResponseType<T> = {
     count: number;
     next: any;
     previous: any;
-    results: user_dto[];
+    results: T[];
 };
 
 export type UserArrayResponse = {

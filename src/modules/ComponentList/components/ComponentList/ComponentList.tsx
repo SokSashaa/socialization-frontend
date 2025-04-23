@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetObserverGamesQuery } from '@app/api/common/gameApiSlice';
+import { useGetGamesQuery, useGetObserverGamesQuery } from '@app/api/common/gameApiSlice';
 import { useGetObserverTestsQuery } from '@app/api/common/testApiSlice';
 
 import { gameSortList, testSortList } from '@modules/ComponentList/config/sortList';
@@ -13,7 +13,6 @@ import { user_dto } from '@dto/user.dto';
 
 import { ROLES } from '@utils/constants';
 
-import { useGetGamesQuery } from '../../api/gameApiSlice';
 import { useGetTestsQuery } from '../../api/testApiSlice';
 import {
     selectGameSearchValue,

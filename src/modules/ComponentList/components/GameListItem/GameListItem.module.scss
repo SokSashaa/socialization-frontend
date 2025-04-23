@@ -55,6 +55,20 @@
   width: 24px;
 }
 
+.imageWrapper {
+  height: 4rem;
+  width: 4rem;
+  overflow: hidden;
+  border-radius: 100%;
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+
 .button {
   &:hover {
     text-decoration: underline;

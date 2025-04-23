@@ -1,13 +1,13 @@
 import {
-    transformResponseUser,
-    transformResponseUserArray,
+    imageTransformResponseArray,
+    imageTransformResponseItem,
 } from '@app/api/common/utils/transformResponsePhoto';
 
 import { user_dto } from '@dto/user.dto';
 
 import { apiSlice } from '../apiSlice';
 
-import { UserResponse, UserArrayResponse, UserResponseDefault } from './types';
+import { BaseResponseType, UserArrayResponse, UserResponse } from './types';
 
 const usersApiSlice = apiSlice.injectEndpoints?.({
     endpoints: (builder) => ({
@@ -16,8 +16,8 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 url: '/users/',
                 params,
             }),
-            transformResponse: (res: UserResponseDefault) =>
-                transformResponseUserArray(res.results),
+            transformResponse: (res: BaseResponseType<user_dto>) =>
+                imageTransformResponseArray<user_dto>(res.results, 'photo'),
             providesTags: ['Users'],
         }),
         getObserveds: builder.query<user_dto[], { text: string }>({
@@ -26,7 +26,8 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 params,
             }),
             providesTags: ['Observeds'],
-            transformResponse: (res: UserArrayResponse) => transformResponseUserArray(res.result),
+            transformResponse: (res: UserArrayResponse) =>
+                imageTransformResponseArray<user_dto>(res.result, 'photo'),
         }),
         getObservedsByTutor: builder.query<
             user_dto[], //TODO: Исправить тип
@@ -46,14 +47,16 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 };
             },
             providesTags: ['ObservedsTutor'],
-            transformResponse: (res: UserArrayResponse) => transformResponseUserArray(res.result),
+            transformResponse: (res: UserArrayResponse) =>
+                imageTransformResponseArray<user_dto>(res.result, 'photo'),
         }),
         getTutors: builder.query<user_dto[], void>({
             query: () => ({
                 url: '/users/get_tutors/',
                 method: 'GET',
             }),
-            transformResponse: (res: UserArrayResponse) => transformResponseUserArray(res.result),
+            transformResponse: (res: UserArrayResponse) =>
+                imageTransformResponseArray<user_dto>(res.result, 'photo'),
         }),
         appointObserveds: builder.mutation({
             query: (data) => ({
@@ -69,7 +72,8 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 url: '/users/me/',
                 method: 'GET',
             }),
-            transformResponse: (response: UserResponse) => transformResponseUser(response.result),
+            transformResponse: (response: UserResponse) =>
+                imageTransformResponseItem<user_dto>(response.result, 'photo'),
             providesTags: ['User'],
         }),
         getSingleUser: builder.query<user_dto, string>({
@@ -77,14 +81,16 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
                 url: `/users/${id}/`,
                 method: 'GET',
             }),
-            transformResponse: (res: user_dto) => transformResponseUser(res),
+            transformResponse: (res: user_dto) =>
+                imageTransformResponseItem<user_dto>(res, 'photo'),
         }),
         getTutorByObserved: builder.query<user_dto, string>({
             query: (id: string) => ({
                 url: `/users/${id}/get_tutor_by_observed/`,
                 method: 'GET',
             }),
-            transformResponse: (res: UserResponse) => transformResponseUser(res.result),
+            transformResponse: (res: UserResponse) =>
+                imageTransformResponseItem<user_dto>(res.result, 'photo'),
         }),
     }),
 });

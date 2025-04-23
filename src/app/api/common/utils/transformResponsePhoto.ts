@@ -1,22 +1,23 @@
-import { user_dto } from '@dto/user.dto';
-
 const API_URL = import.meta.env.VITE_ROOT_URL;
 
 const transformResponsePhoto = (photo: string) => {
     return API_URL + photo;
 };
 
-export const transformResponseUserArray = (users: user_dto[]): user_dto[] => {
-    return users.map((user) => ({
-        ...user,
-        photo: user.photo ? transformResponsePhoto(user.photo) : undefined,
+export const imageTransformResponseArray = <T>(array: T[], field: keyof T): T[] => {
+    return array.map((item) => ({
+        ...item,
+        [field]:
+            item[field] && typeof item[field] === 'string'
+                ? transformResponsePhoto(item[field])
+                : undefined,
     }));
 };
 
-export const transformResponseUser = (user: user_dto) => {
-    if (user.photo) {
-        return { ...user, photo: transformResponsePhoto(user.photo) };
+export const imageTransformResponseItem = <T>(item: T, field: keyof T): T => {
+    if (item[field] && typeof item[field] === 'string') {
+        return { ...item, [field]: transformResponsePhoto(item[field]) };
     }
 
-    return user;
+    return item;
 };
