@@ -12,13 +12,14 @@ import { useModalState } from '@hooks/useModalState';
 
 import { RoleCode, ROLES } from '@utils/constants';
 
-import { defaultGameIcon, userIconV2 } from '../../../../assets';
+import { defaultGameIcon } from '../../../../assets';
 import { ItemListWrapper } from '../../../../UI';
 import { selectCurrentUser } from '../../../Auth';
 import { useDeleteGamesMutation } from '../../api/gameApiSlice';
 import { setSelectedTest } from '../../slice/testsSlice';
 
 import styles from './GameListItem.module.scss';
+import IconList from '@UI/IconList/IconList';
 
 // TODO: доделать функционал
 
@@ -131,24 +132,11 @@ const GameListItem: FC<GameListItemProps> = ({ game, toggleModal }) => {
     return (
         <ItemListWrapper>
             <div className={styles.info}>
-                {game.icon ? (
-                    <div
-                        key={'photo_div'}
-                        className={styles.imageWrapper}
-                    >
-                        <img
-                            className={styles.image}
-                            src={game.icon}
-                            alt="icon"
-                        />
-                    </div>
-                ) : (
-                    <img
-                        key={'photo_img'}
-                        src={defaultGameIcon}
-                        alt="icon"
-                    />
-                )}
+                <IconList
+                    id={game.id}
+                    photo={game.icon}
+                    defaultPhoto={defaultGameIcon}
+                />
                 <div className={styles.gameTextInfo}>
                     <h3 className={styles.title}>{game.name}</h3>
                     <p className={styles.description}>{game.description}</p>

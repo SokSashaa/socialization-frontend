@@ -23,6 +23,7 @@ import { userIconV2 } from '@assets/index';
 import { useDeleteUserMutation } from '../../api/usersApiSlice';
 
 import styles from './UserItem.module.scss';
+import IconList from '@UI/IconList/IconList';
 
 interface UserItemProps {
     user: user_dto;
@@ -73,24 +74,11 @@ const UserItem: FC<UserItemProps> = ({ user }) => {
     return (
         <ItemListWrapper>
             <div className={styles.info}>
-                {photo ? (
-                    <div
-                        key={'photo_div'}
-                        className={styles.imageWrapper}
-                    >
-                        <img
-                            className={styles.image}
-                            src={photo}
-                            alt="user"
-                        />
-                    </div>
-                ) : (
-                    <img
-                        key={'photo_img'}
-                        src={userIconV2}
-                        alt="user"
-                    />
-                )}
+                <IconList
+                    id={id}
+                    photo={photo}
+                    defaultPhoto={userIconV2}
+                />
                 <div className={styles.text}>
                     <p className={styles.name}>{fullName}</p>
                     <p className={styles.role}>{currentRole}</p>

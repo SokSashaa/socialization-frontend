@@ -1,0 +1,24 @@
+.imageWrapper {
+  height: var(--image-size);
+  width: var(--image-size);
+  overflow: hidden;
+  border-radius: 100%;
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.small {
+  --image-size: 52px;
+}
+
+.medium {
+  --image-size: 64px;
+}
+
+.large {
+  --image-size: 76px;
+}
