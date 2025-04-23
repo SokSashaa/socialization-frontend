@@ -6,14 +6,11 @@ const transformResponsePhoto = (photo: string) => {
     return API_URL + photo;
 };
 
-export const transformResponseUserArray = (users: user_dto[]) => {
-    return users.map((user) => {
-        if (user.photo) {
-            user.photo = transformResponsePhoto(user.photo);
-        }
-
-        return user;
-    });
+export const transformResponseUserArray = (users: user_dto[]): user_dto[] => {
+    return users.map((user) => ({
+        ...user,
+        photo: user.photo ? transformResponsePhoto(user.photo) : undefined,
+    }));
 };
 
 export const transformResponseUser = (user: user_dto) => {
