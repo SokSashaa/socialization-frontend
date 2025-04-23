@@ -1,14 +1,19 @@
-import {useGetObserverTestsQuery} from '../../../../app/api/common/testApiSlice';
-import {Container, ErrorMessage} from '../../../../UI';
+import { useGetObserverTestsQuery } from '../../../../app/api/common/testApiSlice';
+import { Container, ErrorMessage } from '../../../../UI';
 import ObservedTestsItem from '../ObservedTestsItem/ObservedTestsItem';
 import styles from './ObservedTests.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
+import Spinner from '../../../../UI/spinners/Spinner';
 
-const ObservedTests = ({userId}) => {
-    const {data: tests, isLoading, isError, isFetching} = useGetObserverTestsQuery({id: userId});
+const ObservedTests = ({ userId }) => {
+    const {
+        data: tests,
+        isLoading,
+        isError,
+        isFetching,
+    } = useGetObserverTestsQuery({ id: userId });
 
     if (isLoading || isFetching) {
-        return <Spinner typeSpinner={'big'} className="mt-7"/>;
+        return <Spinner style={{ margin: '10px auto' }} />;
     }
 
     if (isError) {

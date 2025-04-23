@@ -1,18 +1,29 @@
-import { spinner } from "../../assets";
-import styles from "./spinner.module.css";
-import { FC } from "react";
-import clsx from "clsx";
+import { CSSProperties, FC } from 'react';
+import clsx from 'clsx';
 
-type SpinnerProps = {
-  className?: string,
-  typeSpinner: "mini" | "big"
+import { SpinnerDuration, SpinnerSize } from './types';
+
+import css from './Spinner.module.scss';
+
+interface SpinnerProps {
+    size?: SpinnerSize;
+    duration?: SpinnerDuration;
+    className?: string;
+    style?: CSSProperties;
 }
-const Spinner: FC<SpinnerProps> = ({ className, typeSpinner }) => (
-  <img
-    className={clsx(typeSpinner === "mini" ? styles.spinnerMini : styles.spinnerBig, className)}
-    src={spinner}
-    alt="spinner"
-  />
-);
+
+const Spinner: FC<SpinnerProps> = ({
+    className,
+    style,
+    size = SpinnerSize.MEDIUM,
+    duration = SpinnerDuration.AVERAGE,
+}) => {
+    return (
+        <div
+            className={clsx(css.spinner, css[size], css[duration], className)}
+            style={style}
+        />
+    );
+};
 
 export default Spinner;

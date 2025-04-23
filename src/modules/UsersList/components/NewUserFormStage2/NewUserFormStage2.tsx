@@ -1,11 +1,11 @@
-import {Button, UploadFile} from '../../../../UI';
-import {userIconV2Big} from '../../../../assets';
+import { Button, UploadFile } from '../../../../UI';
+import { userIconV2Big } from '../../../../assets';
 import styles from './NewUserFormStage2.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
-import {StagesEnum} from "../NewUserForm/NewUserForm";
+import Spinner from '../../../../UI/spinners/Spinner';
+import { StagesEnum } from '../NewUserForm/NewUserForm';
 
-const NewUserFormStage2 = ({formikProps, onGoBack, fileRef, preview, onUpload, refSubmit}) => {
-    const submitBtnContent = formikProps.isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Добавить';
+const NewUserFormStage2 = ({ formikProps, onGoBack, fileRef, preview, onUpload, refSubmit }) => {
+    const submitBtnContent = formikProps.isSubmitting ? <Spinner /> : 'Добавить';
 
     return (
         <div className="flex h-full flex-col items-center justify-between">
@@ -43,13 +43,13 @@ const NewUserFormStage2 = ({formikProps, onGoBack, fileRef, preview, onUpload, r
                 <Button
                     onClick={() => {
                         refSubmit.current = StagesEnum.STAGE2;
-                        onGoBack()
+                        onGoBack();
                     }}
                 >
                     Назад
                 </Button>
                 <Button
-                    onClick={() => refSubmit.current = StagesEnum.SUBMIT}
+                    onClick={() => (refSubmit.current = StagesEnum.SUBMIT)}
                     type="submit"
                 >
                     {submitBtnContent}

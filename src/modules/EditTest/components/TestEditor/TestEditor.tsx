@@ -1,31 +1,31 @@
-import {FieldArray, Form, Formik} from 'formik';
-import {nanoid} from '@reduxjs/toolkit';
-import {toast} from 'react-toastify';
-import {arrayMove} from '@dnd-kit/sortable';
-import {PlusCircleIcon} from '@heroicons/react/24/solid';
-import {useEditTestMutation} from '../../api/editTestApiSlice';
-import {useGetTestQuery} from '../../../../app/api/common/testApiSlice';
+import { FieldArray, Form, Formik } from 'formik';
+import { nanoid } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import { arrayMove } from '@dnd-kit/sortable';
+import { PlusCircleIcon } from '@heroicons/react/24/solid';
+import { useEditTestMutation } from '../../api/editTestApiSlice';
+import { useGetTestQuery } from '../../../../app/api/common/testApiSlice';
 
-import {Button, Container, ErrorMessage} from '../../../../UI';
-import {DraggableList} from '../../../../components';
+import { Button, Container, ErrorMessage } from '../../../../UI';
+import { DraggableList } from '../../../../components';
 import FormTop from '../FormTop/FormTop';
 import AddQuestionButton from '../AddQuestionButton/AddQuestionButton';
 import QuestionCard from '../QuestionCard/QuestionCard';
 
-import {testSchema} from '../../utils/validation.helper';
-import {onFieldArrayControl} from '../../utils/form.helper';
-import {getQuestionPosition, transformResponse, transformTest} from '../../utils/data.helper';
-import {INITIAL_QUESTION} from '../../utils/constants';
+import { testSchema } from '../../utils/validation.helper';
+import { onFieldArrayControl } from '../../utils/form.helper';
+import { getQuestionPosition, transformResponse, transformTest } from '../../utils/data.helper';
+import { INITIAL_QUESTION } from '../../utils/constants';
 import styles from './TestEditor.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
-import {DragEndEvent} from "@dnd-kit/core";
+import Spinner from '../../../../UI/spinners/Spinner';
+import { DragEndEvent } from '@dnd-kit/core';
 
-const TestEditor = ({id}) => {
-    const {data: test, isLoading, isError} = useGetTestQuery(id);
-    const [editTest, {isLoading: isLoadingEdit}] = useEditTestMutation();
+const TestEditor = ({ id }) => {
+    const { data: test, isLoading, isError } = useGetTestQuery(id);
+    const [editTest, { isLoading: isLoadingEdit }] = useEditTestMutation();
 
     if (isLoading) {
-        return <Spinner typeSpinner={'big'} className="mt-10"/>;
+        return <Spinner style={{ margin: '10px auto' }} />;
     }
 
     if (isError) {
@@ -39,8 +39,9 @@ const TestEditor = ({id}) => {
 
     const upgradeTest = test && transformResponse(test);
 
-    const onDragEnd = (questions, setFieldValue) => (event: DragEndEvent) => { //TODO разобраться почему не работает callback
-        const {active, over} = event;
+    const onDragEnd = (questions, setFieldValue) => (event: DragEndEvent) => {
+        //TODO разобраться почему не работает callback
+        const { active, over } = event;
 
         if (active.id !== over?.id) {
             const originalPos = getQuestionPosition(questions, active.id);
@@ -62,7 +63,7 @@ const TestEditor = ({id}) => {
         }
     };
 
-    const submitBtnText = isLoadingEdit ? <Spinner typeSpinner={'mini'}/> : 'Сохранить';
+    const submitBtnText = isLoadingEdit ? <Spinner /> : 'Сохранить';
 
     return (
         <div className={styles.wrapper}>
@@ -73,16 +74,16 @@ const TestEditor = ({id}) => {
                         onSubmit={onSubmit}
                         validationSchema={testSchema}
                     >
-                        {({values: testValues, handleSubmit, setFieldValue}) => (
+                        {({ values: testValues, handleSubmit, setFieldValue }) => (
                             <Form
                                 method="post"
                                 className={styles.form}
                             >
-                                <FormTop/>
+                                <FormTop />
                                 <FieldArray
                                     name="questions"
                                     render={(arrayHelpers) => {
-                                        const {questions} = testValues
+                                        const { questions } = testValues;
 
                                         return questions && questions.length > 0 ? (
                                             <DraggableList
@@ -106,7 +107,7 @@ const TestEditor = ({id}) => {
                                                 })}
                                                 className="self-end"
                                             >
-                                                <PlusCircleIcon className="icon h-8 w-8 fill-gray-500"/>
+                                                <PlusCircleIcon className="icon h-8 w-8 fill-gray-500" />
                                             </AddQuestionButton>
                                         );
                                     }}

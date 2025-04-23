@@ -22,7 +22,7 @@ const AuthFormLayout: FC<AuthFormLayoutProps> = (props) => {
         formikProps: { isSubmitting, handleSubmit },
     } = props;
 
-    const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'} /> : 'Войти';
+    const submitBtnContent = isSubmitting ? <Spinner /> : 'Войти';
 
     const bg1 = isMobile ? bg1Mobile : bg1Desktop;
     const bg2 = isMobile ? bg2Mobile : bg2Desktop;

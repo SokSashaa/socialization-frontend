@@ -56,11 +56,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 
     const isUserPage = location.pathname.includes('/users/');
 
-    const submitBtnContent = formikProps.isSubmitting ? (
-        <Spinner typeSpinner={'mini'} />
-    ) : (
-        'Сохранить'
-    );
+    const submitBtnContent = formikProps.isSubmitting ? <Spinner /> : 'Сохранить';
 
     return (
         <Form

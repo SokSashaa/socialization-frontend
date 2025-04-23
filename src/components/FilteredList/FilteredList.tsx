@@ -1,6 +1,8 @@
 import { FC, OptionHTMLAttributes, ReactNode } from 'react';
 import { m } from 'framer-motion';
 
+import { SpinnerSize } from '@UI/spinners/types';
+
 import { ErrorMessage } from '../../UI';
 import Spinner from '../../UI/spinners/Spinner';
 import SearchBar from '../SearchBar/SearchBar';
@@ -60,8 +62,8 @@ const FilteredList: FC<FilteredListProps> = ({
 
     const loading = isLoading ? (
         <Spinner
-            typeSpinner={'big'}
-            className="mt-7"
+            style={{ margin: '28px auto' }}
+            size={SpinnerSize.LARGE}
         />
     ) : null;
 

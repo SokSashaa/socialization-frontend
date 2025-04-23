@@ -1,18 +1,18 @@
-import {SearchBar} from '../../../../components';
-import {Button, Checkbox, ErrorMessage} from '../../../../UI';
+import { SearchBar } from '../../../../components';
+import { Button, Checkbox, ErrorMessage } from '../../../../UI';
 import styles from './AssignTutorModalLayout.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
+import Spinner from '../../../../UI/spinners/Spinner';
 
 const AssignTutorModalLayout = ({
-                                    observeds,
-                                    onSearch,
-                                    onAssign,
-                                    isObservedsLoading,
-                                    isError,
-                                    onSelectObs,
-                                    isAssigning,
-                                }) => {
-    const assignBtnText = isAssigning ? <Spinner typeSpinner={'mini'}/> : 'Назначить';
+    observeds,
+    onSearch,
+    onAssign,
+    isObservedsLoading,
+    isError,
+    onSelectObs,
+    isAssigning,
+}) => {
+    const assignBtnText = isAssigning ? <Spinner /> : 'Назначить';
 
     return (
         <div className="text-center">
@@ -20,7 +20,7 @@ const AssignTutorModalLayout = ({
                 className={styles.search}
                 onSearch={onSearch}
             />
-            {isObservedsLoading && <Spinner typeSpinner={'mini'} className={styles.spinner}/>}
+            {isObservedsLoading && <Spinner className={styles.spinner} />}
             {isError && (
                 <ErrorMessage
                     message="Ошибка загрузки пользователей"

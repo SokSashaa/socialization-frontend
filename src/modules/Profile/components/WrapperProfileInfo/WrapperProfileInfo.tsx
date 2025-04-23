@@ -5,7 +5,7 @@ import { useLazyGetTutorByObservedQuery } from '@app/api/common/usersApiSlice';
 
 import OrganizationsSelect from '@modules/Organizations/components/OrganizationsSelect/OrganizationsSelect';
 import RoleSelect from '@modules/Profile/components/RoleSelect/RoleSelect';
-import {OnSubmitFormType, UserWithRoleCodeType} from '@modules/Profile/components/types';
+import { OnSubmitFormType, UserWithRoleCodeType } from '@modules/Profile/components/types';
 
 import { Container, ErrorMessage } from '@UI/index';
 import Spinner from '@UI/spinners/Spinner';
@@ -106,12 +106,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
     }
 
     if (isLoading || isFetching) {
-        return (
-            <Spinner
-                typeSpinner={'big'}
-                className="mt-10"
-            />
-        );
+        return <Spinner style={{ margin: '15px auto' }} />;
     }
 
     if (isError) {
@@ -130,7 +125,10 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
         };
 
         try {
-            const res:OnSubmitFormType  = await changeUserInfo({ id: user?.id, data: newInfo }).unwrap();
+            const res: OnSubmitFormType = await changeUserInfo({
+                id: user?.id,
+                data: newInfo,
+            }).unwrap();
 
             if (!res.success && res.errors) {
                 throw new Error(res.errors[0]);

@@ -4,38 +4,42 @@ import { usePassGameMutation } from '../../api/passGameApiSlice';
 import { SpinnerBig, ErrorMessage } from '../../../../UI';
 
 import styles from './GameWindow.module.scss';
-import Spinner from "../../../../UI/spinners/Spinner";
+import Spinner from '../../../../UI/spinners/Spinner';
 
 const GameWindow = ({ gameId, userId }) => {
-  const { data: game, isLoading: isGameLoading, isError: isErrorGetGame } = useGetGameQuery(gameId);
+    const {
+        data: game,
+        isLoading: isGameLoading,
+        isError: isErrorGetGame,
+    } = useGetGameQuery(gameId);
 
-  // const [passGame, { isLoading: isLoadingPassGame }] = usePassGameMutation();
+    // const [passGame, { isLoading: isLoadingPassGame }] = usePassGameMutation();
 
-  if (isGameLoading) {
-    return <Spinner typeSpinner={'big'}  className="mt-10" />;
-  }
+    if (isGameLoading) {
+        return <Spinner style={{ margin: '15px auto' }} />;
+    }
 
-  if (isErrorGetGame) {
+    if (isErrorGetGame) {
+        return (
+            <ErrorMessage
+                message="Ошибка загрузки игры"
+                className="mt-10"
+            />
+        );
+    }
+
     return (
-      <ErrorMessage
-        message="Ошибка загрузки игры"
-        className="mt-10"
-      />
+        <div className={styles.wrapper}>
+            <div className={styles.inner}>
+                <iframe
+                    sandbox="allow-scripts allow-same-origin"
+                    className={styles.content}
+                    title="GameWindow"
+                    src={game.link}
+                />
+            </div>
+        </div>
     );
-  }
-
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.inner}>
-        <iframe
-          sandbox="allow-scripts allow-same-origin"
-          className={styles.content}
-          title="GameWindow"
-          src={game.link}
-        />
-      </div>
-    </div>
-  );
 };
 
 export default GameWindow;

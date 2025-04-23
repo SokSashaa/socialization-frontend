@@ -1,28 +1,32 @@
-import {Form, Formik} from 'formik';
-import {toast} from 'react-toastify';
-import {useNavigate} from 'react-router-dom';
-import {useGetTestQuery} from '../../../../app/api/common/testApiSlice';
-import {usePassTestMutation} from '../../api/passTestApiSlice';
+import { Form, Formik } from 'formik';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { useGetTestQuery } from '../../../../app/api/common/testApiSlice';
+import { usePassTestMutation } from '../../api/passTestApiSlice';
 
-import {Button, Container, ErrorMessage, TestHeader,} from '../../../../UI';
+import { Button, Container, ErrorMessage, TestHeader } from '../../../../UI';
 import QuestionItem from '../QuestionItem/QuestionItem';
 
-import {createValidationShema} from '../../utils/validation.helper';
-import {transformAnswers} from '../../utils/data.helper';
+import { createValidationShema } from '../../utils/validation.helper';
+import { transformAnswers } from '../../utils/data.helper';
 import styles from './TestForm.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
+import Spinner from '../../../../UI/spinners/Spinner';
 
-const TestForm = ({testId, userId}) => {
-    const {data: test, isLoading: isTestLoading, isError: isErrorGetTest} = useGetTestQuery(testId);
+const TestForm = ({ testId, userId }) => {
+    const {
+        data: test,
+        isLoading: isTestLoading,
+        isError: isErrorGetTest,
+    } = useGetTestQuery(testId);
 
-    const [passTest, {isLoading: isLoadingPassTest}] = usePassTestMutation();
+    const [passTest, { isLoading: isLoadingPassTest }] = usePassTestMutation();
 
     const navigate = useNavigate();
 
     const initValues = {};
 
     if (isTestLoading) {
-        return <Spinner typeSpinner={'big'} className="mt-10"/>;
+        return <Spinner style={{ margin: '40px auto' }} />;
     }
 
     if (isErrorGetTest) {
@@ -40,15 +44,15 @@ const TestForm = ({testId, userId}) => {
         });
     }
 
-    const sendBtnText = isLoadingPassTest ? <Spinner typeSpinner={'mini'}/> : 'Отправить';
+    const sendBtnText = isLoadingPassTest ? <Spinner /> : 'Отправить';
 
     const onSubmit = async (values) => {
-        const testRes = {test_id: +testId, user_id: userId, answers: transformAnswers(values)};
+        const testRes = { test_id: +testId, user_id: userId, answers: transformAnswers(values) };
 
         try {
             await passTest(testRes).unwrap();
             toast.success('Тест пройден');
-            navigate('/tests', {replace: true});
+            navigate('/tests', { replace: true });
         } catch (error) {
             toast.error(error?.data?.detail || 'Что-то пошло не так');
         }
@@ -67,7 +71,7 @@ const TestForm = ({testId, userId}) => {
                         onSubmit={onSubmit}
                         validationSchema={createValidationShema(test?.questions || [])}
                     >
-                        {({handleSubmit}) => (
+                        {({ handleSubmit }) => (
                             <Form
                                 method="post"
                                 className={styles.form}

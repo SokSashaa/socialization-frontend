@@ -1,20 +1,19 @@
-import {SearchBar} from '../../../../components';
-import {Button, Checkbox, ErrorMessage} from '../../../../UI';
+import { SearchBar } from '../../../../components';
+import { Button, Checkbox, ErrorMessage } from '../../../../UI';
 import styles from './AssignComponentLayout.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
-import {FC} from "react";
+import Spinner from '../../../../UI/spinners/Spinner';
+import { FC } from 'react';
 
 type AssignComponentLayoutProps = {
-    users: any,
-    isError: boolean,
-    isUsersLoading: boolean,
-    onSearch: (value: any) => void,
-    selectedUsers: any[],
-    onSelectUser: (value) => void,
-    onAssign: () => void,
-    isAssigning: boolean,
-
-}
+    users: any;
+    isError: boolean;
+    isUsersLoading: boolean;
+    onSearch: (value: any) => void;
+    selectedUsers: any[];
+    onSelectUser: (value) => void;
+    onAssign: () => void;
+    isAssigning: boolean;
+};
 
 const AssignComponentLayout: FC<AssignComponentLayoutProps> = (props) => {
     const {
@@ -28,7 +27,7 @@ const AssignComponentLayout: FC<AssignComponentLayoutProps> = (props) => {
         isAssigning,
     } = props;
 
-    const assignBtnContent = isAssigning ? <Spinner typeSpinner={'mini'}/> : 'Назначить';
+    const assignBtnContent = isAssigning ? <Spinner /> : 'Назначить';
 
     return (
         <div className="text-center">
@@ -36,7 +35,7 @@ const AssignComponentLayout: FC<AssignComponentLayoutProps> = (props) => {
                 className={styles.search}
                 onSearch={onSearch}
             />
-            {isUsersLoading && <Spinner typeSpinner={'mini'} className={styles.spinner}/>}
+            {isUsersLoading && <Spinner className={styles.spinner} />}
             {isError && (
                 <ErrorMessage
                     message="Ошибка загрузки пользователей"

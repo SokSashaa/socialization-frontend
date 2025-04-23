@@ -47,7 +47,7 @@ const RoleSelect: FC<RoleSelectProps> = (props) => {
 
             {isLoading && (
                 <div className="basis-20 self-center">
-                    <Spinner typeSpinner={'mini'} />
+                    <Spinner />
                 </div>
             )}
 

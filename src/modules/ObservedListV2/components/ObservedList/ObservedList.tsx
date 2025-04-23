@@ -1,19 +1,19 @@
-import {useState} from 'react';
-import {m} from 'framer-motion';
-import {PlusCircleIcon} from '@heroicons/react/24/solid';
-import {useGetObservedsByTutorQuery} from '../../../../app/api/common/usersApiSlice';
-import {Container, ErrorMessage} from '../../../../UI';
-import {Portal} from '../../../../components';
+import { useState } from 'react';
+import { m } from 'framer-motion';
+import { PlusCircleIcon } from '@heroicons/react/24/solid';
+import { useGetObservedsByTutorQuery } from '../../../../app/api/common/usersApiSlice';
+import { Container, ErrorMessage } from '../../../../UI';
+import { Portal } from '../../../../components';
 import ObservedListItem from '../ObservedListItem/ObservedListItem';
 import AssignTutorModal from '../AssignTutorModal/AssignTutorModal';
 import styles from './ObservedList.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
+import Spinner from '../../../../UI/spinners/Spinner';
 
 const liVariants = {
     visible: (i) => ({
         y: 0,
         opacity: 1,
-        transition: {delay: i * 0.2, duration: 0.2, type: 'ease'},
+        transition: { delay: i * 0.2, duration: 0.2, type: 'ease' },
     }),
     hidden: {
         opacity: 0,
@@ -21,7 +21,7 @@ const liVariants = {
     },
 };
 
-const ObservedList = ({userId}) => {
+const ObservedList = ({ userId }) => {
     const [showAssignModal, setShowAssignModal] = useState(false);
 
     const {
@@ -29,18 +29,18 @@ const ObservedList = ({userId}) => {
         isLoading,
         isError,
         isFetching,
-    } = useGetObservedsByTutorQuery({id: userId});
+    } = useGetObservedsByTutorQuery({ id: userId });
 
     const onShowAssignModal = () => {
         setShowAssignModal(true);
     };
 
     if (isLoading || isFetching) {
-        return <Spinner typeSpinner={'big'} className="mt-7"/>;
+        return <Spinner style={{ margin: '10px auto' }} />;
     }
 
     if (isError) {
-        return <ErrorMessage message="Ошибка загрузки наблюдаемых"/>;
+        return <ErrorMessage message="Ошибка загрузки наблюдаемых" />;
     }
 
     return (
@@ -58,7 +58,7 @@ const ObservedList = ({userId}) => {
                                 className={styles.listItem}
                                 key={obs.id}
                             >
-                                <ObservedListItem observed={obs}/>
+                                <ObservedListItem observed={obs} />
                             </m.li>
                         ))}
                         <m.button
@@ -71,7 +71,7 @@ const ObservedList = ({userId}) => {
                             aria-label="Добавить наблюдаемого"
                             onClick={onShowAssignModal}
                         >
-                            <PlusCircleIcon className="icon mx-auto h-36 w-36 fill-gray-500"/>
+                            <PlusCircleIcon className="icon mx-auto h-36 w-36 fill-gray-500" />
                         </m.button>
                     </ul>
                 </div>

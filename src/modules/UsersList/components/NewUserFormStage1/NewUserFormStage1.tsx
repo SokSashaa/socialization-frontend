@@ -18,7 +18,7 @@ interface NewUserFormStage1Props<T> {
 const NewUserFormStage1: FC<NewUserFormStage1Props<any>> = ({ formikProps }) => {
     const { isSubmitting, values } = formikProps;
 
-    const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'} /> : 'Далее';
+    const submitBtnContent = isSubmitting ? <Spinner /> : 'Далее';
 
     return (
         <>

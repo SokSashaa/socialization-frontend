@@ -1,26 +1,26 @@
-import {Form} from 'formik';
-import {EyeIcon, EyeSlashIcon} from '@heroicons/react/24/solid';
-import {Button, InputText} from '../../../../UI';
+import { Form } from 'formik';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
+import { Button, InputText } from '../../../../UI';
 import styles from './ChangePasswordForm.module.css';
-import Spinner from "../../../../UI/spinners/Spinner";
-import {FC, FormEvent} from "react";
+import Spinner from '../../../../UI/spinners/Spinner';
+import { FC, FormEvent } from 'react';
 
 type ChangePasswordFormProps = {
-    isSubmitting: boolean,
-    handleSubmit: (e?: FormEvent<HTMLFormElement>) => void,
-    showPassword: any,
-    onShowPassword?: any,
-    admin?: boolean
-}
+    isSubmitting: boolean;
+    handleSubmit: (e?: FormEvent<HTMLFormElement>) => void;
+    showPassword: any;
+    onShowPassword?: any;
+    admin?: boolean;
+};
 
 const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
-                                                             isSubmitting,
-                                                             handleSubmit,
-                                                             showPassword,
-                                                             onShowPassword,
-                                                             admin
-                                                         }) => {
-    const submitBtnContent = isSubmitting ? <Spinner typeSpinner={'mini'}/> : 'Сохранить';
+    isSubmitting,
+    handleSubmit,
+    showPassword,
+    onShowPassword,
+    admin,
+}) => {
+    const submitBtnContent = isSubmitting ? <Spinner /> : 'Сохранить';
 
     // const rightIconPasswordOld = showPassword.old_password ? ( //TODO: Посмотреть, как ведет себя без этого
     //     <EyeSlashIcon
@@ -55,13 +55,15 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
             className={styles.form}
             method="post"
         >
-            {!admin && <InputText
-                wrapperClassNames={styles.inputWrapper}
-                name="old_password"
-                type={typePasswordInputOld}
-                label="Старый пароль"
-                // rightIcon={rightIconPasswordOld}
-            />}
+            {!admin && (
+                <InputText
+                    wrapperClassNames={styles.inputWrapper}
+                    name="old_password"
+                    type={typePasswordInputOld}
+                    label="Старый пароль"
+                    // rightIcon={rightIconPasswordOld}
+                />
+            )}
             <InputText
                 wrapperClassNames={styles.inputWrapper}
                 name="new_password"

@@ -46,7 +46,7 @@ const Modal: FC<ModalProps> = ({ children, active, setActive, handleClose }) => 
                     exit="exit"
                     className={styles.modal}
                     role="presentation"
-                    onClick={onClose}
+                    // onClick={onClose}
                 >
                     <m.div
                         variants={contentVariants}
