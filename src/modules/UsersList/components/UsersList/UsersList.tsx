@@ -1,5 +1,7 @@
-import { OptionHTMLAttributes, useState } from 'react';
+import { useState } from 'react';
 import { useGetUsersQuery } from '@app/api/common/usersApiSlice';
+
+import { sortList } from '@modules/UsersList/components/UsersList/config/sortList';
 
 import { FilteredList, Portal } from '../../../../components';
 import { ButtonAddItemList, Container, Modal, ModalLayout } from '../../../../UI';
@@ -7,17 +9,6 @@ import NewUserForm from '../NewUserForm/NewUserForm';
 import UserItem from '../UserItem/UserItem';
 
 import styles from './UsersList.module.scss';
-
-const sortList: OptionHTMLAttributes<HTMLOptionElement>[] = [
-    {
-        label: 'По умолчанию',
-        value: 'id',
-    },
-    {
-        label: 'По имени (А-Я)',
-        value: 'name',
-    },
-];
 
 const UsersList = () => {
     const [searchValue, setSearchValue] = useState('');

@@ -2,7 +2,7 @@ import { FC, MutableRefObject, ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Form, FormikProps } from 'formik';
 
-import { UserWithRoleCodeType } from '@modules/Profile/components/types';
+import { ChangePropOrganizationInUserType } from '@modules/Profile/components/types';
 
 import { Button, InputText, UploadFile } from '@UI/index';
 import Spinner from '@UI/spinners/Spinner';
@@ -28,7 +28,7 @@ export type InputFieldType = {
 };
 
 interface ProfileInfoFormPropsType {
-    formikProps: FormikProps<UserWithRoleCodeType>;
+    formikProps: FormikProps<ChangePropOrganizationInUserType>;
     preview: string | null;
     onUpload: any;
     onShowModal: () => void;
@@ -93,12 +93,14 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         }}
                         onChange={onUpload(formikProps)}
                     />
-                    <Button
-                        className={styles.changePaswordButton}
-                        onClick={onShowModal}
-                    >
-                        Сменить пароль
-                    </Button>
+                    {user.role !== ROLES.administrator.code && (
+                        <Button
+                            className={styles.changePaswordButton}
+                            onClick={onShowModal}
+                        >
+                            Сменить пароль
+                        </Button>
+                    )}
                 </div>
             </div>
             <div className={styles.right}>

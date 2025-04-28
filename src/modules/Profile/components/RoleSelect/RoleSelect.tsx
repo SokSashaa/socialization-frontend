@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { ErrorMessage, FormikProps } from 'formik';
 import { useGetTutorsQuery } from '@app/api/common/usersApiSlice';
 
-import { UserWithRoleCodeType } from '@modules/Profile/components/types';
+import { ChangePropOrganizationInUserType } from '@modules/Profile/components/types';
 import {
     rolesSelectOptions,
     transformUsersToSelectOptions,
@@ -17,7 +17,7 @@ import { ROLES } from '@utils/constants';
 import css from './RoleSelect.module.scss';
 
 interface RoleSelectProps {
-    formikProps: FormikProps<UserWithRoleCodeType>;
+    formikProps: FormikProps<ChangePropOrganizationInUserType>;
     classNameSelect?: string;
     classNameError?: string;
 }

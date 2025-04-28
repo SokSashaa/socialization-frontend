@@ -9,6 +9,7 @@ import { isValidRole } from '@modules/Profile/utils/isValidRole';
 
 import ControlModal from '@components/ControlModal/ControlModal';
 
+import IconList from '@UI/IconList/IconList';
 import { ItemListWrapper } from '@UI/index';
 
 import { user_dto } from '@dto/user.dto';
@@ -23,7 +24,6 @@ import { userIconV2 } from '@assets/index';
 import { useDeleteUserMutation } from '../../api/usersApiSlice';
 
 import styles from './UserItem.module.scss';
-import IconList from '@UI/IconList/IconList';
 
 interface UserItemProps {
     user: user_dto;
@@ -32,7 +32,7 @@ interface UserItemProps {
 const NOT_FOUND_ROLE = 'Неизвестная роль';
 
 const UserItem: FC<UserItemProps> = ({ user }) => {
-    const { id, name, role, photo, patronymic, second_name } = user;
+    const { id, name, role, photo, patronymic, second_name, organization } = user;
 
     const {
         isToggled: isOpenModal,
@@ -82,6 +82,7 @@ const UserItem: FC<UserItemProps> = ({ user }) => {
                 <div className={styles.text}>
                     <p className={styles.name}>{fullName}</p>
                     <p className={styles.role}>{currentRole}</p>
+                    <p className={styles.organization}>Организация: {organization?.name}</p>
                 </div>
             </div>
             <div className={styles.buttons}>

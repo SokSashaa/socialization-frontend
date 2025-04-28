@@ -1,5 +1,4 @@
-import { apiSlice } from '../../../app/api/apiSlice';
-import {BaseQueryMeta, BaseQueryResult} from "@reduxjs/toolkit/dist/query/baseQueryTypes";
+import { apiSlice } from '@app/api/apiSlice';
 
 const profileApiSlice = apiSlice.injectEndpoints?.({
     endpoints: (builder) => ({

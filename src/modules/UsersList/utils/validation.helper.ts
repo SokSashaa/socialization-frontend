@@ -48,5 +48,6 @@ export const userSchema = Yup.object({
 });
 
 export const userPhotoSchema = Yup.object({
-    photo: Yup.mixed().required('Обязательное поле'),
+    photo: Yup.mixed(),
+    // .required('Обязательное поле'),
 });

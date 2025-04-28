@@ -8,7 +8,7 @@ const NewUserFormStage2 = ({ formikProps, onGoBack, fileRef, preview, onUpload, 
     const submitBtnContent = formikProps.isSubmitting ? <Spinner /> : 'Добавить';
 
     return (
-        <div className="flex h-full flex-col items-center justify-between">
+        <div className="flex h-full flex-col items-center justify-between gap-4">
             <div>
                 {preview ? (
                     <div className={styles.avatarWrapper}>

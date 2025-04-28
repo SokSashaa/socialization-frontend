@@ -5,7 +5,10 @@ import { useLazyGetTutorByObservedQuery } from '@app/api/common/usersApiSlice';
 
 import OrganizationsSelect from '@modules/Organizations/components/OrganizationsSelect/OrganizationsSelect';
 import RoleSelect from '@modules/Profile/components/RoleSelect/RoleSelect';
-import { OnSubmitFormType, UserWithRoleCodeType } from '@modules/Profile/components/types';
+import {
+    ChangePropOrganizationInUserType,
+    OnSubmitFormType,
+} from '@modules/Profile/components/types';
 
 import { Container, ErrorMessage } from '@UI/index';
 import Spinner from '@UI/spinners/Spinner';
@@ -48,7 +51,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
 }) => {
     const fileRef = useRef(null);
 
-    const [initialValues, setInitialValues] = useState<UserWithRoleCodeType>();
+    const [initialValues, setInitialValues] = useState<ChangePropOrganizationInUserType>();
 
     const [changeUserInfo] = useChangeUserInfoMutation();
     const [getTutor] = useLazyGetTutorByObservedQuery();
@@ -75,7 +78,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
         return '';
     }, [getTutor, user?.id, user?.role]);
 
-    const getInitialValuesForm = useMemo(async (): Promise<UserWithRoleCodeType> => {
+    const getInitialValuesForm = useMemo(async (): Promise<NonNullable<typeof initialValues>> => {
         return {
             name: user?.name || '',
             patronymic: user?.patronymic || '',
@@ -87,7 +90,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
                 code: user?.role || ROLES.observed.code,
                 tutor_id: await getTutorID,
             },
-            organization: user?.organization,
+            organization: user?.organization?.id,
             address: user?.address,
             phone_number: user?.phone_number || '',
         };
@@ -118,7 +121,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
         );
     }
 
-    const onSubmit = async (values: UserWithRoleCodeType) => {
+    const onSubmit = async (values: NonNullable<typeof initialValues>) => {
         const newInfo = {
             ...values,
             photo: values.photo && values.photo.indexOf('data:image') === -1 ? null : values.photo,
@@ -154,7 +157,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
                         validationSchema={profileSchema.concat(uploadedFileSchema(fileRef))}
                         onSubmit={onSubmit}
                     >
-                        {(formikProps: FormikProps<UserWithRoleCodeType>) => (
+                        {(formikProps: FormikProps<NonNullable<typeof initialValues>>) => (
                             <ProfileInfoForm
                                 user={user}
                                 formikProps={formikProps}
