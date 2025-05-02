@@ -97,6 +97,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         <Button
                             className={styles.changePaswordButton}
                             onClick={onShowModal}
+                            type={'button'}
                         >
                             Сменить пароль
                         </Button>

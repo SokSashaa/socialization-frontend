@@ -53,6 +53,10 @@ const Router = () => {
                         path={ROUTES.organizationEdit}
                         element={<EditOrganizations />}
                     />
+                    <Route
+                        path={ROUTES.users}
+                        element={<UsersPage />}
+                    />
                 </Route>
                 <Route
                     element={
@@ -98,13 +102,6 @@ const Router = () => {
                     <Route
                         path={ROUTES.resultTest}
                         element={<ResultTestPage />}
-                    />
-                </Route>
-
-                <Route element={<RequireAuth allowedRoles={[ROLES.administrator.code]} />}>
-                    <Route
-                        path={ROUTES.users}
-                        element={<UsersPage />}
                     />
                 </Route>
                 <Route
