@@ -4,6 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { logout, updateToken } from '@modules/Auth';
 
 import { getLocalStorageItem } from '@utils/helpers';
+import { getCSRFTokenFromCookies } from '@utils/helpers/getCSRFTokenFromCookies';
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -18,6 +19,11 @@ const baseQuery = fetchBaseQuery({
 
             if (access) {
                 headers.set('Authorization', ` Bearer ${access}`);
+            }
+
+            const csrfToken = getCSRFTokenFromCookies(); // Функция для извлечения CSRF из кук
+            if (csrfToken) {
+                headers.set('X-CSRFToken', csrfToken);
             }
         }
 
