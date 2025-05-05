@@ -1,7 +1,9 @@
 import { FC } from 'react';
-import css from '../ProfileInfoForm/ProfileInfo.module.scss';
+import { useGetTutorByObservedQuery } from '@app/api/common/usersApiSlice';
+
 import ItemUser from '../ProfileInfoForm/ItemUser/ItemUser';
-import { useGetTutorByObservedQuery } from '../../../../app/api/common/usersApiSlice';
+
+import css from '../ProfileInfoForm/ProfileInfo.module.scss';
 
 interface AppointedTutorProps {
     user_id: string;
@@ -9,6 +11,7 @@ interface AppointedTutorProps {
 
 const AppointedTutor: FC<AppointedTutorProps> = ({ user_id }) => {
     const { data: tutor } = useGetTutorByObservedQuery(user_id);
+
     return (
         <>
             {tutor && (
