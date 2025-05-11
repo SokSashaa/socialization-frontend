@@ -1,11 +1,16 @@
+@use 'src/styles/colors' as colors;
+
 .title {
   font-weight: bold;
   font-size: 30px;
   margin: 10px 0;
 }
 
+.empty {
+  font-size: 20px;;
+}
+
 .list {
-  //list-style: decimal inside;
   counter-reset: tests-counter;
 
   li {
@@ -17,6 +22,10 @@
 
     &::before {
       content: counter(my-counter) ".";
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid black;;
     }
   }
 }
@@ -33,15 +42,11 @@
   .link {
     font-size: 16px;
     text-decoration: underline;
+    color: colors.$link-color;
   }
 
   .status {
     text-align: right;
-
-    span {
-      font-size: 16px;
-      margin: 0;
-    }
   }
 
   .testPassed {
@@ -52,6 +57,3 @@
     color: red;
   }
 }
-
-
-

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { user_dto } from '@dto/user.dto';
 
@@ -12,23 +12,23 @@ interface ItemUserProps {
 }
 
 const ItemUser: FC<ItemUserProps> = ({ user }) => {
-    const navigate = useNavigate();
-
-    const handleOnClick = () => {
+    const onNavigating = () => {
         if (user.id) {
-            navigate(ROUTING_FUNCTIONS.entityProfile(user.id));
+            return ROUTING_FUNCTIONS.entityProfile(user.id);
         }
+
+        return '0';
     };
 
     return (
         <div className={css.root}>
             <p className={css.fullName}>{user.name + ' ' + user.second_name}</p>
-            <p
-                className={css.button}
-                onClick={handleOnClick}
+            <Link
+                to={onNavigating()}
+                className={css.link}
             >
                 Перейти в профиль
-            </p>
+            </Link>
         </div>
     );
 };

@@ -14,49 +14,54 @@ interface TestResultUserProps {
 const TestResultUser: FC<TestResultUserProps> = ({ user_id, label }) => {
     const { data: tests } = useGetObserverTestsQuery({ id: user_id });
 
+    const isTestsNotEmpty = tests && tests.length > 0;
+
     return (
         <div>
             <h3 className={css.title}>{label}</h3>
-            <ol className={css.list}>
-                {tests?.map((item) => {
-                    const statusTest: string = item.is_passed ? 'Пройден' : 'Не пройден';
+            {isTestsNotEmpty && (
+                <ol className={css.list}>
+                    {tests?.map((item) => {
+                        const statusTest: string = item.is_passed ? 'Пройден' : 'Не пройден';
 
-                    return (
-                        <li key={item.id}>
-                            <div className={css.testInfo}>
-                                <div>
-                                    <p className={css.testTitle}>{item.title}</p>
-                                    <Link
-                                        to={ROUTING_FUNCTIONS.editTest(item.id)}
-                                        className={css.link}
-                                    >
-                                        Перейти к тесту
-                                    </Link>
-                                </div>
-
-                                <div className={css.status}>
-                                    <p
-                                        className={
-                                            item.is_passed ? css.testPassed : css.testNoPassed
-                                        }
-                                    >
-                                        {statusTest}
-                                    </p>
-                                    {item.is_passed && (
+                        return (
+                            <li key={item.id}>
+                                <div className={css.testInfo}>
+                                    <div>
+                                        <p className={css.testTitle}>{item.title}</p>
                                         <Link
-                                            to={ROUTING_FUNCTIONS.resultTest(item.id)}
-                                            state={{ userId: user_id }}
+                                            to={ROUTING_FUNCTIONS.editTest(item.id)}
                                             className={css.link}
                                         >
-                                            Результаты теста
+                                            Перейти к тесту
                                         </Link>
-                                    )}
+                                    </div>
+
+                                    <div className={css.status}>
+                                        <p
+                                            className={
+                                                item.is_passed ? css.testPassed : css.testNoPassed
+                                            }
+                                        >
+                                            {statusTest}
+                                        </p>
+                                        {item.is_passed && (
+                                            <Link
+                                                to={ROUTING_FUNCTIONS.resultTest(item.id)}
+                                                state={{ userId: user_id }}
+                                                className={css.link}
+                                            >
+                                                Результаты теста
+                                            </Link>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    );
-                })}
-            </ol>
+                            </li>
+                        );
+                    })}
+                </ol>
+            )}
+            {!isTestsNotEmpty && <p className={css.empty}>Тесты не назначены</p>}
         </div>
     );
 };

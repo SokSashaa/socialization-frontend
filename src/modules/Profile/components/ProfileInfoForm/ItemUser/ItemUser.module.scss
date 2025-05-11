@@ -1,3 +1,5 @@
+@use 'src/styles/colors' as colors;
+
 .root {
   display: flex;
   justify-content: space-between;
@@ -12,10 +14,8 @@
     font-size: 20px;
   }
 
-  .button {
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
+  .link {
+    color: colors.$link-color;
+    text-decoration: underline;
   }
 }
