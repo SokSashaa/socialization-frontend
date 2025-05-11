@@ -1,9 +1,18 @@
+import { Test_dto } from '@dto/test.dto';
+
 import { apiSlice } from '../apiSlice';
-import { Test_dto } from '../../../dto/test.dto';
 
 type TestResponseType = {
     success: boolean;
     result: Test_dto;
+};
+
+type UserTestResponse = {
+    success: boolean;
+    result: {
+        tests: Test_dto[];
+        user_id: string;
+    };
 };
 
 const testApiSlice = apiSlice.injectEndpoints?.({
@@ -13,9 +22,10 @@ const testApiSlice = apiSlice.injectEndpoints?.({
             keepUnusedDataFor: 0.1,
             transformResponse: (response: TestResponseType) => response.result,
         }),
-        getObserverTests: builder.query({
+        getObserverTests: builder.query<Test_dto[], any>({
             query: (params) => {
                 const { id } = params;
+
                 return {
                     url: '/tests/get_user_tests/',
                     params: {
@@ -23,7 +33,7 @@ const testApiSlice = apiSlice.injectEndpoints?.({
                     },
                 };
             },
-            transformResponse: (response) => response.result.tests,
+            transformResponse: (response: UserTestResponse) => response.result.tests,
             providesTags: ['ObservedTests'],
         }),
     }),

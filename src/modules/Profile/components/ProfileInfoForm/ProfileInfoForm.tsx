@@ -20,6 +20,7 @@ import ObservedList from '../ObservedList/ObservedList';
 
 import css from './ProfileInfo.module.scss';
 import styles from './ProfileInfoForm.module.css';
+import TestResultUser from '@modules/Profile/components/TestResultUser/TestResultUser';
 
 export type InputFieldType = {
     type: 'email' | 'date' | 'text' | 'select';
@@ -57,6 +58,10 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
     const isUserPage = location.pathname.includes('/users/');
 
     const submitBtnContent = formikProps.isSubmitting ? <Spinner /> : 'Сохранить';
+
+    const isShowObservedInfo = isUserPage && authUser?.role === ROLES.administrator.code;
+
+    const isShowTestResult = user.role === ROLES.observed.code;
 
     return (
         <Form
@@ -138,11 +143,17 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                         {submitBtnContent}
                     </Button>
                 </div>
-                {isUserPage && authUser?.role === ROLES.administrator.code && (
+                {isShowObservedInfo && (
                     <>
                         {user.role !== ROLES.observed.code && <ObservedList user_id={user.id} />}
                         {user.role === ROLES.observed.code && <AppointedTutor user_id={user.id} />}
                     </>
+                )}
+                {isShowTestResult && (
+                    <TestResultUser
+                        label={'Назначенные тесты'}
+                        user_id={user.id}
+                    />
                 )}
             </div>
         </Form>

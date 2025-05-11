@@ -1,0 +1,57 @@
+.title {
+  font-weight: bold;
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+.list {
+  //list-style: decimal inside;
+  counter-reset: tests-counter;
+
+  li {
+    counter-increment: my-counter;
+    display: flex;
+    width: 100%;
+    font-size: 20px;
+    margin: 5px 0;
+
+    &::before {
+      content: counter(my-counter) ".";
+    }
+  }
+}
+
+.testInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  .testTitle {
+    font-weight: bold;
+  }
+
+  .link {
+    font-size: 16px;
+    text-decoration: underline;
+  }
+
+  .status {
+    text-align: right;
+
+    span {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+
+  .testPassed {
+    color: green;
+  }
+
+  .testNoPassed {
+    color: red;
+  }
+}
+
+
+
