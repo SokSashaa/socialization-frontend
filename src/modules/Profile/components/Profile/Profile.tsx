@@ -12,6 +12,8 @@ import { Button } from '@UI/index';
 
 import { useModalState } from '@hooks/useModalState';
 
+import { ROUTES } from '@routes/RouterConfig';
+
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
 import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
 
@@ -28,7 +30,7 @@ const Profile = () => {
 
     const onLogout = () => {
         dispatch(logout());
-        navigate('/auth');
+        navigate(ROUTES.auth);
     };
 
     const onSubmit = useCallback(

@@ -153,6 +153,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
             <Container>
                 <div className={styles.inner}>
                     <Formik
+                        enableReinitialize
                         initialValues={initialValues}
                         validationSchema={profileSchema.concat(uploadedFileSchema(fileRef))}
                         onSubmit={onSubmit}
