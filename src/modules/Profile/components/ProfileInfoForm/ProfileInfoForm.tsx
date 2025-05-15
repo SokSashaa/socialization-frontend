@@ -61,7 +61,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 
     const isShowObservedInfo = isUserPage && authUser?.role === ROLES.administrator.code;
 
-    const isShowTestResult = user.role === ROLES.observed.code;
+    const isShowTestResult = isUserPage && user.role === ROLES.observed.code;
 
     return (
         <Form
