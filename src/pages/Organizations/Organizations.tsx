@@ -8,13 +8,14 @@ import {
 import { useDeleteOrganizationsMutation } from '@modules/Organizations/api/organizaionsApi.slice';
 import CreateOrganizationModal from '@modules/Organizations/components/CreateOrganizationModal/CreateOrganizationModal';
 import OrganizationItem from '@modules/Organizations/components/OrganizationItem/OrganizationItem';
-import { findFirstErrorWithPath } from '@modules/Organizations/utils/findFirstErrorWithPath';
 
 import { SearchBar } from '@components/index';
 
 import { ButtonAddItemList } from '@UI/index';
 
 import { useModalState } from '@hooks/useModalState';
+
+import { findFirstErrorWithPath } from '@utils/helpers/findFirstErrorWithPath';
 
 import css from './organizations.module.scss';
 
@@ -38,7 +39,7 @@ const Organizations: FC = () => {
             toast.success('Организация удалена');
         } catch (error) {
             toast.error(
-                findFirstErrorWithPath(error).message || error.message || 'Что-то пошло не так',
+                findFirstErrorWithPath(error)?.message || error.message || 'Что-то пошло не так',
             );
         }
     };

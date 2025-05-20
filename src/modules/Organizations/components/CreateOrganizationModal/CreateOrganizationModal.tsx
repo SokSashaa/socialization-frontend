@@ -5,7 +5,6 @@ import { Formik, FormikHelpers } from 'formik';
 import { useCreateOrganizationMutation } from '@modules/Organizations/api/organizaionsApi.slice';
 import OrganizationForm from '@modules/Organizations/components/OrganizationForm/EditOrganizationForm';
 import { inputFieldsOrganizations } from '@modules/Organizations/config/inputFieldsOrganizations';
-import { findFirstErrorWithPath } from '@modules/Organizations/utils/findFirstErrorWithPath';
 import { organizationsValidate } from '@modules/Organizations/utils/validate.shema';
 
 import { Portal } from '@components/index';
@@ -13,6 +12,8 @@ import { Portal } from '@components/index';
 import { Modal, ModalLayout } from '@UI/index';
 
 import { organizations_dto } from '@dto/organizations.dto';
+
+import { findFirstErrorWithPath } from '@utils/helpers/findFirstErrorWithPath';
 
 type CreateOrgModalPropsType = {
     isOpenModal: boolean;
@@ -39,7 +40,7 @@ const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
             toast.success('Организация создана');
         } catch (error) {
             toast.error(
-                findFirstErrorWithPath(error).message || error.message || 'Что-то пошло не так',
+                findFirstErrorWithPath(error)?.message || error.message || 'Что-то пошло не так',
             );
         }
     };

@@ -2,6 +2,7 @@ import { FC, MutableRefObject, ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Form, FormikProps } from 'formik';
 
+import TestResultUser from '@modules/Profile/components/TestResultUser/TestResultUser';
 import { ChangePropOrganizationInUserType } from '@modules/Profile/components/types';
 
 import { Button, InputText, UploadFile } from '@UI/index';
@@ -20,7 +21,6 @@ import ObservedList from '../ObservedList/ObservedList';
 
 import css from './ProfileInfo.module.scss';
 import styles from './ProfileInfoForm.module.css';
-import TestResultUser from '@modules/Profile/components/TestResultUser/TestResultUser';
 
 export type InputFieldType = {
     type: 'email' | 'date' | 'text' | 'select';
@@ -101,8 +101,8 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
                     {user.role !== ROLES.administrator.code && (
                         <Button
                             className={styles.changePaswordButton}
-                            onClick={onShowModal}
                             type={'button'}
+                            onClick={onShowModal}
                         >
                             Сменить пароль
                         </Button>

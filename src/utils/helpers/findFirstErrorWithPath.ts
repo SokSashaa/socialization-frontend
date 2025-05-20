@@ -1,4 +1,12 @@
-export const findFirstErrorWithPath = (obj, currentPath: string = '') => {
+type FindFirstErrorWithPathReturnType = {
+    path: string;
+    message: string;
+};
+
+export const findFirstErrorWithPath = (
+    obj,
+    currentPath: string = '',
+): FindFirstErrorWithPathReturnType | null => {
     if (typeof obj === 'string') {
         // Нашли строку с ошибкой → возвращаем
         return { path: currentPath, message: obj };
@@ -8,7 +16,9 @@ export const findFirstErrorWithPath = (obj, currentPath: string = '') => {
         // Ищем в массиве (проверяем элементы по порядку)
         for (let i = 0; i < obj.length; i++) {
             const result = findFirstErrorWithPath(obj[i], `${currentPath}[${i}]`);
-            if (result) return result;
+            if (result) {
+                return result;
+            }
         }
     } else if (obj && typeof obj === 'object') {
         // Ищем в объекте (проверяем все ключи)
@@ -16,7 +26,9 @@ export const findFirstErrorWithPath = (obj, currentPath: string = '') => {
             if (obj.hasOwnProperty(key)) {
                 const newPath = currentPath ? `${currentPath}.${key}` : key;
                 const result = findFirstErrorWithPath(obj[key], newPath);
-                if (result) return result;
+                if (result) {
+                    return result;
+                }
             }
         }
     }

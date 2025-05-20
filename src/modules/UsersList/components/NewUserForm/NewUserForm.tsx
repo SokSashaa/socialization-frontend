@@ -5,6 +5,7 @@ import { AnimatePresence, m } from 'framer-motion';
 
 import { ROLES } from '@utils/constants';
 import { uploadedFileSchema } from '@utils/helpers';
+import { findFirstErrorWithPath } from '@utils/helpers/findFirstErrorWithPath';
 
 import { useUploadPhoto } from '../../../../hooks';
 import { useAddUserMutation } from '../../api/usersApiSlice';
@@ -98,7 +99,12 @@ const NewUserForm = () => {
                 onGoBack();
                 submitRef.current = StagesEnum.STAGE1;
             } catch (error) {
-                toast.error(error?.data?.detail || error.message || 'Что-то пошло не так');
+                toast.error(
+                    error?.data?.detail ||
+                        error.message ||
+                        findFirstErrorWithPath(error)?.message ||
+                        'Что-то пошло не так',
+                );
             }
         }
     };
