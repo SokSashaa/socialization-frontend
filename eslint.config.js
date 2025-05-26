@@ -66,6 +66,7 @@ export default [
                         // Packages. react related packages come first.
                         ['^react', '^@{0}\\w', '^@?\\w'],
                         ['^ui-kit', '^ui-kit/(.*)'],
+                        ['^@src/(.*)$'],
                         ['^@app/[a-zA-Z]+$'],
                         ['^@pages/(.*)$'],
                         ['^@modules/(.*)$'],

@@ -9,7 +9,7 @@ import {isValidRole} from '@modules/Profile/utils/isValidRole';
 
 import ControlModal from '@components/ControlModal/ControlModal';
 
-import IconList from '@UI/IconList/IconList';
+import IconProfile from '@UI/IconProfile/IconProfile';
 import {ItemListWrapper} from '@UI/index';
 
 import {user_dto} from '@dto/users/user.dto';
@@ -76,7 +76,7 @@ const UserItem: FC<UserItemProps> = ({user}) => {
 	return (
 		<ItemListWrapper>
 			<div className={styles.info}>
-				<IconList id={id} photo={photo} defaultPhoto={userIconV2} />
+				<IconProfile id={id} photo={photo} defaultPhoto={userIconV2} />
 				<div className={styles.text}>
 					<p className={styles.name}>{fullName}</p>
 					<p className={styles.role}>{currentRole}</p>

@@ -13,8 +13,11 @@ import {FilteredList} from '@components/index';
 
 import {ButtonAddItemList, Container} from '@UI/index';
 
+import {
+	sortListOrganizations,
+	sortListOrganizationValuesType,
+} from '@dto/organizations/getAllOrganizations.dto';
 import {organizations_dto} from '@dto/organizations/organizations.dto';
-import {sortList} from '@dto/users/getUsers.dto';
 
 import {useModalState} from '@hooks/useModalState';
 
@@ -39,6 +42,7 @@ const Organizations: FC = () => {
 
 	const {data, isLoading, isFetching, isError} = useGetAllOrganizationsQuery({
 		search: searchParams.get('search') || '',
+		ordering: (searchParams.get('ordering') as sortListOrganizationValuesType) || 'id',
 		limit: pagination.limit,
 		offset: pagination.offset,
 	});
@@ -93,13 +97,27 @@ const Organizations: FC = () => {
 		});
 	};
 
+	const onSort = async (value: sortListOrganizationValuesType) => {
+		setSearchParams((prev) => {
+			const params = new URLSearchParams(prev);
+
+			if (value) {
+				params.set('ordering', value);
+			} else {
+				params.delete('ordering');
+			}
+
+			return params;
+		});
+	};
+
 	return (
 		<div className={styles.wrapper}>
 			<Container>
 				<FilteredList<organizations_dto>
 					items={data ? data.results : []}
 					isError={isError}
-					sortList={sortList}
+					sortList={sortListOrganizations}
 					isLoading={isLoading || isFetching}
 					pagination={pagination}
 					renderListItem={(item: organizations_dto) => (
@@ -109,6 +127,7 @@ const Organizations: FC = () => {
 							onDelete={() => deleteOnClick(item.id)}
 						/>
 					)}
+					onSort={onSort}
 					onSearch={onSearch}
 				>
 					<ButtonAddItemList onClick={open}>Добавить организацию</ButtonAddItemList>

@@ -1,4 +1,5 @@
 import {FC} from 'react';
+import React from 'react';
 import {useParams} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {Formik} from 'formik';
@@ -9,13 +10,13 @@ import {
 
 import OrganizationForm from '@modules/Organizations/components/OrganizationForm/EditOrganizationForm';
 import {inputFieldsOrganizations} from '@modules/Organizations/config/inputFieldsOrganizations';
-import {findFirstErrorWithPath} from '@modules/Organizations/utils/findFirstErrorWithPath';
 import {organizationsValidate} from '@modules/Organizations/utils/validate.shema';
 
 import {organizations_dto} from '@dto/organizations/organizations.dto';
 
+import {findFirstErrorWithPath} from '@utils/helpers/findFirstErrorWithPath';
+
 import css from './edit_organization.module.scss';
-import React from 'react';
 
 const EditOrganizations: FC = () => {
 	const {id} = useParams();
@@ -34,9 +35,8 @@ const EditOrganizations: FC = () => {
 
 			toast.success('Данные профиля обновлены');
 		} catch (error) {
-			console.log(error);
 			toast.error(
-				findFirstErrorWithPath(error).message || error.message || 'Что-то пошло не так'
+				findFirstErrorWithPath(error)?.message || error.message || 'Что-то пошло не так'
 			);
 		}
 	};

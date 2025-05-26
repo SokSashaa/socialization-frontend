@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {Form} from 'formik';
 
-import {InputFieldType} from '@modules/Profile/components/ProfileInfoForm/ProfileInfoForm';
+import {InputFieldType} from '@src/types';
 
 import InputText from '@UI/formik/InputText/InputText';
 import {Button} from '@UI/index';

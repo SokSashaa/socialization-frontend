@@ -3,43 +3,43 @@ import {useDispatch} from 'react-redux';
 import {useLocalStorage} from '@rehooks/local-storage';
 import {logout, setUserCredentials} from '@modules/Auth';
 import {useLazyGetUserInfoQuery} from '@app/api/common/usersApiSlice';
-import {LocalStorageUser} from '../../../../types';
+import {LocalStorageUser} from '@src/types';
 
 /**
  * Получаем инфу о пользователе при первом открытии приложения
  */
 
 interface AuthInitProps {
-    children: ReactNode;
+	children: ReactNode;
 }
 
-const AuthInit: FC<AuthInitProps> = ({ children }) => {
-    const dispatch = useDispatch();
-    const [auth] = useLocalStorage<LocalStorageUser | null>('auth', null);
+const AuthInit: FC<AuthInitProps> = ({children}) => {
+	const dispatch = useDispatch();
+	const [auth] = useLocalStorage<LocalStorageUser | null>('auth', null);
 
-    const [getUserInfo, { isLoading, isUninitialized }] = useLazyGetUserInfoQuery();
+	const [getUserInfo, {isLoading, isUninitialized}] = useLazyGetUserInfoQuery();
 
-    const access = auth?.access;
+	const access = auth?.access;
 
-    useEffect(() => {
-        const userRequest = async () => {
-            try {
-                const user = await getUserInfo().unwrap();
+	useEffect(() => {
+		const userRequest = async () => {
+			try {
+				const user = await getUserInfo().unwrap();
 
-                dispatch(setUserCredentials(user));
-            } catch (error) {
-                dispatch(logout());
-            }
-        };
+				dispatch(setUserCredentials(user));
+			} catch (error) {
+				dispatch(logout());
+			}
+		};
 
-        if (access) {
-            userRequest();
-        } else {
-            dispatch(logout());
-        }
-    }, []);
+		if (access) {
+			userRequest();
+		} else {
+			dispatch(logout());
+		}
+	}, []);
 
-    return (isLoading || isUninitialized) && access ? <p>Загрузка...</p> : children;
+	return (isLoading || isUninitialized) && access ? <p>Загрузка...</p> : children;
 };
 
 export default AuthInit;

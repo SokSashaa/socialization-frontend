@@ -94,6 +94,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
 			organization: user?.organization?.id,
 			address: user?.address,
 			phone_number: user?.phone_number || '',
+			login: user?.login || '',
 		};
 	}, [getTutorID, user]);
 

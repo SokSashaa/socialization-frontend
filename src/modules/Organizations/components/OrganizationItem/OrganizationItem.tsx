@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {Link} from 'react-router-dom';
 import {XCircleIcon} from '@heroicons/react/24/solid';
 
@@ -8,8 +8,9 @@ import {organizations_dto} from '@dto/organizations/organizations.dto';
 
 import {useModalState} from '@hooks/useModalState';
 
+import {ROUTING_FUNCTIONS} from '@routes/RouterConfig';
+
 import css from './organization_item.module.scss';
-import React from 'react';
 
 type OrganizationItemPropsType = {
 	item: organizations_dto;
@@ -28,13 +29,13 @@ const OrganizationItem: FC<OrganizationItemPropsType> = ({onDelete = () => {}, i
 				</a>
 			</div>
 			<div className={css.buttons}>
-				<Link to={`/organizations/${item.id}/edit`}>Редактировать</Link>
+				<Link to={ROUTING_FUNCTIONS.organizationEdit(item.id)}>Редактировать</Link>
 			</div>
 			<XCircleIcon className={css.icon} title={'Удалить'} onClick={open} />
 			<ControlModal isOpen={isOpen} setIsOpen={close} onClickNo={close} onClickYes={onDelete}>
 				<p className={css.childrenModal}>
-					Вы уверены, что хотите удалить <span>{item.name}</span>, которая привязана к
-					почте <span>{item.email}</span>?
+					Вы уверены, что хотите удалить организацию под названием
+					<span> {item.name}</span>, которая привязана к почте <span>{item.email}</span>?
 				</p>
 			</ControlModal>
 		</div>
