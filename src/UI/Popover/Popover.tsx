@@ -1,18 +1,19 @@
-import { FC } from 'react';
-import { createPortal } from 'react-dom';
+import {FC} from 'react';
+import {createPortal} from 'react-dom';
 
-import PopoverWrapper, { PopoverWrapperProps } from './PopoverWrapper';
+import PopoverWrapper, {PopoverWrapperProps} from './PopoverWrapper';
+import React from 'react';
 
 interface PopoverProps extends PopoverWrapperProps {
-    isDisablePortal?: boolean;
+	isDisablePortal?: boolean;
 }
 
-const Popover: FC<PopoverProps> = ({ isDisablePortal = false, ...props }) => {
-    if (isDisablePortal || !props.anchorElement) {
-        return <PopoverWrapper {...props} />;
-    }
+const Popover: FC<PopoverProps> = ({isDisablePortal = false, ...props}) => {
+	if (isDisablePortal || !props.anchorElement) {
+		return <PopoverWrapper {...props} />;
+	}
 
-    return createPortal(<PopoverWrapper {...props} />, props.anchorElement);
+	return createPortal(<PopoverWrapper {...props} />, props.anchorElement);
 };
 
 export default Popover;

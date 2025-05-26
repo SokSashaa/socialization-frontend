@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { user_dto } from '@dto/user.dto';
+import { user_dto } from '@dto/users/user.dto';
 
 import { ROUTING_FUNCTIONS } from '@routes/RouterConfig';
 

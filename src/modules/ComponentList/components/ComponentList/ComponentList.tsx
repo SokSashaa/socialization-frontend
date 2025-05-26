@@ -9,7 +9,7 @@ import { FilteredList, Portal } from '@components/index';
 
 import { ButtonAddItemList, Container } from '@UI/index';
 
-import { user_dto } from '@dto/user.dto';
+import { user_dto } from '@dto/users/user.dto';
 
 import { ROLES } from '@utils/constants';
 

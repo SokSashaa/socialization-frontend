@@ -9,6 +9,11 @@
     "useUnknownInCatchVariables": false,
     "module": "ESNext",
     "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "skipLibCheck": true,
     "lib": [
       "DOM",
       "ES6",
@@ -56,8 +61,6 @@
       "./node_modules/@types",
       "./typings"
     ],
-    "jsx": "react-jsx",
-    "skipLibCheck": true
   },
   "include": [
     "src",

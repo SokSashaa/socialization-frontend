@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { user_dto } from '@dto/user.dto';
+import { user_dto } from '@dto/users/user.dto';
 
 type initialStateType = {
     user: user_dto | null;

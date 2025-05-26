@@ -8,7 +8,7 @@ import { ChangePropOrganizationInUserType } from '@modules/Profile/components/ty
 import { Button, InputText, UploadFile } from '@UI/index';
 import Spinner from '@UI/spinners/Spinner';
 
-import { user_dto } from '@dto/user.dto';
+import { user_dto } from '@dto/users/user.dto';
 
 import { useAppSelector } from '@hooks/redux';
 

@@ -1,4 +1,4 @@
-import { user_dto } from '@dto/user.dto';
+import { user_dto } from '@dto/users/user.dto';
 
 export type ChangePropOnStringType<T, OldKey extends keyof T> = Omit<T, OldKey> & {
     [K in OldKey]: string | undefined;

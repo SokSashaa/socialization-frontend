@@ -1,6 +1,9 @@
-import { OptionHTMLAttributes } from 'react';
+import { paginationRequest, paginationResponse } from '@dto/pagination.dto';
+import { user_dto } from '@dto/users/user.dto';
 
-export const sortList: OptionHTMLAttributes<HTMLOptionElement>[] = [
+export type sortListValuesType = 'id' | 'name' | '-name' | 'organization' | '-organization';
+
+export const sortList: {label: string, value: sortListValuesType}[] = [
     {
         label: 'По умолчанию',
         value: 'id',
@@ -22,3 +25,12 @@ export const sortList: OptionHTMLAttributes<HTMLOptionElement>[] = [
         value: '-organization',
     },
 ];
+
+export type getUsersRequest = {
+    search: string;
+    ordering: sortListValuesType;
+} & paginationRequest
+
+export type getUsersResponse = {
+    results: user_dto[]
+} & paginationResponse

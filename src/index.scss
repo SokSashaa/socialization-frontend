@@ -1,0 +1,59 @@
+@use './styles/_colors.scss' as colors;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --toastify-font-family: Neucha, sans-serif;
+    --color-neutral-blue: #2e90fa;
+    --color-link-color: #064486;
+    --color-neutral-light: #efefef;
+  }
+
+  html,
+  body {
+    -webkit-font-smoothing: antialiased;
+    @apply h-full min-w-[320px] overflow-x-hidden font-neucha text-base font-normal leading-snug text-black;
+  }
+}
+
+@layer components {
+  .icon {
+    @apply h-7 w-7 cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .required {
+    @apply align-top text-base text-red-500;
+  }
+
+  .text {
+    &-neutral-blue {
+      color: var(--color-neutral-blue);
+    }
+
+    &-link-color {
+      color: var(--color-link-color);
+    }
+
+    &-neutral-light {
+      color: var(--color-neutral-light);
+    }
+  }
+
+  .bg {
+    &-neutral-blue {
+      background-color: var(--color-neutral-blue);
+    }
+
+    &-link-color {
+      background-color: var(--color-link-color);
+    }
+
+    &-neutral-light {
+      background-color: var(--color-neutral-light);
+    }
+  }
+}

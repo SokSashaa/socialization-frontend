@@ -1,4 +1,4 @@
-import { user_dto } from '@dto/user.dto';
+import { user_dto } from '@dto/users/user.dto';
 
 export type LocalStorageUser = {
     user: user_dto;
