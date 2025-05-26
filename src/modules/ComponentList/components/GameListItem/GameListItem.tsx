@@ -19,7 +19,6 @@ import {useDeleteGamesMutation} from '../../api/gameApiSlice';
 import {setSelectedTest} from '../../slice/testsSlice';
 
 import styles from './GameListItem.module.scss';
-import IconProfile from '@UI/IconProfile/IconProfile';
 
 // TODO: доделать функционал
 
@@ -123,7 +122,7 @@ const GameListItem: FC<GameListItemProps> = ({game, toggleModal}) => {
 	return (
 		<ItemListWrapper>
 			<div className={styles.info}>
-				<IconProfile id={game.id} photo={game.icon} defaultPhoto={defaultGameIcon} />
+				<Avatar id={game.id} photo={game.icon} defaultPhoto={defaultGameIcon} />
 				<div className={styles.gameTextInfo}>
 					<h3 className={styles.title}>{game.name}</h3>
 					<p className={styles.description}>{game.description}</p>

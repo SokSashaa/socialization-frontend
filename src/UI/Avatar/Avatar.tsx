@@ -1,23 +1,18 @@
 import React, {FC} from 'react';
 import clsx from 'clsx';
 
-import {IconProfileSizes} from '@UI/IconProfile/types';
+import {AvatarSizes} from './types';
 
-import css from './IconProfile.module.scss';
+import css from './Avatar.module.scss';
 
-interface IconListProps {
+interface AvatarProps {
 	id: string;
 	defaultPhoto: string;
 	photo?: string | null;
-	size?: IconProfileSizes;
+	size?: AvatarSizes;
 }
 
-const IconProfile: FC<IconListProps> = ({
-	id,
-	photo,
-	defaultPhoto,
-	size = IconProfileSizes.MEDIUM,
-}) => {
+const Avatar: FC<AvatarProps> = ({id, photo, defaultPhoto, size = AvatarSizes.MEDIUM}) => {
 	return (
 		<>
 			{photo ? (
@@ -31,4 +26,4 @@ const IconProfile: FC<IconListProps> = ({
 	);
 };
 
-export default IconProfile;
+export default Avatar;

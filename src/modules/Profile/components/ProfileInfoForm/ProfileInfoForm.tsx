@@ -7,8 +7,8 @@ import {InputFieldType} from '@src/types';
 import TestResultUser from '@modules/Profile/components/TestResultUser/TestResultUser';
 import {ChangePropOrganizationInUserType} from '@modules/Profile/components/types';
 
-import IconProfile from '@UI/IconProfile/IconProfile';
-import {IconProfileSizes} from '@UI/IconProfile/types';
+import Avatar from '@UI/Avatar/Avatar';
+import {AvatarSizes} from '@UI/Avatar/types';
 import {Button, InputText, UploadFile} from '@UI/index';
 import Spinner from '@UI/spinners/Spinner';
 
@@ -64,11 +64,11 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 	return (
 		<Form method="post" className={styles.form}>
 			<div className={styles.left}>
-				<IconProfile
-					id={'IconProfile'}
+				<Avatar
+					id={'Avatar'}
 					defaultPhoto={userIconV2Big}
 					photo={preview || user?.photo}
-					size={IconProfileSizes.XXXL}
+					size={AvatarSizes.XXXL}
 				/>
 				<div className={styles.leftButtonsContainer}>
 					<UploadFile

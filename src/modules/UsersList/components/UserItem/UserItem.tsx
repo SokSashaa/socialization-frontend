@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
@@ -9,7 +9,7 @@ import {isValidRole} from '@modules/Profile/utils/isValidRole';
 
 import ControlModal from '@components/ControlModal/ControlModal';
 
-import IconProfile from '@UI/IconProfile/IconProfile';
+import Avatar from '@UI/Avatar/Avatar';
 import {ItemListWrapper} from '@UI/index';
 
 import {user_dto} from '@dto/users/user.dto';
@@ -17,14 +17,12 @@ import {user_dto} from '@dto/users/user.dto';
 import {useIsToggled} from '@hooks/useIsToggled';
 
 import {ROLES} from '@utils/constants';
-import {toInitial} from '@utils/helpers';
 
 import {userIconV2} from '@assets/index';
 
 import {useDeleteUserMutation} from '../../api/usersApiSlice';
 
 import styles from './UserItem.module.scss';
-import React from 'react';
 
 interface UserItemProps {
 	user: user_dto;
@@ -76,7 +74,7 @@ const UserItem: FC<UserItemProps> = ({user}) => {
 	return (
 		<ItemListWrapper>
 			<div className={styles.info}>
-				<IconProfile id={id} photo={photo} defaultPhoto={userIconV2} />
+				<Avatar id={id} photo={photo} defaultPhoto={userIconV2} />
 				<div className={styles.text}>
 					<p className={styles.name}>{fullName}</p>
 					<p className={styles.role}>{currentRole}</p>
