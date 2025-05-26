@@ -68,7 +68,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 					id={'IconProfile'}
 					defaultPhoto={userIconV2Big}
 					photo={preview || user?.photo}
-					size={IconProfileSizes.LARGE}
+					size={IconProfileSizes.XXXL}
 				/>
 				<div className={styles.leftButtonsContainer}>
 					<UploadFile
