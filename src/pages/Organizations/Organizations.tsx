@@ -25,7 +25,7 @@ import {findFirstErrorWithPath} from '@utils/helpers/findFirstErrorWithPath';
 
 import styles from './organizations.module.scss';
 
-const DEFAULT_PAGINATION_LIMIT = 1;
+const DEFAULT_PAGINATION_LIMIT = 10;
 
 const Organizations: FC = () => {
 	const [isOpen, open, close] = useModalState(false);

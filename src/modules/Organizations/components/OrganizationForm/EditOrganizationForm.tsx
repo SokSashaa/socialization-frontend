@@ -13,6 +13,7 @@ type OrganizationPropsType = {
 	itemsInputs?: InputFieldType[];
 	buttonText?: string;
 };
+
 const OrganizationForm: FC<OrganizationPropsType> = ({
 	buttonText = 'Сохранить',
 	formikProps,
@@ -21,7 +22,13 @@ const OrganizationForm: FC<OrganizationPropsType> = ({
 	return (
 		<Form className={css.root}>
 			{itemsInputs?.map((item) => (
-				<InputText key={item.name} label={item.label} name={item.name} type={item.type} />
+				<InputText
+					key={item.name}
+					label={item.label}
+					name={item.name}
+					type={item.type}
+					disabled={item.disabled}
+				/>
 			))}
 			<Button type="submit" disabled={formikProps.isSubmitting}>
 				{buttonText}

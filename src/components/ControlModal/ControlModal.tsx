@@ -1,11 +1,11 @@
 import {FC, ReactNode} from 'react';
+import React from 'react';
 
 import {Portal} from '@components/index';
 
 import {Button, Modal} from '@UI/index';
 
 import css from './ControlModal.module.scss';
-import React from 'react';
 
 interface ControlPopoverProps {
 	isOpen: boolean;

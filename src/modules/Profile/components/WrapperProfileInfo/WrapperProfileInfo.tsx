@@ -1,4 +1,5 @@
 import {FC, ReactNode, useEffect, useMemo, useRef, useState} from 'react';
+import React from 'react';
 import {toast} from 'react-toastify';
 import {Formik, FormikProps} from 'formik';
 import {useLazyGetTutorByObservedQuery} from '@app/api/common/usersApiSlice';
@@ -29,7 +30,6 @@ import {INPUT_FIELDS} from './config/inputFields';
 
 import styles from '../Profile/Profile.module.css';
 import css from './WrapperProfileInfo.module.scss';
-import React from 'react';
 
 interface WrapperProfileInfoProps {
 	user: user_dto;

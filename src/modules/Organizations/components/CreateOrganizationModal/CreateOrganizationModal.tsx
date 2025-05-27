@@ -23,9 +23,17 @@ type CreateOrgModalPropsType = {
 const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
 	const [createOrganization] = useCreateOrganizationMutation();
 
+	const initialState: Omit<organizations_dto, 'id'> = {
+		name: '',
+		address: '',
+		site: '',
+		phone_number: '',
+		email: '',
+	};
+
 	const onSubmit = async (
-		values: Omit<organizations_dto, 'id'>,
-		{resetForm}: FormikHelpers<Omit<organizations_dto, 'id'>>
+		values: typeof initialState,
+		{resetForm}: FormikHelpers<typeof initialState>
 	) => {
 		try {
 			const organization = await createOrganization(values).unwrap();
@@ -43,14 +51,6 @@ const CreateOrganizationModal: FC<CreateOrgModalPropsType> = (props) => {
 				findFirstErrorWithPath(error)?.message || error.message || 'Что-то пошло не так'
 			);
 		}
-	};
-
-	const initialState: Omit<organizations_dto, 'id'> = {
-		name: '',
-		address: '',
-		site: '',
-		phone_number: '',
-		email: '',
 	};
 
 	return (
