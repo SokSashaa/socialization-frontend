@@ -162,8 +162,8 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
 			transformResponse: (res: user_dto) =>
 				imageTransformResponseItem<user_dto>(res, 'photo'),
 		}),
-		getTutorByObserved: builder.query<user_dto, string>({
-			query: (id: string) => ({
+		getTutorByObserved: builder.query<user_dto, number>({
+			query: (id: number) => ({
 				url: `/users/${id}/get_tutor_by_observed/`,
 				method: 'GET',
 			}),
