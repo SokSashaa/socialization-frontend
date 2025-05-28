@@ -17,8 +17,8 @@ export const ROUTES = {
 };
 
 export const ROUTING_FUNCTIONS = {
-	editTest: (id: string) => `/tests/${id}/edit/`,
-	resultTest: (id: string) => `/tests/${id}/result/`,
-	entityProfile: (id: string) => `/users/${id}/`,
-	organizationEdit: (id: string) => `/organizations/${id}/edit/`,
+	editTest: (id: number) => `/tests/${id}/edit/`,
+	resultTest: (id: number) => `/tests/${id}/result/`,
+	entityProfile: (id: number) => `/users/${id}/`,
+	organizationEdit: (id: number) => `/organizations/${id}/edit/`,
 };

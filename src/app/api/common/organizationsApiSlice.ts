@@ -1,9 +1,10 @@
-import {apiSlice} from '../apiSlice';
 import {
 	getOrganizationsRequest,
 	getOrganizationsResponse,
 } from '@dto/organizations/getAllOrganizations.dto';
 import {organizations_dto} from '@dto/organizations/organizations.dto';
+
+import {apiSlice} from '../apiSlice';
 
 export const BASE_URL_ORGANIZATIONS = '/organizations/';
 
@@ -46,8 +47,8 @@ export const organizationsApiSlice = apiSlice.injectEndpoints?.({
 			}),
 			invalidatesTags: ['Organizations'],
 		}),
-		deleteOrganizations: builder.mutation<OrganizationResponse, string>({
-			query: (id: string) => ({
+		deleteOrganizations: builder.mutation<OrganizationResponse, number>({
+			query: (id: number) => ({
 				url: `${BASE_URL_ORGANIZATIONS + id}/delete_org/`,
 				method: 'DELETE',
 			}),
@@ -59,7 +60,6 @@ export const organizationsApiSlice = apiSlice.injectEndpoints?.({
 export const {
 	useGetAllOrganizationsQuery,
 	useGetOrganizationInfoQuery,
-
 	useCreateOrganizationMutation,
 	useChangeOrganizationInfoMutation,
 	useDeleteOrganizationsMutation,

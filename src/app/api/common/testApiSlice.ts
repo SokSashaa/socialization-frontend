@@ -1,8 +1,5 @@
 import {assignTestRequestDto, assignTestResponseDto} from '@dto/testsDtos/assignTest.dto';
-import {
-	getObserverTestsInitialResponse,
-	getObserverTestsRequest,
-} from '@dto/testsDtos/getObserverTests.dto';
+import {getObserverTestsRequest} from '@dto/testsDtos/getObserverTests.dto';
 import {getTestsRequest, getTestsResponse} from '@dto/testsDtos/getTests.dto';
 import {Test_dto} from '@dto/testsDtos/test.dto';
 
@@ -25,12 +22,6 @@ const testApiSlice = apiSlice.injectEndpoints?.({
 				url: '/tests/get_user_tests/',
 				params: params,
 			}),
-			transformResponse: (response: getObserverTestsInitialResponse): getTestsResponse => {
-				return {
-					count: response.count,
-					results: response.result.tests,
-				};
-			},
 			providesTags: ['ObservedTests'],
 		}),
 		getTests: builder.query<getTestsResponse, getTestsRequest>({

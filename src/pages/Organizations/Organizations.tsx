@@ -66,7 +66,7 @@ const Organizations: FC = () => {
 		}
 	}, [count]);
 
-	const deleteOnClick = async (id: string) => {
+	const deleteOnClick = async (id: number) => {
 		try {
 			const result = await deleteOrganizationTrigger(id).unwrap();
 
