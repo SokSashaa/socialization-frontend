@@ -6,7 +6,7 @@ import {AvatarSizes} from './types';
 import css from './Avatar.module.scss';
 
 interface AvatarProps {
-	id: number;
+	id: number | string;
 	defaultPhoto: string;
 	photo?: string | null;
 	size?: AvatarSizes;

@@ -4,7 +4,8 @@ import {useParams} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {Formik, FormikHelpers, FormikProps} from 'formik';
 
-import {Modal, ModalLayout} from '../../../../UI';
+import {Modal, ModalLayout} from '@UI/index';
+
 import {useChangePasswordAdminMutation, useChangePasswordMutation} from '../../api/profileApiSlice';
 import {changePasswordSchema, changePasswordSchemaAdmin} from '../../utils/validation.helper';
 import ChangePasswordForm from '../ChangePasswordForm/ChangePasswordForm';

@@ -120,10 +120,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 				{children && <div className={css.container}>{children}</div>}
 
 				<div className={styles.saveButtonWrapper}>
-					<Button
-						type="submit"
-						disabled={formikProps.isSubmitting || !formikProps.isValid}
-					>
+					<Button type="submit" disabled={formikProps.isSubmitting}>
 						{submitBtnContent}
 					</Button>
 				</div>
