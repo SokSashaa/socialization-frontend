@@ -1,44 +1,83 @@
-import { BaseResponseType } from '@app/api/common/types';
-import { imageTransformResponseArray } from '@app/api/common/utils/transformResponsePhoto';
+import {imageTransformResponseArray} from '@app/api/common/utils/transformResponsePhoto';
 
-import { game_dto } from '@dto/game.dto';
+import {assignGameRequestDto, assignGameResponseDto} from '@dto/games/assignGame.dto';
+import {game_dto} from '@dto/games/game.dto';
+import {getGamesRequest, getGamesResponse} from '@dto/games/getGames.dto';
+import {getObserverGamesRequest, getObserverGamesResponse} from '@dto/games/getObserverGames.dto';
 
-import { apiSlice } from '../apiSlice';
+import {apiSlice} from '../apiSlice';
 
 const gameApiSlice = apiSlice.injectEndpoints?.({
-    endpoints: (builder) => ({
-        getGames: builder.query<game_dto[], { search: string; sort: string }>({
-            query: (params) => {
-                const { search, sort } = params;
+	endpoints: (builder) => ({
+		getGames: builder.query<getGamesResponse, getGamesRequest>({
+			query: (params) => ({
+				url: '/games_list/',
+				params,
+			}),
+			providesTags: ['Games'],
+			transformResponse: (response: getGamesResponse) => {
+				const res = imageTransformResponseArray<game_dto>(response.results, 'icon');
 
-                return {
-                    url: '/games_list/',
-                    params: {
-                        search,
-                        ordering: sort,
-                    },
-                };
-            },
-            providesTags: ['Games'],
-            transformResponse: (response: BaseResponseType<game_dto>) =>
-                imageTransformResponseArray<game_dto>(response.results, 'icon'),
-        }),
-        getGame: builder.query({
-            query: (id) => `/games_list/${id}/`,
-            keepUnusedDataFor: 0.1,
-        }),
-        getObserverGames: builder.query({
-            query: (params) => {
-                const { id } = params;
-
-                return {
-                    url: `/games_list/${id}/get_obs_games/`,
-                };
-            },
-            transformResponse: (response) => response.results,
-            providesTags: ['ObservedGames'],
-        }),
-    }),
+				return {
+					...response,
+					results: res,
+				};
+			},
+		}),
+		getGame: builder.query({
+			query: (id) => `/games_list/${id}/`,
+			keepUnusedDataFor: 0.1,
+		}),
+		getObserverGames: builder.query<getObserverGamesResponse, getObserverGamesRequest>({
+			query: (params) => {
+				return {
+					url: '/games_list/get_obs_games/',
+					params,
+				};
+			},
+			providesTags: ['ObservedGames'],
+		}),
+		// Переместить игру в архив
+		moveToArchiveGame: builder.mutation({
+			query: () => ({
+				// TODO: реализовать метод
+			}),
+			invalidatesTags: ['Games'],
+		}),
+		// Удалить игру
+		deleteGames: builder.mutation({
+			query: (id) => ({
+				url: `/games_list/${id}/delete_game/`,
+				method: 'POST',
+			}),
+			invalidatesTags: ['Games'],
+		}),
+		// Добавить игру
+		addGame: builder.mutation({
+			query: (game) => ({
+				url: '/games_list/upload/',
+				method: 'POST',
+				body: game,
+			}),
+			transformResponse: (response) => response.result.id,
+			invalidatesTags: ['Games'],
+		}),
+		// Назначить игру
+		assignGame: builder.mutation<assignGameResponseDto, assignGameRequestDto>({
+			query: (data) => ({
+				url: '/games_list/appoint_game/',
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['Observeds', 'ObservedGames', 'ObservedsTutor'],
+		}),
+	}),
 });
 
-export const { useGetGamesQuery, useGetGameQuery, useGetObserverGamesQuery } = gameApiSlice;
+export const {
+	useGetGamesQuery,
+	useGetGameQuery,
+	useGetObserverGamesQuery,
+	useDeleteGamesMutation,
+	useAssignGameMutation,
+} = gameApiSlice;

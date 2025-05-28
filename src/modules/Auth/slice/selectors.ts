@@ -1,3 +1,5 @@
-export const selectCurrentUser = (state) => state.auth.user;
+import {RootState} from '@app/store';
 
-export const selectCurrentToken = (state) => state.auth.access;
+export const selectCurrentUser = (state: RootState) => state.auth.user;
+
+export const selectCurrentToken = (state: RootState) => state.auth.access;

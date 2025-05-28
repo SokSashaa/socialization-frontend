@@ -33,6 +33,7 @@ type FilteredListProps<ItemsType> = {
 	children?: ReactNode;
 	isLoading?: boolean;
 	isError?: boolean;
+	searchBarParamName?: string;
 } & PaginationProps;
 
 export const FilteredList = <ItemsType,>(props: FilteredListProps<ItemsType>) => {
@@ -46,6 +47,7 @@ export const FilteredList = <ItemsType,>(props: FilteredListProps<ItemsType>) =>
 		children,
 		items,
 		pagination,
+		searchBarParamName = 'search',
 	} = props;
 
 	const renderLoading = <Spinner size={'large'} style={{margin: '28px auto'}} />;
@@ -74,7 +76,13 @@ export const FilteredList = <ItemsType,>(props: FilteredListProps<ItemsType>) =>
 	return (
 		<div className={css.wrapper}>
 			<div className={css.form}>
-				{onSearch && <SearchBar className={css.searchBar} onSearch={onSearch} />}
+				{onSearch && (
+					<SearchBar
+						className={css.searchBar}
+						searchBarParamName={searchBarParamName}
+						onSearch={onSearch}
+					/>
+				)}
 
 				{onSort && sortList && (
 					<Sort className={css.sortWrapper} options={sortList} onSort={onSort} />

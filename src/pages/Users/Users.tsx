@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from 'react';
+import {useSearchParams} from 'react-router-dom';
 import {useGetUsersQuery} from '@app/api/common/usersApiSlice';
+
+import NewUserForm from '@pages/Users/components/NewUserForm/NewUserForm';
+import UserItem from '@pages/Users/components/UserItem/UserItem';
+
+import {FilteredList, Portal} from '@components/index';
+
+import {ButtonAddItemList, Container, Modal, ModalLayout} from '@UI/index';
 
 import {sortList, sortListValuesType} from '@dto/users/getUsers.dto';
 import {user_dto} from '@dto/users/user.dto';
 
-import {FilteredList, Portal} from '@components/index';
-import {ButtonAddItemList, Container, Modal, ModalLayout} from '@UI/index';
-import NewUserForm from '@modules/UsersList/components/NewUserForm/NewUserForm';
-import UserItem from '@modules/UsersList/components/UserItem/UserItem';
-
 import styles from './UsersList.module.scss';
-import {useSearchParams} from 'react-router-dom';
 
-const DEFAULT_PAGINATION_LIMIT = 10;
+const DEFAULT_PAGINATION_LIMIT = 5;
 
 const Users = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -85,9 +87,9 @@ const Users = () => {
 					sortList={sortList}
 					isLoading={isLoading || isFetching}
 					renderListItem={(user: user_dto) => <UserItem user={user} />}
+					pagination={pagination}
 					onSearch={onSearch}
 					onSort={onSort}
-					pagination={pagination}
 				>
 					<ButtonAddItemList onClick={onShowModal}>
 						Добавить пользователя
@@ -95,7 +97,7 @@ const Users = () => {
 				</FilteredList>
 			</Container>
 			<Portal>
-				<Modal active={showModal} setActive={handleOnChange}>
+				<Modal active={showModal} handleClose={handleOnChange}>
 					<ModalLayout title="Добавить пользователя" content={<NewUserForm />} />
 				</Modal>
 			</Portal>

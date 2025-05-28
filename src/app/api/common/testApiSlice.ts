@@ -1,42 +1,79 @@
-import { Test_dto } from '@dto/test.dto';
+import {assignTestRequestDto, assignTestResponseDto} from '@dto/testsDtos/assignTest.dto';
+import {
+	getObserverTestsInitialResponse,
+	getObserverTestsRequest,
+} from '@dto/testsDtos/getObserverTests.dto';
+import {getTestsRequest, getTestsResponse} from '@dto/testsDtos/getTests.dto';
+import {Test_dto} from '@dto/testsDtos/test.dto';
 
-import { apiSlice } from '../apiSlice';
+import {apiSlice} from '../apiSlice';
 
 type TestResponseType = {
-    success: boolean;
-    result: Test_dto;
-};
-
-type UserTestResponse = {
-    success: boolean;
-    result: {
-        tests: Test_dto[];
-        user_id: string;
-    };
+	success: boolean;
+	result: Test_dto;
 };
 
 const testApiSlice = apiSlice.injectEndpoints?.({
-    endpoints: (builder) => ({
-        getTest: builder.query<Test_dto, string>({
-            query: (id) => `/tests/${id}/get_single_test/`,
-            keepUnusedDataFor: 0.1,
-            transformResponse: (response: TestResponseType) => response.result,
-        }),
-        getObserverTests: builder.query<Test_dto[], any>({
-            query: (params) => {
-                const { id } = params;
-
-                return {
-                    url: '/tests/get_user_tests/',
-                    params: {
-                        user_id: id,
-                    },
-                };
-            },
-            transformResponse: (response: UserTestResponse) => response.result.tests,
-            providesTags: ['ObservedTests'],
-        }),
-    }),
+	endpoints: (builder) => ({
+		getTest: builder.query<Test_dto, string>({
+			query: (id) => `/tests/${id}/get_single_test/`,
+			keepUnusedDataFor: 0.1,
+			transformResponse: (response: TestResponseType) => response.result,
+		}),
+		getObserverTests: builder.query<getTestsResponse, getObserverTestsRequest>({
+			query: (params) => ({
+				url: '/tests/get_user_tests/',
+				params: params,
+			}),
+			transformResponse: (response: getObserverTestsInitialResponse): getTestsResponse => {
+				return {
+					count: response.count,
+					results: response.result.tests,
+				};
+			},
+			providesTags: ['ObservedTests'],
+		}),
+		getTests: builder.query<getTestsResponse, getTestsRequest>({
+			query: (params) => {
+				return {
+					url: '/tests/',
+					params,
+				};
+			},
+			providesTags: ['Tests'],
+		}),
+		deleteTest: builder.mutation({
+			query: (id: number) => ({
+				url: `/tests/${id}/`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['Tests'],
+		}),
+		addTest: builder.mutation({
+			query: (test) => ({
+				url: '/tests/create_test/',
+				method: 'POST',
+				body: test,
+			}),
+			transformResponse: (response) => response.result.id,
+			invalidatesTags: ['Tests'],
+		}),
+		assignTest: builder.mutation<assignTestResponseDto, assignTestRequestDto>({
+			query: (data) => ({
+				url: '/tests/appoint_test/',
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['Observeds', 'ObservedTests'],
+		}),
+	}),
 });
 
-export const { useGetTestQuery, useGetObserverTestsQuery } = testApiSlice;
+export const {
+	useGetTestQuery,
+	useGetObserverTestsQuery,
+	useGetTestsQuery,
+	useDeleteTestMutation,
+	useAddTestMutation,
+	useAssignTestMutation,
+} = testApiSlice;

@@ -6,8 +6,8 @@ import {
 	useGetAllOrganizationsQuery,
 } from '@app/api/common/organizationsApiSlice';
 
-import CreateOrganizationModal from '@modules/Organizations/components/CreateOrganizationModal/CreateOrganizationModal';
-import OrganizationItem from '@modules/Organizations/components/OrganizationItem/OrganizationItem';
+import CreateOrganizationModal from '@pages/Organizations/components/CreateOrganizationModal/CreateOrganizationModal';
+import OrganizationItem from '@pages/Organizations/components/OrganizationItem/OrganizationItem';
 
 import {FilteredList} from '@components/index';
 
@@ -25,7 +25,7 @@ import {findFirstErrorWithPath} from '@utils/helpers/findFirstErrorWithPath';
 
 import styles from './organizations.module.scss';
 
-const DEFAULT_PAGINATION_LIMIT = 10;
+const DEFAULT_PAGINATION_LIMIT = 5;
 
 const Organizations: FC = () => {
 	const [isOpen, open, close] = useModalState(false);

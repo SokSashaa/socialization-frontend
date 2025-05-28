@@ -1,23 +1,25 @@
 import React, {FC, InputHTMLAttributes, useEffect, useState} from 'react';
+import {useSearchParams} from 'react-router-dom';
 
 import {useDebounce} from '../../hooks';
 import {InputBase} from '../../UI';
 
 import styles from './SearchBar.module.css';
-import {useSearchParams} from 'react-router-dom';
 
 type SearchBarPropsType = InputHTMLAttributes<HTMLInputElement> & {
 	onSearch?: (value: string) => void;
+	searchBarParamName?: string;
 };
 
 const SearchBar: FC<SearchBarPropsType> = ({
 	className,
 	placeholder,
 	onSearch = (value: string) => {},
+	searchBarParamName = 'search',
 }) => {
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 
-	const [searchValue, setSearchValue] = useState(searchParams.get('search') || '');
+	const [searchValue, setSearchValue] = useState(searchParams.get(searchBarParamName) || '');
 	const debouncedSearchValue = useDebounce(searchValue);
 
 	useEffect(() => {
@@ -25,11 +27,7 @@ const SearchBar: FC<SearchBarPropsType> = ({
 	}, [debouncedSearchValue]);
 
 	return (
-		<search
-			role="search"
-			className={className}
-			onSubmitCapture={(event) => onSearch(searchValue)}
-		>
+		<search role="search" className={className} onSubmitCapture={() => onSearch(searchValue)}>
 			<InputBase
 				className={styles.search}
 				inputProps={{
@@ -38,7 +36,9 @@ const SearchBar: FC<SearchBarPropsType> = ({
 					name: 'search',
 					value: searchValue,
 					onKeyDown: (event) => {
-						event.key === 'Enter' && onSearch(searchValue);
+						if (event.key === 'Enter') {
+							onSearch(searchValue);
+						}
 					},
 					onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
 						setSearchValue(event.target.value),

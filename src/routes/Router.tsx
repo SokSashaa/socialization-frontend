@@ -14,9 +14,9 @@ const EditOrganizations = lazy(() => import('@pages/EditOrganizations/EditOrgani
 const EditTest = lazy(() => import('@pages/EditTest/EditTest'));
 const ChangeUserInfoPage = lazy(() => import('@pages/ChangeUserInfo/ChangeUserInfoPage'));
 const HomePage = lazy(() => import('@pages/Home/Home'));
-const GamesPage = lazy(() => import('@pages/GameComponents/Games'));
+const GamesPage = lazy(() => import('@pages/Games/Games'));
 const ProfilePage = lazy(() => import('@pages/Profile/Profile'));
-const TestsPage = lazy(() => import('@pages/TestComponents/Tests'));
+const TestsPage = lazy(() => import('@pages/TestsPage/Tests'));
 const PassTestPage = lazy(() => import('@pages/PassTest/PassTest'));
 const PlayGamePage = lazy(() => import('@pages/PlayGame/PlayGame'));
 const ResultTestPage = lazy(() => import('@pages/ResultTest/ResultTest'));

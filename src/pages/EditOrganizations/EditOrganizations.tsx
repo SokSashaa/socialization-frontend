@@ -8,7 +8,8 @@ import {
 	useGetOrganizationInfoQuery,
 } from '@app/api/common/organizationsApiSlice';
 
-import OrganizationForm from '@modules/Organizations/components/OrganizationForm/EditOrganizationForm';
+import OrganizationForm from '@pages/Organizations/components/OrganizationForm/EditOrganizationForm';
+
 import {inputFieldsOrganizations} from '@modules/Organizations/config/inputFieldsOrganizations';
 import {organizationsValidate} from '@modules/Organizations/utils/validate.shema';
 

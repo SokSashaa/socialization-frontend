@@ -3,12 +3,22 @@ import {
 	imageTransformResponseItem,
 } from '@app/api/common/utils/transformResponsePhoto';
 
+import {getCategoryRequest, getCategoryResponse} from '@dto/users/getCategory.dto';
+import {
+	getObservedsByTutorRequest,
+	getObservedsByTutorResponse,
+	getObservedsByTutorSortListValuesType,
+} from '@dto/users/getObservedsByTutor.dto';
+import {
+	getObservedsConditionalRequest,
+	getObservedsConditionalResponse,
+} from '@dto/users/getObservedsConditional.dto';
 import {getUsersRequest, getUsersResponse} from '@dto/users/getUsers.dto';
 import {user_dto} from '@dto/users/user.dto';
 
 import {apiSlice} from '../apiSlice';
 
-import {UserArrayResponse, UserResponse} from './types';
+import {UserResponse} from './types';
 
 const usersApiSlice = apiSlice.injectEndpoints?.({
 	endpoints: (builder) => ({
@@ -27,43 +37,104 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
 			},
 			providesTags: ['Users'],
 		}),
-		getObserveds: builder.query<user_dto[], {text: string}>({
+		getObservedsConditional: builder.query<
+			getObservedsConditionalResponse,
+			getObservedsConditionalRequest
+		>({
+			query: (params) => {
+				if (params.isAdmin) {
+					return {
+						url: '/users/get_observeds/',
+						params: {
+							text: params.text,
+							offset: params.offset,
+							limit: params.limit,
+						},
+					};
+				} else {
+					return {
+						url: `/users/${params.id}/get_observeds_by_tutor/`,
+						params: {
+							text: params.text,
+							offset: params.offset,
+							limit: params.limit,
+							ordering: 'name' as getObservedsByTutorSortListValuesType,
+						},
+					};
+				}
+			},
+			providesTags: ['Observeds', 'ObservedsTutor'],
+			transformResponse: (res: getObservedsConditionalResponse) => {
+				const results = imageTransformResponseArray<user_dto>(res.results, 'photo');
+
+				return {
+					...res,
+					results,
+				};
+			},
+		}),
+		getObserveds: builder.query<getCategoryResponse, getCategoryRequest>({
 			query: (params) => ({
 				url: '/users/get_observeds/',
 				params,
 			}),
 			providesTags: ['Observeds'],
-			transformResponse: (res: UserArrayResponse) =>
-				imageTransformResponseArray<user_dto>(res.result, 'photo'),
-		}),
-		getObservedsByTutor: builder.query<
-			user_dto[], //TODO: Исправить тип
-			{
-				id: string | number;
-				text?: string;
-				ordering?: any;
-			}
-		>({
-			query: (params) => {
-				const {id, text, ordering} = params;
+			transformResponse: (res: getCategoryResponse): getCategoryResponse => {
+				const results = imageTransformResponseArray<user_dto>(res.results, 'photo');
 
 				return {
-					url: `/users/${id}/get_observeds_by_tutor/`,
-					method: 'GET',
-					params: {text, ordering},
+					...res,
+					results,
 				};
 			},
-			providesTags: ['ObservedsTutor'],
-			transformResponse: (res: UserArrayResponse) =>
-				imageTransformResponseArray<user_dto>(res.result, 'photo'),
 		}),
-		getTutors: builder.query<user_dto[], void>({
-			query: () => ({
+		getObservedsByTutor: builder.query<getObservedsByTutorResponse, getObservedsByTutorRequest>(
+			{
+				query: (params) => {
+					const newParams = params.text
+						? {
+								text: params.text,
+								ordering: params.ordering,
+								limit: params.limit,
+								offset: params.offset,
+							}
+						: {
+								ordering: params.ordering,
+								limit: params.limit,
+								offset: params.offset,
+							};
+
+					return {
+						url: `/users/${params.id}/get_observeds_by_tutor/`,
+						method: 'GET',
+						params: newParams,
+					};
+				},
+				providesTags: ['ObservedsTutor'],
+				transformResponse: (res: getObservedsByTutorResponse) => {
+					const transformed = imageTransformResponseArray<user_dto>(res.results, 'photo');
+
+					return {
+						...res,
+						results: transformed,
+					};
+				},
+			}
+		),
+		getTutors: builder.query<getCategoryResponse, getCategoryRequest>({
+			query: (params) => ({
 				url: '/users/get_tutors/',
+				params,
 				method: 'GET',
 			}),
-			transformResponse: (res: UserArrayResponse) =>
-				imageTransformResponseArray<user_dto>(res.result, 'photo'),
+			transformResponse: (res: getCategoryResponse): getCategoryResponse => {
+				const results = imageTransformResponseArray<user_dto>(res.results, 'photo');
+
+				return {
+					...res,
+					results,
+				};
+			},
 		}),
 		appointObserveds: builder.mutation({
 			query: (data) => ({
@@ -83,7 +154,7 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
 				imageTransformResponseItem<user_dto>(response.result, 'photo'),
 			providesTags: ['User'],
 		}),
-		getSingleUser: builder.query<user_dto, string>({
+		getSingleUser: builder.query<user_dto, number>({
 			query: (id) => ({
 				url: `/users/${id}/`,
 				method: 'GET',
@@ -103,10 +174,10 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
 });
 
 export const {
-	useLazyGetUsersQuery,
 	useGetUsersQuery,
-	useLazyGetObservedsQuery,
+	useLazyGetObservedsConditionalQuery,
 	useGetObservedsQuery,
+	useLazyGetObservedsQuery,
 	useGetObservedsByTutorQuery,
 	useGetTutorsQuery,
 	useAppointObservedsMutation,

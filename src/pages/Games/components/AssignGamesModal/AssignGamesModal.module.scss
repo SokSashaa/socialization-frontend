@@ -1,0 +1,23 @@
+.search {
+	@apply mb-5;
+}
+
+.list {
+	@apply mb-8;
+}
+
+.item {
+	@apply mb-3 text-start last:mb-0;
+}
+
+.label {
+	@apply flex justify-between pr-2 text-lg;
+}
+
+.spinner {
+	@apply my-4;
+}
+
+.error {
+	@apply my-4;
+}

@@ -4,7 +4,8 @@ import {toast} from 'react-toastify';
 import {Formik, FormikProps} from 'formik';
 import {useLazyGetTutorByObservedQuery} from '@app/api/common/usersApiSlice';
 
-import OrganizationsSelect from '@modules/Organizations/components/OrganizationsSelect/OrganizationsSelect';
+import OrganizationsSelect from '@pages/Organizations/components/OrganizationsSelect/OrganizationsSelect';
+
 import RoleSelect from '@modules/Profile/components/RoleSelect/RoleSelect';
 import {
 	ChangePropOrganizationInUserType,
