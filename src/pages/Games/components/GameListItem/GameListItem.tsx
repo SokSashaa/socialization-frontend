@@ -7,7 +7,7 @@ import {XCircleIcon} from '@heroicons/react/24/solid';
 
 import ControlModal from '@components/ControlModal/ControlModal';
 
-import IconList from '@UI/IconList/IconList';
+import Avatar from '@UI/Avatar/Avatar';
 import {ItemListWrapper} from '@UI/index';
 
 import {game_dto} from '@dto/games/game.dto';
@@ -120,7 +120,7 @@ const GameListItem: FC<GameListItemProps> = ({game, openAssignModal, setSelected
 	return (
 		<ItemListWrapper>
 			<div className={styles.info}>
-				<IconList id={game.id} photo={game.icon} defaultPhoto={defaultGameIcon} />
+				<Avatar id={game.id} photo={game.icon} defaultPhoto={defaultGameIcon} />
 				<div className={styles.gameTextInfo}>
 					<h3 className={styles.title}>{game.name}</h3>
 					<p className={styles.description}>{game.description}</p>
