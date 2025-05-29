@@ -2,7 +2,7 @@ import React from 'react';
 import {useSearchParams} from 'react-router-dom';
 import {useGetGamesQuery, useGetObserverGamesQuery} from '@app/api/common/gameApiSlice';
 
-import {GamesList} from '@pages/Games/components/GamesList';
+import {DEFAULT_GAMES_PAGINATION_LIMIT, GamesList} from '@pages/Games/components/GamesList';
 
 import {gameSortListValuesType} from '@dto/games/getGames.dto';
 
@@ -23,8 +23,8 @@ function Tests() {
 		{
 			search: searchParams.get('text') || '',
 			ordering: (searchParams.get('ordering') as gameSortListValuesType) || 'id',
-			limit: Number(searchParams.get('limit')) || undefined,
-			offset: Number(searchParams.get('offset')) || undefined,
+			limit: Number(searchParams.get('limit')) || DEFAULT_GAMES_PAGINATION_LIMIT,
+			offset: Number(searchParams.get('offset')) || 0,
 		},
 		{skip: currentUser?.role === ROLES.observed.code}
 	);
@@ -38,8 +38,8 @@ function Tests() {
 		{
 			user_id: currentUser!.id,
 			search: searchParams.get('text') || undefined,
-			limit: Number(searchParams.get('limit')) || undefined,
-			offset: Number(searchParams.get('offset')) || undefined,
+			limit: Number(searchParams.get('limit')) || DEFAULT_GAMES_PAGINATION_LIMIT,
+			offset: Number(searchParams.get('offset')) || 0,
 		},
 		{skip: currentUser?.role !== ROLES.observed.code}
 	);

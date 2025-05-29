@@ -1,0 +1,31 @@
+.creationForm {
+  width: 686px;
+  height: 487px;
+
+  @media (max-width: 640px) {
+    width: 255px;
+  }
+
+}
+
+.upload {
+  @apply text-center;
+  
+  &.archiveUpload:hover {
+    button {
+      background: rgba(179, 103, 226, 1);
+    }
+  }
+}
+
+.avatarWrapper {
+  @apply relative mb-3 flex h-[200px] w-[200px];
+}
+
+.avatarContainer {
+  @apply w-full overflow-hidden rounded-full;
+}
+
+.avatar {
+  @apply h-full w-full object-cover;
+}

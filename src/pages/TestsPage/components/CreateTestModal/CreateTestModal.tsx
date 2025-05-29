@@ -36,10 +36,9 @@ const CreateTestModal: FC<CreateTestProps> = ({isOpenModal, closeModal}) => {
 		try {
 			const testId = await addTest(values).unwrap();
 
-			closeModal();
-
 			resetForm({values: initialState});
 			navigate(`/tests/${testId}/edit`);
+			closeModal();
 		} catch (error) {
 			toast.error(error?.data?.detail || 'Что-то пошло не так');
 		}

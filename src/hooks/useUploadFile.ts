@@ -1,16 +1,15 @@
 import {useState} from 'react';
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
+const MAX_FILE_SIZE = 150 * 1024 * 1024;
+const ALLOWED_TYPES = ['.zip'];
 
-const useUploadPhoto = (name: string) => {
+const useUploadFile = (name) => {
 	const [preview, setPreview] = useState<null | string>(null);
 
 	const onUpload =
 		({setFieldValue, touched, setTouched}) =>
 		(e) => {
 			const selectedFile = e.target.files[0];
-			console.log(name);
 
 			if (selectedFile) {
 				setTouched({...touched, [name]: true});
@@ -27,7 +26,6 @@ const useUploadPhoto = (name: string) => {
 					if (typeof reader.result === 'string') {
 						setPreview(reader.result);
 					}
-					console.log(name, reader.result);
 					setFieldValue(name, reader.result);
 				};
 				reader.readAsDataURL(selectedFile);
@@ -41,4 +39,4 @@ const useUploadPhoto = (name: string) => {
 	return {preview, onUpload, resetPreview};
 };
 
-export default useUploadPhoto;
+export default useUploadFile;

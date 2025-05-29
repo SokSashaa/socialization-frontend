@@ -1,5 +1,6 @@
 import {imageTransformResponseArray} from '@app/api/common/utils/transformResponsePhoto';
 
+import {AddGameDtoRequest, AddGameDtoResponse} from '@dto/games/addGame.dto';
 import {assignGameRequestDto, assignGameResponseDto} from '@dto/games/assignGame.dto';
 import {game_dto} from '@dto/games/game.dto';
 import {getGamesRequest, getGamesResponse} from '@dto/games/getGames.dto';
@@ -53,13 +54,18 @@ const gameApiSlice = apiSlice.injectEndpoints?.({
 			invalidatesTags: ['Games'],
 		}),
 		// Добавить игру
-		addGame: builder.mutation({
-			query: (game) => ({
-				url: '/games_list/upload/',
-				method: 'POST',
-				body: game,
-			}),
-			transformResponse: (response) => response.result.id,
+		addGame: builder.mutation<AddGameDtoResponse, AddGameDtoRequest>({
+			query: (game) => {
+				console.log('game', game);
+
+				return {
+					url: '/games_list/upload/',
+					method: 'POST',
+					body: {
+						...game,
+					},
+				};
+			},
 			invalidatesTags: ['Games'],
 		}),
 		// Назначить игру
@@ -80,4 +86,5 @@ export const {
 	useGetObserverGamesQuery,
 	useDeleteGamesMutation,
 	useAssignGameMutation,
+	useAddGameMutation,
 } = gameApiSlice;
