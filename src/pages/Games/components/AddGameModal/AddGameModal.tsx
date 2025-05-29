@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {Form, Formik} from 'formik';
 import {useAddGameMutation} from '@app/api/common/gameApiSlice';
 
-import {defaultGameIcon, userIconV2Big} from '@src/assets';
+import {defaultGameIcon} from '@src/assets';
 import {useUploadPhoto} from '@src/hooks';
 
 import {Portal} from '@components/index';
@@ -13,7 +13,9 @@ import Avatar from '@UI/Avatar/Avatar';
 import {AvatarSizes} from '@UI/Avatar/types';
 import {Button, InputText, Modal, ModalLayout, UploadFile} from '@UI/index';
 
-import {AddGameDtoRequest} from '@dto/games/addGame.dto';
+import {AddGameDtoRequest, AddGameKeys} from '@dto/games/addGame.dto';
+
+import useUploadFile from '@hooks/useUploadFile';
 
 import styles from './AddGameModal.module.scss';
 
@@ -22,22 +24,42 @@ type CreateTestProps = {
 	closeModal: () => void;
 };
 
-const initialState: AddGameDtoRequest = {
+const initialState = {
 	name: '',
 	description: '',
-	archive_file: '',
+	archive_file: null,
 	icon: '',
+};
+
+type FormType = Omit<AddGameDtoRequest, 'archive_file'> & {
+	archive_file: File | null;
+};
+
+const appendToFormData = (formData: FormData, key: AddGameKeys, value: string | File) => {
+	formData.append(key, value);
 };
 
 export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => {
 	const [addGame] = useAddGameMutation();
 
-	const onSubmit = async (values: AddGameDtoRequest) => {
+	const onSubmit = async (values: FormType) => {
 		try {
-			console.log(values);
-			const newGame = await addGame(values).unwrap();
+			if (values.archive_file === null) {
+				throw new Error();
+			}
 
-			console.log(newGame);
+			const payload = new FormData();
+
+			appendToFormData(payload, 'name', values.name);
+			appendToFormData(payload, 'description', values.description);
+			appendToFormData(payload, 'icon', values.icon || initialState.icon);
+			appendToFormData(payload, 'archive_file', values.archive_file);
+
+			const newGame = await addGame(payload).unwrap();
+			toast.success(
+				'Успешно добавлена игра ' + newGame.result.name ? newGame.result.name : ''
+			);
+			closeModal();
 		} catch (error) {
 			toast.error(error?.data?.detail || 'Что-то пошло не так');
 		}
@@ -47,6 +69,7 @@ export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => 
 	const arciveRef = useRef(null);
 
 	const {preview, onUpload} = useUploadPhoto('icon');
+	const {preview: zipPreview, onUpload: onZipUpload} = useUploadFile('archive_file');
 
 	return (
 		<Portal>
@@ -81,53 +104,67 @@ export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => 
 												photo={preview}
 												size={AvatarSizes.SMALL}
 											/>
-
-											<UploadFile
-												fileRef={iconRef}
-												label="Иконка"
-												className={styles.upload}
-												inputProps={{
-													name: 'icon',
-													accept: 'image/png, image/jpeg, image/jpg',
-												}}
-												onChange={() => onUpload(formikProps)}
-											/>
-
-											<UploadFile
-												label={'Архив с игрой'}
-												fileRef={arciveRef}
-												className={clsx(
-													styles.upload,
-													styles.archiveUpload
+											<div className="flex items-center gap-1">
+												<UploadFile
+													fileRef={iconRef}
+													label="Иконка"
+													className={styles.upload}
+													inputProps={{
+														name: 'icon',
+														accept: 'image/png, image/jpeg, image/jpg',
+														onChange: onUpload(formikProps),
+													}}
+												/>
+												{preview !== '' && preview !== null && (
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-5 w-5 text-green-500"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path
+															fillRule="evenodd"
+															d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+															clipRule="evenodd"
+														/>
+													</svg>
 												)}
-												inputProps={{
-													name: 'archive_file',
-													accept: 'application/x-zip-compressed',
-													multiple: false,
-													onChange: (
-														e: React.ChangeEvent<HTMLInputElement>
-													) => {
-														if (e.target.files === null) {
-															return;
-														}
-														const file = e.target.files[0];
-														const reader = new FileReader();
-														reader.readAsDataURL(file);
-														reader.onloadend = () => {
-															const base64data = reader.result;
-															if (typeof base64data === 'string') {
-																formikProps.setFieldValue(
-																	'archive_file',
-																	base64data
-																);
-															}
-														};
-													},
-												}}
-											/>
+											</div>
+
+											<div className="flex items-center gap-1">
+												<UploadFile
+													label={'Архив с игрой'}
+													fileRef={arciveRef}
+													className={clsx(
+														styles.upload,
+														styles.archiveUpload
+													)}
+													inputProps={{
+														name: 'archive_file',
+														accept: 'application/x-zip-compressed',
+														multiple: false,
+														onChange: onZipUpload(formikProps),
+													}}
+												/>
+
+												{zipPreview !== null && (
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-5 w-5 text-green-500"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path
+															fillRule="evenodd"
+															d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+															clipRule="evenodd"
+														/>
+													</svg>
+												)}
+											</div>
 										</div>
 
-										<Button type="submit">
+										<Button type="submit" disabled={formikProps.isSubmitting}>
 											{formikProps.isSubmitting
 												? 'Добавление...'
 												: 'Добавить'}

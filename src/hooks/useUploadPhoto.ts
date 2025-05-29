@@ -7,10 +7,20 @@ const useUploadPhoto = (name: string) => {
 	const [preview, setPreview] = useState<null | string>(null);
 
 	const onUpload =
-		({setFieldValue, touched, setTouched}) =>
-		(e) => {
+		({
+			setFieldValue,
+			touched,
+			setTouched,
+		}: {
+			setFieldValue: (field: string, value: string | ArrayBuffer | null) => void;
+			touched: Record<string, boolean>;
+			setTouched: (touched: Record<string, boolean>) => void;
+		}) =>
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			if (e.target.files === null) {
+				return;
+			}
 			const selectedFile = e.target.files[0];
-			console.log(name);
 
 			if (selectedFile) {
 				setTouched({...touched, [name]: true});
@@ -27,7 +37,6 @@ const useUploadPhoto = (name: string) => {
 					if (typeof reader.result === 'string') {
 						setPreview(reader.result);
 					}
-					console.log(name, reader.result);
 					setFieldValue(name, reader.result);
 				};
 				reader.readAsDataURL(selectedFile);

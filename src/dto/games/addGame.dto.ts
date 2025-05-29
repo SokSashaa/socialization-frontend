@@ -6,5 +6,7 @@ export type AddGameDtoResponse = {
 };
 
 export type AddGameDtoRequest = {
-	archive_file: string;
+	archive_file: File;
 } & Omit<game_dto, 'id' | 'link'>;
+
+export type AddGameKeys = keyof AddGameDtoRequest;

@@ -1,14 +1,26 @@
 import {useState} from 'react';
 
 const MAX_FILE_SIZE = 150 * 1024 * 1024;
-const ALLOWED_TYPES = ['.zip'];
+const ALLOWED_TYPES = ['application/x-zip-compressed'];
 
-const useUploadFile = (name) => {
-	const [preview, setPreview] = useState<null | string>(null);
+const useUploadFile = (name: string) => {
+	const [preview, setPreview] = useState<null | File>(null);
 
 	const onUpload =
-		({setFieldValue, touched, setTouched}) =>
-		(e) => {
+		({
+			setFieldValue,
+			touched,
+			setTouched,
+		}: {
+			setFieldValue: (field: string, value: File) => void;
+			touched: Record<string, boolean>;
+			setTouched: (touched: Record<string, boolean>) => void;
+		}) =>
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			if (e.target.files === null) {
+				return;
+			}
+
 			const selectedFile = e.target.files[0];
 
 			if (selectedFile) {
@@ -20,15 +32,8 @@ const useUploadFile = (name) => {
 				) {
 					return;
 				}
-
-				const reader = new FileReader();
-				reader.onloadend = () => {
-					if (typeof reader.result === 'string') {
-						setPreview(reader.result);
-					}
-					setFieldValue(name, reader.result);
-				};
-				reader.readAsDataURL(selectedFile);
+				setPreview(selectedFile);
+				setFieldValue(name, selectedFile);
 			}
 		};
 

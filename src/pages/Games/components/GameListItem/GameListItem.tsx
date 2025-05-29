@@ -1,6 +1,6 @@
 import {FC} from 'react';
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useSearchParams} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useDeleteGamesMutation} from '@app/api/common/gameApiSlice';
 import {XCircleIcon} from '@heroicons/react/24/solid';
@@ -32,16 +32,14 @@ const GameListItem: FC<GameListItemProps> = ({game, openAssignModal, setSelected
 	const user = useAppSelector((state) => state.auth.user);
 	const role = user?.role as RoleCode;
 
+	const [searchParams, setSearchParams] = useSearchParams();
+
 	const [deleteGames] = useDeleteGamesMutation();
 
 	const onSelectGame = (id: number) => () => {
 		setSelectedGame(id);
 		openAssignModal();
 	};
-
-	// const onArchive = (id) => async () => {
-	//     // TODO: реализовать перемещение игры в архив, полное удаление возможно только оттуда
-	// };
 
 	const onDelete = async (id: number) => {
 		const toastId = toast.loading('Удаление игры...');
@@ -55,6 +53,15 @@ const GameListItem: FC<GameListItemProps> = ({game, openAssignModal, setSelected
 				isLoading: false,
 				autoClose: 2000,
 			});
+
+			setSearchParams((prev) => {
+				const params = new URLSearchParams(prev);
+
+				params.delete('offset');
+
+				return params;
+			});
+			searchParams.delete('offset');
 		} catch {
 			toast.update(toastId, {
 				render: 'Произошла ошибка при удалении игры',
