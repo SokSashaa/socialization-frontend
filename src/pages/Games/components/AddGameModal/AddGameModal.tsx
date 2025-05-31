@@ -2,6 +2,7 @@ import React, {FC, useRef} from 'react';
 import {toast} from 'react-toastify';
 import clsx from 'clsx';
 import {Form, Formik} from 'formik';
+import * as Yup from 'yup';
 import {useAddGameMutation} from '@app/api/common/gameApiSlice';
 
 import {defaultGameIcon} from '@src/assets';
@@ -12,6 +13,7 @@ import {Portal} from '@components/index';
 import Avatar from '@UI/Avatar/Avatar';
 import {AvatarSizes} from '@UI/Avatar/types';
 import {Button, InputText, Modal, ModalLayout, UploadFile} from '@UI/index';
+import {Tooltip} from '@UI/Tooltip/Tooltip';
 
 import {AddGameDtoRequest, AddGameKeys} from '@dto/games/addGame.dto';
 
@@ -31,6 +33,13 @@ const initialState = {
 	icon: '',
 };
 
+const validationSchema = Yup.object().shape({
+	name: Yup.string().required('Название обязательно').max(150, 'Максимальная длина 150 символов'),
+	description: Yup.string()
+		.required('Описание обязательно')
+		.max(300, 'Максимальная длина 300 символов'),
+	archive_file: Yup.mixed().required('Архив с игрой обязателен'),
+});
 type FormType = Omit<AddGameDtoRequest, 'archive_file'> & {
 	archive_file: File | null;
 };
@@ -77,7 +86,11 @@ export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => 
 				<ModalLayout
 					title="Добавление игры"
 					content={
-						<Formik initialValues={initialState} onSubmit={onSubmit}>
+						<Formik
+							initialValues={initialState}
+							validationSchema={validationSchema}
+							onSubmit={onSubmit}
+						>
 							{(formikProps) => (
 								<Form method="post" className={styles.creationForm}>
 									<InputText
@@ -161,6 +174,25 @@ export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => 
 														/>
 													</svg>
 												)}
+
+												<Tooltip>
+													<h3 className="font-bold mb-2">
+														Требования к архиву
+													</h3>
+													<ul className="list-disc pl-4 space-y-2">
+														<li>
+															Формат архива: <b>.zip</b>
+														</li>
+														<li>
+															Максимальный размер файла: <b>150Мб</b>
+														</li>
+														<li>Игра собрана для WEB</li>
+														<li>
+															В самом верхнем разделе находится
+															основной файл index.html
+														</li>
+													</ul>
+												</Tooltip>
 											</div>
 										</div>
 

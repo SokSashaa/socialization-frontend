@@ -33,6 +33,7 @@ export const AssignTestsModal: FC<AssignTestsModalProps> = ({
 
 	const handleCloseModal = () => {
 		setShowModal(null);
+		setSelectedUsers([]);
 	};
 
 	const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
@@ -77,7 +78,7 @@ export const AssignTestsModal: FC<AssignTestsModalProps> = ({
 		if (showModal) {
 			onObservedsRequest();
 		}
-	}, [showModal]);
+	}, [showModal, selectedTest]);
 
 	const onSearch = (query: string) => {
 		if (showModal) {
@@ -120,6 +121,9 @@ export const AssignTestsModal: FC<AssignTestsModalProps> = ({
 				link: selectedUsers,
 				unlink: unlinkUsers,
 			}).unwrap();
+
+			toast.success('Тест успешно назначен');
+			handleCloseModal();
 		} catch (error) {
 			toast.error(error?.data?.detail || 'Что-то пошло не так');
 		}

@@ -1,27 +1,32 @@
 type RoleType = {
-    code: string;
-    label: string;
+	code: string;
+	label: string;
 };
 
 type RolesType = {
-    observed: RoleType;
-    tutor: RoleType;
-    administrator: RoleType;
+	observed: RoleType;
+	tutor: RoleType;
+	administrator: RoleType;
+	unroled: RoleType;
 };
 
 export const ROLES: RolesType = {
-    observed: {
-        code: 'observed',
-        label: 'Наблюдаемый',
-    },
-    tutor: {
-        code: 'tutor',
-        label: 'Наставник',
-    },
-    administrator: {
-        code: 'administrator',
-        label: 'Старший наставник',
-    },
+	observed: {
+		code: 'observed',
+		label: 'Наблюдаемый',
+	},
+	tutor: {
+		code: 'tutor',
+		label: 'Наставник',
+	},
+	administrator: {
+		code: 'administrator',
+		label: 'Старший наставник',
+	},
+	unroled: {
+		code: 'unroled',
+		label: 'Неизвестная роль',
+	},
 };
 
 export type RoleCode = RolesType[keyof RolesType]['code'];

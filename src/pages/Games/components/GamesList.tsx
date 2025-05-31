@@ -104,7 +104,7 @@ export const GamesList: FC<GameListProps> = ({isError, isLoading, data}) => {
 					onSearch={onSearch}
 					onSort={onSort}
 				>
-					{role !== ROLES.observed.code && (
+					{role === ROLES.administrator.code && (
 						<ButtonAddItemList onClick={() => toggleModal('create')}>
 							Добавить игру
 						</ButtonAddItemList>

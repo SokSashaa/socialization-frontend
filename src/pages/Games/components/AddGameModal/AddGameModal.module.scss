@@ -1,7 +1,8 @@
 .creationForm {
-  width: 686px;
-  height: 487px;
-
+  height: fit-content;
+  max-height: 80vh;
+  width: 700px;
+  
   @media (max-width: 640px) {
     width: 255px;
   }

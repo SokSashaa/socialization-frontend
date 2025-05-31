@@ -28,6 +28,7 @@ export const AssignGameModal: FC<AssignGameModal> = ({selectedGame, showModal, s
 
 	const handleCloseModal = () => {
 		setShowModal(null);
+		setSelectedUsers([]);
 	};
 
 	const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
@@ -72,7 +73,7 @@ export const AssignGameModal: FC<AssignGameModal> = ({selectedGame, showModal, s
 		if (showModal) {
 			onObservedsRequest();
 		}
-	}, [showModal]);
+	}, [showModal, selectedGame]);
 
 	const onSearch = (query: string) => {
 		if (showModal) {
@@ -115,6 +116,8 @@ export const AssignGameModal: FC<AssignGameModal> = ({selectedGame, showModal, s
 				link: selectedUsers,
 				unlink: unlinkUsers,
 			}).unwrap();
+
+			toast.success('Игра успешно назначено');
 
 			handleCloseModal();
 		} catch (error) {

@@ -1,8 +1,7 @@
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {createPortal} from 'react-dom';
 
 import PopoverWrapper, {PopoverWrapperProps} from './PopoverWrapper';
-import React from 'react';
 
 interface PopoverProps extends PopoverWrapperProps {
 	isDisablePortal?: boolean;

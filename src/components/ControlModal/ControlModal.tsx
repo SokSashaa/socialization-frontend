@@ -28,7 +28,7 @@ const ControlModal: FC<ControlPopoverProps> = ({
 }) => {
 	return (
 		<Portal>
-			<Modal active={isOpen} setActive={setIsOpen}>
+			<Modal active={isOpen} handleClose={setIsOpen}>
 				<div className={css.root}>
 					{children}
 					<div className={css.buttons}>
