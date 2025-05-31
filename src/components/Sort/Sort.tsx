@@ -1,5 +1,7 @@
 import React, {FC, HTMLAttributes, useState} from 'react';
+
 import {Select} from '../../UI';
+
 import styles from './Sort.module.css';
 
 type SortProps = HTMLAttributes<HTMLSelectElement> & {
