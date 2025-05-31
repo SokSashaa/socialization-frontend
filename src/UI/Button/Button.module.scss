@@ -1,5 +1,4 @@
 .button {
-  /* transform: translate(-50%, 0); */
   position: relative;
   margin: 8px;
   height: 61px;
@@ -20,7 +19,7 @@
 
   &:disabled {
     opacity: 0.7;
+    box-shadow: none;
+    transform: none;
   }
 }
-
-/* hover:enabled:bg-[#505cc9] */

@@ -19,7 +19,8 @@
   transition-duration: 250ms;
 
   &:hover {
-    box-shadow: 4px 4px 0 rgba(255, 224, 104, 1);
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 rgba(255, 224, 104, 1);
   }
 }
 
