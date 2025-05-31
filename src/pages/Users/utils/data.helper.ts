@@ -4,12 +4,14 @@ import {ROLES} from '@utils/constants';
 import {toInitial} from '@utils/helpers';
 
 export const rolesSelectOptions = () =>
-	[...Object.values(ROLES)].map((item) => {
-		return {
-			value: item.code,
-			label: item.label,
-		};
-	});
+	[...Object.values(ROLES)]
+		.filter((item) => item.code !== ROLES.unroled.code)
+		.map((item) => {
+			return {
+				value: item.code,
+				label: item.label,
+			};
+		});
 
 export const transformUsersToSelectOptions = (users) =>
 	users.map((user) => ({

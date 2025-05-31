@@ -1,17 +1,16 @@
-import {useRef, useState} from 'react';
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {toast} from 'react-toastify';
 import {Form, Formik, FormikHelpers} from 'formik';
 import {AnimatePresence, m} from 'framer-motion';
 
 import {useAddUserMutation} from '@pages/Users/api/usersApiSlice';
+import {initialValuesFormRegistration} from '@pages/Users/components/NewUserForm/config/initialStateForm';
 import NewUserFormStage1 from '@pages/Users/components/NewUserFormStage1/NewUserFormStage1';
 import NewUserFormStage2 from '@pages/Users/components/NewUserFormStage2/NewUserFormStage2';
 import {userPhotoSchema, userSchema} from '@pages/Users/utils/validation.helper';
 
 import {useUploadPhoto} from '@hooks/index';
 
-import {ROLES} from '@utils/constants';
 import {uploadedFileSchema} from '@utils/helpers';
 import {findFirstErrorWithPath} from '@utils/helpers/findFirstErrorWithPath';
 
@@ -47,24 +46,6 @@ const NewUserForm = () => {
 	// const [getTutors, {isLoading: isLoadingTutors, isFetching: isFetchingTutors, data: tutors}] =
 	//     useLazyGetTutorsQuery();
 
-	const initialValues = {
-		name: '',
-		second_name: '',
-		patronymic: '',
-		photo: '',
-		birthday: '',
-		email: '',
-		organization: '',
-		role: {
-			code: ROLES.tutor.code,
-			tutor_id: '',
-		},
-		login: '',
-		password: '',
-		phone_number: '',
-		address: '',
-	};
-
 	const validationSchema =
 		stage === 1 ? userSchema : uploadedFileSchema(fileRef).concat(userPhotoSchema);
 
@@ -86,7 +67,6 @@ const NewUserForm = () => {
 		} else if (submitRef.current === StagesEnum.SUBMIT) {
 			try {
 				const res = await addUser(values).unwrap();
-
 				if (!res.success) {
 					if (res.errors.login) {
 						throw new Error('Такой логин уже существует');
@@ -94,9 +74,8 @@ const NewUserForm = () => {
 						throw new Error();
 					}
 				}
-
 				toast.success('Пользователь создан');
-				resetForm({values: initialValues});
+				resetForm({values: initialValuesFormRegistration});
 				resetPreview();
 				onGoBack();
 				submitRef.current = StagesEnum.STAGE1;
@@ -113,7 +92,7 @@ const NewUserForm = () => {
 
 	return (
 		<Formik
-			initialValues={initialValues}
+			initialValues={initialValuesFormRegistration}
 			validationSchema={validationSchema}
 			onSubmit={onSubmit}
 		>
