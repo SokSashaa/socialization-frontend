@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 
 export type PaginationStateType = {
@@ -21,6 +21,7 @@ export const useUrlPagination = (initialState: PaginationStateType) => {
 			const params = new URLSearchParams(prev);
 			params.set('offset', newPagination.offset.toString());
 			params.set('limit', newPagination.limit.toString());
+
 			return params;
 		});
 	};
@@ -35,18 +36,25 @@ export type PaginationProps = {
 export const Pagination = ({pagination: initialPagination}: PaginationProps) => {
 	const {pagination, setPagination} = useUrlPagination(initialPagination);
 
+	const [limitValues, setLimitValues] = useState([1, 2, 3, 5, 10, 25, 50]);
+	useEffect(() => {
+		if (!limitValues.includes(initialPagination.limit)) {
+			setLimitValues([...limitValues, initialPagination.limit].sort((a, b) => a - b));
+		}
+	}, [initialPagination.limit]);
+
 	return (
 		<div className="flex flex-wrap items-center justify-between gap-4 mb-2">
 			<div className="flex items-center gap-1 sm:gap-2">
 				<button
 					disabled={pagination.offset === 0}
+					className="px-1.5 py-1 border rounded disabled:opacity-50 sm:px-3"
 					onClick={() =>
 						setPagination({
 							...pagination,
 							offset: Math.max(0, pagination.offset - pagination.limit),
 						})
 					}
-					className="px-1.5 py-1 border rounded disabled:opacity-50 sm:px-3"
 				>
 					←
 				</button>
@@ -81,6 +89,10 @@ export const Pagination = ({pagination: initialPagination}: PaginationProps) => 
 					return pages.map((page, i) => (
 						<button
 							key={i}
+							disabled={typeof page === 'string'}
+							className={`text-nowrap px-1.5 py-1 border rounded sm:px-3 ${
+								currentPage === page ? 'bg-neutral-blue text-white' : ''
+							} ${typeof page === 'string' ? 'cursor-default' : ''}`}
 							onClick={() =>
 								typeof page === 'number'
 									? setPagination({
@@ -89,10 +101,6 @@ export const Pagination = ({pagination: initialPagination}: PaginationProps) => 
 										})
 									: undefined
 							}
-							disabled={typeof page === 'string'}
-							className={`text-nowrap px-1.5 py-1 border rounded sm:px-3 ${
-								currentPage === page ? 'bg-neutral-blue text-white' : ''
-							} ${typeof page === 'string' ? 'cursor-default' : ''}`}
 						>
 							{typeof page === 'number' ? page + 1 : page}
 						</button>
@@ -101,13 +109,13 @@ export const Pagination = ({pagination: initialPagination}: PaginationProps) => 
 
 				<button
 					disabled={pagination.offset + pagination.limit >= pagination.count}
+					className="px-1.5 py-1 border rounded disabled:opacity-50 sm:px-3"
 					onClick={() =>
 						setPagination({
 							...pagination,
 							offset: pagination.offset + pagination.limit,
 						})
 					}
-					className="px-1.5 py-1 border rounded disabled:opacity-50 sm:px-3"
 				>
 					→
 				</button>
@@ -115,6 +123,7 @@ export const Pagination = ({pagination: initialPagination}: PaginationProps) => 
 
 			<select
 				value={pagination.limit}
+				className="border rounded px-1.5 py-1 text-sm sm:px-2 sm:text-base"
 				onChange={(e) =>
 					setPagination({
 						...pagination,
@@ -122,15 +131,12 @@ export const Pagination = ({pagination: initialPagination}: PaginationProps) => 
 						offset: 0,
 					})
 				}
-				className="border rounded px-1.5 py-1 text-sm sm:px-2 sm:text-base"
 			>
-				<option value={1}>1 на страницу</option>
-				<option value={2}>2 на страницу</option>
-				<option value={3}>3 на страницу</option>
-				<option value={5}>5 на страницу</option>
-				<option value={10}>10 на страницу</option>
-				<option value={25}>25 на страницу</option>
-				<option value={50}>50 на страницу</option>
+				{limitValues.map((value) => (
+					<option key={value} value={value}>
+						{value} на страницу
+					</option>
+				))}
 			</select>
 		</div>
 	);
