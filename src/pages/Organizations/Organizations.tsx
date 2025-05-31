@@ -55,17 +55,6 @@ const Organizations: FC = () => {
 		}
 	}, [data]);
 
-	useEffect(() => {
-		if (data) {
-			setSearchParams((prev) => {
-				const params = new URLSearchParams(prev);
-				params.set('offset', '0');
-
-				return params;
-			});
-		}
-	}, [count]);
-
 	const deleteOnClick = async (id: number) => {
 		try {
 			const result = await deleteOrganizationTrigger(id).unwrap();

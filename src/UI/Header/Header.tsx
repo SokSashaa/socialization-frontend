@@ -1,7 +1,8 @@
 import {useRef, useState} from 'react';
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useLocation} from 'react-router-dom';
+import clsx from 'clsx';
 
 import {selectCurrentUser} from '@modules/Auth';
 
@@ -16,8 +17,7 @@ function Header() {
 	const currentUser = useSelector(selectCurrentUser);
 	const [isMobileVisible, setIsMobileVisible] = useState(false);
 	const header = useRef<HTMLDivElement>(null);
-
-	// const menuItemClasses = ({ isActive }) => clsx(styles.navItem, { [styles.navItemCurrent]: isActive }); //useMemo
+	const location = useLocation();
 
 	const handleMenuClick = () => {
 		setIsMobileVisible((value) => !value);
@@ -34,7 +34,7 @@ function Header() {
 		<div>
 			<div className={styles.burgerMenu}>
 				<img
-					alt="иконка меню"
+					alt="Меню"
 					src={isMobileVisible ? closeMenu : burgerMenu}
 					className={styles.menuIcon}
 					role="presentation"
@@ -49,7 +49,10 @@ function Header() {
 							<NavLink
 								key={link.title}
 								to={link.path}
-								className={styles.navItem} //menuItemClasses
+								className={clsx(
+									styles.navItem,
+									location.pathname === link.path && styles.navItemCurrent
+								)}
 							>
 								{link.title}
 							</NavLink>

@@ -31,13 +31,12 @@ const Router = () => {
 			{/* public routes */}
 			<Route path={ROUTES.auth} element={<AuthPage />} />
 
-			<Route
-				path={ROUTES.unauthorized}
-				element={<p>Для вашей роли нет доступа к этой странице</p>}
-			/>
-
 			{/* private routes */}
 			<Route element={<PageLayout />}>
+				<Route
+					path={ROUTES.unauthorized}
+					element={<p>Для вашей роли нет доступа к этой странице</p>}
+				/>
 				<Route element={<RequireAuth allowedRoles={[ROLES.administrator.code]} />}>
 					<Route path={ROUTES.organization} element={<OrganizationsPage />} />
 					<Route path={ROUTES.organizationEdit} element={<EditOrganizations />} />
