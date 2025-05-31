@@ -9,9 +9,11 @@ import styles from './UploadFile.module.css';
 type UploadFileProps = {
 	className: string;
 	label: string;
-	fileRef: React.MutableRefObject<null>;
+	fileRef: React.MutableRefObject<HTMLInputElement | null>;
 	onChange?: () => void;
-	inputProps: any; //Input attr
+	inputProps: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'name'> & {
+		name: string;
+	};
 };
 const UploadFile: FC<UploadFileProps> = ({className, label, fileRef, onChange, inputProps}) => {
 	// const { className: inputClassName, ...otherProps } = inputProps;
@@ -25,7 +27,7 @@ const UploadFile: FC<UploadFileProps> = ({className, label, fileRef, onChange, i
 			<button
 				type="button"
 				className={clsx(styles.button, className)}
-				onClick={() => fileRef.current.click()}
+				onClick={() => fileRef.current?.click()}
 			>
 				{label || 'Выбрать файл'}
 			</button>

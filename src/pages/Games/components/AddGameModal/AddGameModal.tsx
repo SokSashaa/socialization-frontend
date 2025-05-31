@@ -74,8 +74,8 @@ export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => 
 		}
 	};
 
-	const iconRef = useRef(null);
-	const arciveRef = useRef(null);
+	const iconRef = useRef<HTMLInputElement>(null);
+	const archiveRef = useRef<HTMLInputElement>(null);
 
 	const {preview, onUpload} = useUploadPhoto('icon');
 	const {preview: zipPreview, onUpload: onZipUpload} = useUploadFile('archive_file');
@@ -147,7 +147,7 @@ export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => 
 											<div className="flex items-center gap-1">
 												<UploadFile
 													label={'Архив с игрой'}
-													fileRef={arciveRef}
+													fileRef={archiveRef}
 													className={clsx(
 														styles.upload,
 														styles.archiveUpload
