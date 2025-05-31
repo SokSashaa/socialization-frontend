@@ -25,10 +25,6 @@ const gameApiSlice = apiSlice.injectEndpoints?.({
 				};
 			},
 		}),
-		getGame: builder.query({
-			query: (id) => `/games_list/${id}/`,
-			keepUnusedDataFor: 0.1,
-		}),
 		getObserverGames: builder.query<getObserverGamesResponse, getObserverGamesRequest>({
 			query: (params) => {
 				return {
@@ -37,21 +33,6 @@ const gameApiSlice = apiSlice.injectEndpoints?.({
 				};
 			},
 			providesTags: ['ObservedGames'],
-		}),
-		// Переместить игру в архив
-		moveToArchiveGame: builder.mutation({
-			query: () => ({
-				// TODO: реализовать метод
-			}),
-			invalidatesTags: ['Games'],
-		}),
-		// Удалить игру
-		deleteGames: builder.mutation({
-			query: (id) => ({
-				url: `/games_list/${id}/delete_game/`,
-				method: 'POST',
-			}),
-			invalidatesTags: ['Games'],
 		}),
 		// Добавить игру
 		addGame: builder.mutation<AddGameDtoResponse, FormData>({
@@ -74,6 +55,18 @@ const gameApiSlice = apiSlice.injectEndpoints?.({
 				body: data,
 			}),
 			invalidatesTags: ['Observeds', 'ObservedGames', 'ObservedsTutor'],
+		}),
+		getGame: builder.query({
+			query: (id) => `/games_list/${id}/`,
+			keepUnusedDataFor: 0.1,
+		}),
+		// Удалить игру
+		deleteGames: builder.mutation({
+			query: (id) => ({
+				url: `/games_list/${id}/delete_game/`,
+				method: 'POST',
+			}),
+			invalidatesTags: ['Games'],
 		}),
 	}),
 });

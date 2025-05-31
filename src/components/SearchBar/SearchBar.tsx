@@ -30,19 +30,21 @@ const SearchBar: FC<SearchBarPropsType> = ({
 		<search role="search" className={className} onSubmitCapture={() => onSearch(searchValue)}>
 			<InputBase
 				className={styles.search}
-				inputProps={{
-					placeholder: placeholder || 'Поиск...',
-					type: 'search',
-					name: 'search',
-					value: searchValue,
-					onKeyDown: (event) => {
-						if (event.key === 'Enter') {
-							onSearch(searchValue);
-						}
-					},
-					onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-						setSearchValue(event.target.value),
-				}}
+				inputProps={
+					{
+						placeholder: placeholder || 'Поиск...',
+						type: 'search',
+						name: 'search',
+						value: searchValue,
+						onKeyDown: (event) => {
+							if (event.key === 'Enter') {
+								onSearch(searchValue);
+							}
+						},
+						onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+							setSearchValue(event.target.value),
+					} as React.InputHTMLAttributes<HTMLInputElement>
+				}
 			/>
 		</search>
 	);
