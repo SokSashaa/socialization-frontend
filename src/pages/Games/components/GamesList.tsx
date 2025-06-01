@@ -112,10 +112,6 @@ export const GamesList: FC<GameListProps> = ({isError, isLoading, data}) => {
 				</FilteredList>
 			</Container>
 
-			{/*<CreateTestModal*/}
-			{/*	isOpenModal={modalState === 'create'}*/}
-			{/*	setShowModal={() => setModalState(null)}*/}
-			{/*/>*/}
 			<AddGameModal
 				isOpenModal={modalState === 'create'}
 				closeModal={() => setModalState(null)}
