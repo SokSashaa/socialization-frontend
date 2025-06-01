@@ -152,20 +152,21 @@ export const AddGameModal: FC<CreateGameProps> = ({closeModal, isOpenModal}) => 
 													}}
 												/>
 
-												{zipPreview !== null && (
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														className="h-5 w-5 text-green-500"
-														viewBox="0 0 20 20"
-														fill="currentColor"
-													>
-														<path
-															fillRule="evenodd"
-															d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-															clipRule="evenodd"
-														/>
-													</svg>
-												)}
+												{zipPreview !== null &&
+													!formikProps.errors.archive_file && (
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															className="h-5 w-5 text-green-500"
+															viewBox="0 0 20 20"
+															fill="currentColor"
+														>
+															<path
+																fillRule="evenodd"
+																d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+																clipRule="evenodd"
+															/>
+														</svg>
+													)}
 
 												<Tooltip>
 													<h3 className="font-bold mb-2">
@@ -211,8 +212,8 @@ const validationSchema = Yup.object().shape({
 		.max(300, 'Максимальная длина 300 символов'),
 	archive_file: Yup.mixed<File>()
 		.required('Архив с игрой обязателен')
-		.test('is-correct-file', 'VALIDATION_FIELD_FILE_BIG', checkIfFileIsTooBig)
-		.test('is-big-file', 'VALIDATION_FIELD_FILE_WRONG_TYPE', checkIfFileIsCorrectType),
+		.test('is-correct-file', 'Слишком большой файл', checkIfFileIsTooBig)
+		.test('is-big-file', 'Файл неверного типа', checkIfFileIsCorrectType),
 });
 
 export function checkIfFileIsTooBig(file?: File): boolean {
