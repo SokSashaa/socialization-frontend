@@ -1,0 +1,25 @@
+.wrapper {
+	margin: 0 auto;
+	display: flex;
+	max-width: 800px;
+	flex-direction: column;
+}
+
+.form {
+	margin-bottom: 28px;
+	display: flex;
+	align-items: center;
+}
+
+.searchBar {
+	margin-right: 16px;
+	flex-basis: 100%;
+}
+
+.listItem {
+	margin-bottom: 20px;
+}
+
+.sortWrapper {
+	flex-basis: 160px;
+}

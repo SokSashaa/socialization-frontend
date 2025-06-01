@@ -7,7 +7,7 @@ import Sort from '@components/Sort/Sort';
 
 import {ErrorMessage, Spinner} from '@UI/index';
 
-import css from './FilteredList.module.css';
+import css from './FilteredList.module.scss';
 
 const liVariants = {
 	visible: (i: number) => ({
@@ -36,8 +36,7 @@ type FilteredListProps<ItemsType> = {
 	searchBarParamName?: string;
 } & PaginationProps;
 
-export const FilteredList = <ItemsType,>(props: FilteredListProps<ItemsType>) => {
-	const {
+export const FilteredList = <ItemsType,>(props: FilteredListProps<ItemsType>) => {	const {
 		isLoading,
 		isError,
 		sortList,

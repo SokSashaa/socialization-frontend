@@ -21,7 +21,7 @@ import useUploadFile from '@hooks/useUploadFile';
 
 import styles from './AddGameModal.module.scss';
 
-type CreateTestProps = {
+type CreateGameProps = {
 	isOpenModal: boolean;
 	closeModal: () => void;
 };
@@ -32,14 +32,6 @@ const initialState = {
 	archive_file: null,
 	icon: '',
 };
-
-const validationSchema = Yup.object().shape({
-	name: Yup.string().required('Название обязательно').max(150, 'Максимальная длина 150 символов'),
-	description: Yup.string()
-		.required('Описание обязательно')
-		.max(300, 'Максимальная длина 300 символов'),
-	archive_file: Yup.mixed().required('Архив с игрой обязателен'),
-});
 type FormType = Omit<AddGameDtoRequest, 'archive_file'> & {
 	archive_file: File | null;
 };
@@ -48,7 +40,7 @@ const appendToFormData = (formData: FormData, key: AddGameKeys, value: string | 
 	formData.append(key, value);
 };
 
-export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => {
+export const AddGameModal: FC<CreateGameProps> = ({closeModal, isOpenModal}) => {
 	const [addGame] = useAddGameMutation();
 
 	const onSubmit = async (values: FormType) => {
@@ -211,3 +203,37 @@ export const AddGameModal: FC<CreateTestProps> = ({closeModal, isOpenModal}) => 
 		</Portal>
 	);
 };
+
+const validationSchema = Yup.object().shape({
+	name: Yup.string().required('Название обязательно').max(150, 'Максимальная длина 150 символов'),
+	description: Yup.string()
+		.required('Описание обязательно')
+		.max(300, 'Максимальная длина 300 символов'),
+	archive_file: Yup.mixed<File>()
+		.required('Архив с игрой обязателен')
+		.test('is-correct-file', 'VALIDATION_FIELD_FILE_BIG', checkIfFileIsTooBig)
+		.test('is-big-file', 'VALIDATION_FIELD_FILE_WRONG_TYPE', checkIfFileIsCorrectType),
+});
+
+export function checkIfFileIsTooBig(file?: File): boolean {
+	let valid = true;
+	if (file) {
+		const size = file.size / 1024 / 1024;
+		if (size > 150) {
+			valid = false;
+		}
+	}
+
+	return valid;
+}
+
+export function checkIfFileIsCorrectType(file?: File): boolean {
+	let valid = true;
+	if (file) {
+		if (!['application/x-zip-compressed', '.zip'].includes(file.type)) {
+			valid = false;
+		}
+	}
+
+	return valid;
+}
