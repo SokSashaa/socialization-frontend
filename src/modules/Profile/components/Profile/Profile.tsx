@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
-import {useGetUserInfoQuery} from '@app/api/common/usersApiSlice';
+import {useGetUserInfoQuery, useLogoutMutation} from '@app/api/common/usersApiSlice';
 
 import {logout, setUserCredentials} from '@modules/Auth';
 import {OnSubmitFormType} from '@modules/Profile/components/types';
@@ -21,6 +21,7 @@ import styles from './Profile.module.css';
 
 const Profile = () => {
 	const {data: user, isFetching, isLoading, isError} = useGetUserInfoQuery();
+	const [logoutServer] = useLogoutMutation();
 
 	const navigate = useNavigate();
 
@@ -28,7 +29,8 @@ const Profile = () => {
 
 	const dispatch = useDispatch();
 
-	const onLogout = () => {
+	const onLogout = async () => {
+		await logoutServer();
 		dispatch(logout());
 		navigate(ROUTES.auth);
 	};

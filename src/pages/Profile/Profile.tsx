@@ -1,3 +1,4 @@
+import React from 'react';
 import { Profile as UserProfile } from '../../modules/Profile';
 
 function Profile() {

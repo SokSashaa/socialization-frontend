@@ -4,6 +4,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {logout, updateToken} from '@modules/Auth';
 
 import {getLocalStorageItem} from '@utils/helpers';
+import {clearAllCookies} from '@utils/helpers/clearCookie';
 import {getCSRFTokenFromCookies} from '@utils/helpers/getCSRFTokenFromCookies';
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
@@ -54,7 +55,17 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 			if (refreshResult?.error?.status === 401) {
 				toast.warning('Срок действия токена истек. Пожалуйста, войдите в систему еще раз');
 			}
+			// Отправляем запрос на logout endpoint
+			await baseQuery(
+				{
+					url: '/users/logout/',
+					method: 'POST',
+				},
+				api,
+				extraOptions
+			);
 
+			clearAllCookies();
 			api.dispatch(logout());
 		}
 	}

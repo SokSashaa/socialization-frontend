@@ -170,6 +170,12 @@ const usersApiSlice = apiSlice.injectEndpoints?.({
 			transformResponse: (res: UserResponse) =>
 				imageTransformResponseItem<user_dto>(res.result, 'photo'),
 		}),
+		logout: builder.mutation<void, void>({
+			query: () => ({
+				url: '/users/logout',
+				method: 'POST',
+			}),
+		}),
 	}),
 });
 
@@ -186,4 +192,5 @@ export const {
 	useGetSingleUserQuery,
 	useGetTutorByObservedQuery,
 	useLazyGetTutorByObservedQuery,
+	useLogoutMutation,
 } = usersApiSlice;
