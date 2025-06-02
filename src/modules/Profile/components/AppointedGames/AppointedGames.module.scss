@@ -1,0 +1,22 @@
+@use 'src/styles/global' as style;
+
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+.empty {
+  font-size: 20px;
+}
+
+.link {
+  @include style.link()
+}

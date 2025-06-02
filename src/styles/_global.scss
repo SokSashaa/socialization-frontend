@@ -1,0 +1,7 @@
+@use 'src/styles/colors' as colors;
+
+@mixin link() {
+  font-size: 16px;
+  text-decoration: underline;
+  color: colors.$link-color;
+}

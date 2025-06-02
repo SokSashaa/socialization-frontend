@@ -21,4 +21,5 @@ export const ROUTING_FUNCTIONS = {
 	resultTest: (id: number) => `/tests/${id}/result/`,
 	entityProfile: (id: number) => `/users/${id}/`,
 	organizationEdit: (id: number) => `/organizations/${id}/edit/`,
+	playingGame: (id: number) => `/games/${id}/play`,
 };

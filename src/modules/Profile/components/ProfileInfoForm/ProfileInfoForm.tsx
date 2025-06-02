@@ -4,6 +4,7 @@ import {Form, FormikProps} from 'formik';
 
 import {InputFieldType} from '@src/types';
 
+import AppointedGames from '@modules/Profile/components/AppointedGames/AppointedGames';
 import TestResultUser from '@modules/Profile/components/TestResultUser/TestResultUser';
 import {ChangePropOrganizationInUserType} from '@modules/Profile/components/types';
 
@@ -59,7 +60,7 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 
 	const isShowObservedInfo = isUserPage && authUser?.role === ROLES.administrator.code;
 
-	const isShowTestResult = isUserPage && user.role === ROLES.observed.code;
+	const isShowAppointedTestsAndGames = isUserPage && user.role === ROLES.observed.code;
 
 	return (
 		<Form method="post" className={styles.form}>
@@ -130,8 +131,11 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 						{user.role === ROLES.observed.code && <AppointedTutor user_id={user.id} />}
 					</>
 				)}
-				{isShowTestResult && (
-					<TestResultUser label={'Назначенные тесты'} user_id={user.id} />
+				{isShowAppointedTestsAndGames && (
+					<>
+						<TestResultUser label={'Назначенные тесты'} user_id={user.id} />
+						<AppointedGames user_id={user.id} />
+					</>
 				)}
 			</div>
 		</Form>
