@@ -14,6 +14,8 @@ import {useModalState} from '@hooks/useModalState';
 
 import {ROUTES} from '@routes/RouterConfig';
 
+import {clearAllCookies} from '@utils/helpers/clearCookie';
+
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
 import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
 
@@ -31,6 +33,7 @@ const Profile = () => {
 
 	const onLogout = async () => {
 		await logoutServer();
+		clearAllCookies();
 		dispatch(logout());
 		navigate(ROUTES.auth);
 	};

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Profile as UserProfile } from '../../modules/Profile';
+
+import {Profile as UserProfile} from '../../modules/Profile';
 
 function Profile() {
-  return <UserProfile />;
+	return <UserProfile />;
 }
 
 export default Profile;
