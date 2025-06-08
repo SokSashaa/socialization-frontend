@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {ErrorMessage, FormikProps} from 'formik';
 import {useGetTutorsQuery} from '@app/api/common/usersApiSlice';
 
@@ -13,6 +13,7 @@ import Spinner from '@UI/spinners/Spinner';
 import {ROLES} from '@utils/constants';
 
 import css from './RoleSelect.module.scss';
+import {configStyleForSearch} from '@modules/Profile/components/RoleSelect/config/configStyleForSearch';
 
 interface RoleSelectProps {
 	formikProps: FormikProps<ChangePropOrganizationInUserType>;
@@ -58,7 +59,7 @@ const RoleSelect: FC<RoleSelectProps> = (props) => {
 						name="role.tutor_id"
 						options={[...transformUsersToSelectOptions(tutors.results)]}
 						label="Наставник"
-						stylesForSearch={defaultConfigStylesForSearch}
+						stylesForSearch={configStyleForSearch}
 						selectProps={{
 							className: props.classNameSelect,
 							placeholder: 'Наставник',

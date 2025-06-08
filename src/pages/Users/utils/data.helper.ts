@@ -16,7 +16,7 @@ export const rolesSelectOptions = () =>
 export const transformUsersToSelectOptions = (users) =>
 	users.map((user) => ({
 		value: user.id,
-		label: `${user.second_name || ''} ${toInitial(user.name)} ${user?.patronymic ? toInitial(user.patronymic) : ''}`,
+		label: `${user.second_name || ''} ${toInitial(user.name)} ${user?.patronymic ? toInitial(user.patronymic) : ''} \nПочта: ${user.email}`,
 	}));
 
 export const transformOrganizationToSelectOptions = (organizations: organizations_dto[]) =>

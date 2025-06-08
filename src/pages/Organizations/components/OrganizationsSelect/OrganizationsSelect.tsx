@@ -39,10 +39,7 @@ const OrganizationsSelect: FC<OrganizationProps> = (props) => {
 					name="organization"
 					label="Организация"
 					stylesForSearch={defaultConfigStylesForSearch}
-					options={[
-						...transformOrganizationToSelectOptions(organizations.data.results),
-						{},
-					]}
+					options={[...transformOrganizationToSelectOptions(organizations.data.results)]}
 					selectProps={{
 						// className: styles.selectInput,
 						placeholder: 'Организация',

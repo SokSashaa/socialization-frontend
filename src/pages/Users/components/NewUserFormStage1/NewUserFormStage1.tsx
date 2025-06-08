@@ -1,4 +1,5 @@
 import {FC} from 'react';
+import React from 'react';
 import {FormikProps} from 'formik';
 
 import OrganizationsSelect from '@pages/Organizations/components/OrganizationsSelect/OrganizationsSelect';

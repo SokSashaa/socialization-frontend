@@ -17,6 +17,8 @@
   border-radius: 0.75rem;
   background-color: #fff;
   padding: 1.5rem;
+  overflow-y: auto;
+  max-height: 95%;
 }
 
 .modalActive .content {
@@ -32,4 +34,10 @@
   position: absolute;
   right: 0.25rem;
   top: 0.25rem;
+}
+
+@media (max-width: 760px) {
+  .content {
+    height: 90%;
+  }
 }

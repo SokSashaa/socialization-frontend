@@ -69,6 +69,7 @@ export const TestsList: FC<TestsListProps> = ({isLoading, isError, data}) => {
 
 			if (value) {
 				params.set('text', value);
+				params.set('offset', 0);
 			} else {
 				params.delete('text');
 			}

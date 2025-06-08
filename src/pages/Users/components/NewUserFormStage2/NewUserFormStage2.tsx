@@ -1,5 +1,9 @@
+import React from 'react';
+
 import {StagesEnum} from '@pages/Users/components/NewUserForm/NewUserForm';
 
+import Avatar from '@UI/Avatar/Avatar';
+import {AvatarSizes} from '@UI/Avatar/types';
 import {Button, UploadFile} from '@UI/index';
 import Spinner from '@UI/spinners/Spinner';
 
@@ -13,15 +17,12 @@ const NewUserFormStage2 = ({formikProps, onGoBack, fileRef, preview, onUpload, r
 	return (
 		<div className="flex h-full flex-col items-center justify-between gap-4">
 			<div>
-				{preview ? (
-					<div className={styles.avatarWrapper}>
-						<div className={styles.avatarContainer}>
-							<img className={styles.avatar} src={preview} alt="avatar" />
-						</div>
-					</div>
-				) : (
-					<img className={styles.defaultAvatar} src={userIconV2Big} alt="avatar" />
-				)}
+				<Avatar
+					id={'avatarReg'}
+					defaultPhoto={userIconV2Big}
+					photo={preview}
+					size={AvatarSizes.XXXL}
+				/>
 
 				<UploadFile
 					fileRef={fileRef}
@@ -34,7 +35,7 @@ const NewUserFormStage2 = ({formikProps, onGoBack, fileRef, preview, onUpload, r
 					onChange={onUpload(formikProps)}
 				/>
 			</div>
-			<div>
+			<div className={styles.buttonsRef}>
 				<Button
 					onClick={() => {
 						refSubmit.current = StagesEnum.STAGE2;

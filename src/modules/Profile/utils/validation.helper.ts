@@ -25,7 +25,7 @@ export const profileSchema = Yup.object({
 	}),
 	phone_number: Yup.string()
 		.required('Обязательное поле')
-		.matches(/^\+?[0-9]{11}$/, 'Некорректный формат номера. +7XXXXXXXXXX'),
+		.matches(/^(?:\+7|7)[0-9]{10}$/, 'Некорректный формат номера. (+7/7)XXXXXXXXXX'),
 	address: Yup.string().when('role.code', {
 		is: 'observed',
 		then: (schema) => schema.required('Обязательное поле'),
@@ -35,7 +35,10 @@ export const profileSchema = Yup.object({
 
 export const changePasswordSchema = Yup.object({
 	old_password: Yup.string().trim().required('Обязательное поле'),
-	new_password: Yup.string().trim().required('Обязательное поле'),
+	new_password: Yup.string()
+		.trim()
+		.matches(/^(?=.*\d)(?=.*[a-zA-Z]).+$/, 'Должен содержать хотя бы одну букву и цифру')
+		.required('Обязательное поле'),
 });
 
 export const changePasswordSchemaAdmin = Yup.object({

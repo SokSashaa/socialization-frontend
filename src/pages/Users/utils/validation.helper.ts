@@ -39,7 +39,7 @@ export const userSchema = Yup.object({
 	organization: Yup.string().required('Обязательное поле'),
 	phone_number: Yup.string()
 		.required('Обязательное поле')
-		.matches(/^\+?[0-9]{11}$/, 'Некорректный формат номера. +7XXXXXXXXXX'),
+		.matches(/^(?:\+7|7)[0-9]{10}$/, 'Некорректный формат номера. (+7/7)XXXXXXXXXX'),
 	address: Yup.string().when('role.code', {
 		is: 'observed',
 		then: (schema) => schema.required('Обязательное поле'),

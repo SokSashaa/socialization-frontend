@@ -1,5 +1,4 @@
-import {FC} from 'react';
-import React from 'react';
+import React, {FC} from 'react';
 import {Link} from 'react-router-dom';
 import {useGetObserverTestsQuery} from '@app/api/common/testApiSlice';
 
@@ -12,17 +11,20 @@ interface TestResultUserProps {
 	label?: string;
 }
 
+const DEFAULT_SHOW_COUNT_TEST = 3;
+
 const TestResultUser: FC<TestResultUserProps> = ({user_id, label}) => {
 	const {data: tests} = useGetObserverTestsQuery({user_id: user_id, offset: 0, limit: 1000000});
 
 	const isTestsNotEmpty = tests && tests.results.length > 0;
+	const isRedirectOnPageWithAllTests = tests && tests.results.length > DEFAULT_SHOW_COUNT_TEST;
 
 	return (
 		<div>
 			<h3 className={css.title}>{label}</h3>
 			{isTestsNotEmpty && (
 				<ol className={css.list}>
-					{tests?.results.map((item) => {
+					{tests?.results.slice(0, 5).map((item) => {
 						const statusTest: string = item.is_passed ? 'Пройден' : 'Не пройден';
 
 						return (
@@ -61,6 +63,11 @@ const TestResultUser: FC<TestResultUserProps> = ({user_id, label}) => {
 						);
 					})}
 				</ol>
+			)}
+			{isRedirectOnPageWithAllTests && (
+				<Link to={ROUTING_FUNCTIONS.appointedTests(user_id)} className={css.link}>
+					Перейти к просмотру всех назначенных тестов
+				</Link>
 			)}
 			{!isTestsNotEmpty && <p className={css.empty}>Тесты не назначены</p>}
 		</div>

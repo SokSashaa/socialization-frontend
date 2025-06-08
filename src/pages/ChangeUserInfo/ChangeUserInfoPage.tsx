@@ -1,7 +1,9 @@
-import {FC} from "react";
-import ChangeUserInfo from "@modules/Profile/components/ChangeUserInfo/ChangeUserInfo";
+import {FC} from 'react';
+import React from 'react';
 
-const ChangeUserInfoPage:FC = ()=>{
-    return <ChangeUserInfo/>
-}
+import ChangeUserInfo from '@modules/Profile/components/ChangeUserInfo/ChangeUserInfo';
+
+const ChangeUserInfoPage: FC = () => {
+	return <ChangeUserInfo />;
+};
 export default ChangeUserInfoPage;

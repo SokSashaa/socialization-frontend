@@ -1,25 +1,31 @@
 .defaultAvatar {
-  @apply mb-3;
+    @apply mb-3;
 }
 
 .upload {
-  @apply text-center;
+    @apply text-center justify-center mt-2;
 }
 
 .avatarWrapper {
-  @apply relative mb-3 flex h-[200px] w-[200px];
+    @apply relative mb-3 flex h-[200px] w-[200px];
 }
 
 .avatarContainer {
-  @apply w-full overflow-hidden rounded-full;
+    @apply w-full overflow-hidden rounded-full;
 }
 
 .avatar {
-  @apply h-full w-full object-cover;
+    @apply h-full w-full object-cover;
 }
 
 @media screen(md) {
-  .avatarWrapper {
-    @apply h-[250px] w-[250px];
-  }
+    .avatarWrapper {
+        @apply h-[250px] w-[250px];
+    }
+}
+
+@media (max-width: 760px) {
+    .buttonsRef {
+        @apply flex flex-col items-center
+    }
 }
