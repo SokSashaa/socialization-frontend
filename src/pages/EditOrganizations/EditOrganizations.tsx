@@ -34,7 +34,7 @@ const EditOrganizations: FC = () => {
 				throw result.error;
 			}
 
-			toast.success('Данные профиля обновлены');
+			toast.success('Данные организации обновлены');
 		} catch (error) {
 			toast.error(
 				findFirstErrorWithPath(error)?.message || error.message || 'Что-то пошло не так'

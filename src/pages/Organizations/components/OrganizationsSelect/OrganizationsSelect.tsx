@@ -1,7 +1,6 @@
-import {FC} from 'react';
-import React from 'react';
+import React, {FC} from 'react';
 import {useSearchParams} from 'react-router-dom';
-import {FormikProps} from 'formik';
+import {ErrorMessage, FormikProps} from 'formik';
 import {useGetAllOrganizationsQuery} from '@app/api/common/organizationsApiSlice';
 
 import {transformOrganizationToSelectOptions} from '@pages/Users/utils/data.helper';
@@ -10,6 +9,8 @@ import {ChangePropOrganizationInUserType} from '@modules/Profile/components/type
 
 import {defaultConfigStylesForSearch} from '@UI/formik/FormikSelect/defaultConfigStylesForSearch';
 import FormikSelect from '@UI/formik/FormikSelect/FormikSelect';
+
+import css from './OrganizationSelect.module.scss';
 
 interface OrganizationProps {
 	formikProps: FormikProps<ChangePropOrganizationInUserType>;
@@ -33,19 +34,28 @@ const OrganizationsSelect: FC<OrganizationProps> = (props) => {
 	return (
 		<>
 			{organizations.data && (
-				<FormikSelect
-					isWithFind
-					className={props.classNameSelect}
-					name="organization"
-					label="Организация"
-					stylesForSearch={defaultConfigStylesForSearch}
-					options={[...transformOrganizationToSelectOptions(organizations.data.results)]}
-					selectProps={{
-						// className: styles.selectInput,
-						placeholder: 'Организация',
-					}}
-					onChange={onOrganizationSelect}
-				/>
+				<div className={css.wrapper}>
+					<FormikSelect
+						isWithFind
+						className={props.classNameSelect}
+						name="organization"
+						label="Организация"
+						stylesForSearch={defaultConfigStylesForSearch}
+						options={[
+							...transformOrganizationToSelectOptions(organizations.data.results),
+						]}
+						selectProps={{
+							// className: styles.selectInput,
+							placeholder: 'Организация',
+						}}
+						onChange={onOrganizationSelect}
+					/>
+					<ErrorMessage
+						className={props.classNameError}
+						name="organization"
+						component="span"
+					/>
+				</div>
 			)}
 		</>
 	);

@@ -4,6 +4,8 @@ import {toast} from 'react-toastify';
 import {Form, Formik, FormikHelpers} from 'formik';
 import {useAddTestMutation} from '@app/api/common/testApiSlice';
 
+import {createTestValidate} from '@pages/TestsPage/utils/validate.helper';
+
 import {Portal} from '@components/index';
 
 import {Button, InputText, Modal, ModalLayout} from '@UI/index';
@@ -50,7 +52,11 @@ const CreateTestModal: FC<CreateTestProps> = ({isOpenModal, closeModal}) => {
 				<ModalLayout
 					title="Создание теста"
 					content={
-						<Formik initialValues={initialState} onSubmit={onSubmit}>
+						<Formik
+							initialValues={initialState}
+							validationSchema={createTestValidate}
+							onSubmit={onSubmit}
+						>
 							{({isSubmitting}) => (
 								<Form method="post" className={styles.creationForm}>
 									<InputText

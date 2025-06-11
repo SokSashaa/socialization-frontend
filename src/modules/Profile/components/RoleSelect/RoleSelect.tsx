@@ -4,16 +4,15 @@ import {useGetTutorsQuery} from '@app/api/common/usersApiSlice';
 
 import {rolesSelectOptions, transformUsersToSelectOptions} from '@pages/Users/utils/data.helper';
 
+import {configStyleForSearch} from '@modules/Profile/components/RoleSelect/config/configStyleForSearch';
 import {ChangePropOrganizationInUserType} from '@modules/Profile/components/types';
 
-import {defaultConfigStylesForSearch} from '@UI/formik/FormikSelect/defaultConfigStylesForSearch';
 import FormikSelect from '@UI/formik/FormikSelect/FormikSelect';
 import Spinner from '@UI/spinners/Spinner';
 
 import {ROLES} from '@utils/constants';
 
 import css from './RoleSelect.module.scss';
-import {configStyleForSearch} from '@modules/Profile/components/RoleSelect/config/configStyleForSearch';
 
 interface RoleSelectProps {
 	formikProps: FormikProps<ChangePropOrganizationInUserType>;
@@ -25,7 +24,7 @@ const RoleSelect: FC<RoleSelectProps> = (props) => {
 	const {values} = props.formikProps;
 
 	const {data: tutors, isLoading} = useGetTutorsQuery({
-		text: '',
+		limit: 10000,
 	});
 
 	const selectRoles = rolesSelectOptions();
