@@ -17,7 +17,7 @@ const TestResultUser: FC<TestResultUserProps> = ({user_id, label}) => {
 	const {data: tests} = useGetObserverTestsQuery({user_id: user_id, offset: 0, limit: 1000000});
 
 	const isTestsNotEmpty = tests && tests.results.length > 0;
-	const isRedirectOnPageWithAllTests = tests && tests.results.length > DEFAULT_SHOW_COUNT_TEST;
+	// const isRedirectOnPageWithAllTests = tests && tests.results.length > DEFAULT_SHOW_COUNT_TEST;
 
 	return (
 		<div>
@@ -64,11 +64,11 @@ const TestResultUser: FC<TestResultUserProps> = ({user_id, label}) => {
 					})}
 				</ol>
 			)}
-			{isRedirectOnPageWithAllTests && (
-				<Link to={ROUTING_FUNCTIONS.appointedTests(user_id)} className={css.link}>
-					Перейти к просмотру всех назначенных тестов
-				</Link>
-			)}
+			{/*{isRedirectOnPageWithAllTests && (*/}
+			{/*	<Link to={ROUTING_FUNCTIONS.appointedTests(user_id)} className={css.link}>*/}
+			{/*		Перейти к просмотру всех назначенных тестов*/}
+			{/*	</Link>*/}
+			{/*)}*/}
 			{!isTestsNotEmpty && <p className={css.empty}>Тесты не назначены</p>}
 		</div>
 	);
