@@ -85,7 +85,7 @@ const WrapperProfileInfo: FC<WrapperProfileInfoProps> = ({
 			name: user?.name || '',
 			patronymic: user?.patronymic || '',
 			second_name: user?.second_name || '',
-			birthday: user?.birthday || '2022-01-01',
+			birthday: user?.birthday || '',
 			email: user?.email || '',
 			photo: user?.photo || '',
 			role: {

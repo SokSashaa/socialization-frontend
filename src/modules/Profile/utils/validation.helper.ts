@@ -31,6 +31,10 @@ export const profileSchema = Yup.object({
 		then: (schema) => schema.required('Обязательное поле'),
 		otherwise: (schema) => schema.notRequired(),
 	}),
+	birthday: Yup.date()
+		.required('Обязательное поле')
+		.max(new Date(), 'Некорректная дата')
+		.min(new Date(1920, 0, 1), 'Дата не может быть раньше 1 января 1920 года'),
 });
 
 export const changePasswordSchema = Yup.object({

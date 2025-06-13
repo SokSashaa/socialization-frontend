@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {useParams} from 'react-router-dom';
 import {useGetSingleUserQuery} from '@app/api/common/usersApiSlice';
 
@@ -8,7 +8,6 @@ import {useModalState} from '@hooks/useModalState';
 
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
 import WrapperProfileInfo from '../WrapperProfileInfo/WrapperProfileInfo';
-import React from 'react';
 
 const ChangeUserInfo: FC = () => {
 	const {id} = useParams();

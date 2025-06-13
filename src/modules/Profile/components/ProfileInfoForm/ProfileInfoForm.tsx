@@ -95,9 +95,9 @@ const ProfileInfoForm: FC<ProfileInfoFormPropsType> = ({
 			</div>
 			<div className={styles.right}>
 				{inputFields.map(({name, label, type, disabled}) => {
-					if (type === 'date' && user.role !== ROLES.observed.code) {
-						return null;
-					}
+					// if (type === 'date' && user.role !== ROLES.observed.code) {
+					// 	return null;
+					// }
 
 					return (
 						<InputText
