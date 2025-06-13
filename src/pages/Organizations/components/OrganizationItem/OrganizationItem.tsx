@@ -24,7 +24,12 @@ const OrganizationItem: FC<OrganizationItemPropsType> = ({onDelete = () => {}, i
 		<div className={css.root}>
 			<div>
 				<h3>{item.name}</h3>
-				<a href={item.site} target={'_blank'} rel="noreferrer">
+				<a
+					className={css.link}
+					href={item.site}
+					target={'_blank'}
+					rel="noopener noreferrer"
+				>
 					{item.site}
 				</a>
 			</div>

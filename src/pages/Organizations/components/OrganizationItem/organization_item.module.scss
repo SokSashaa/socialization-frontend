@@ -1,3 +1,5 @@
+@use 'src/styles/global' as global;
+
 .root {
   position: relative;
   max-width: 100%;
@@ -9,6 +11,10 @@
 
   h3 {
     font-weight: bold;
+  }
+
+  .link {
+    @include global.link()
   }
 
   .buttons {
@@ -39,5 +45,12 @@
 
   span {
     color: red;
+  }
+}
+
+@media (max-width: 450px) {
+  .root {
+    flex-direction: column;
+    gap: 5px;
   }
 }
