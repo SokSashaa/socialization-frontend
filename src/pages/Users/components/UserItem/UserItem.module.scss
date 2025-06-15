@@ -44,3 +44,14 @@
     color: red;
   }
 }
+
+@media (max-width: 640px) {
+  .info {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .text {
+    width: 100%;
+  }
+}
