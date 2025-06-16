@@ -19,6 +19,8 @@ import {AddGameDtoRequest, AddGameKeys} from '@dto/games/addGame.dto';
 
 import useUploadFile from '@hooks/useUploadFile';
 
+import {findFirstErrorWithPath} from '@utils/helpers/findFirstErrorWithPath';
+
 import styles from './AddGameModal.module.scss';
 
 type CreateGameProps = {
@@ -62,7 +64,11 @@ export const AddGameModal: FC<CreateGameProps> = ({closeModal, isOpenModal}) => 
 			);
 			closeModal();
 		} catch (error) {
-			toast.error(error?.data?.detail || 'Что-то пошло не так');
+			toast.error(
+				findFirstErrorWithPath(error)?.message ||
+					error?.data?.detail ||
+					'Что-то пошло не так'
+			);
 		}
 	};
 

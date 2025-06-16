@@ -1,8 +1,5 @@
 import {useState} from 'react';
 
-const MAX_FILE_SIZE = 150 * 1024 * 1024;
-const ALLOWED_TYPES = ['application/x-zip-compressed'];
-
 const useUploadFile = (name: string) => {
 	const [preview, setPreview] = useState<null | File>(null);
 
@@ -26,12 +23,6 @@ const useUploadFile = (name: string) => {
 			if (selectedFile) {
 				setTouched({...touched, [name]: true});
 
-				if (
-					!ALLOWED_TYPES.includes(selectedFile.type) ||
-					selectedFile.size > MAX_FILE_SIZE
-				) {
-					return;
-				}
 				setPreview(selectedFile);
 				setFieldValue(name, selectedFile);
 			}
